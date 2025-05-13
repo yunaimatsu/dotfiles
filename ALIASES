@@ -1,0 +1,62 @@
+# The alias of aliases
+a(){alias "$1"="$2"}
+
+# Git and GitHub
+a gc 'git config'
+a gl 'git log'
+a gs 'git status'
+a ga 'git add'
+a gp 'git pull'
+# a dlgit 'function _clone(){git clone git@github.com:$1/$2.git} _clone'
+a gd 'git diff'
+a gb 'git branch'
+a gba 'git branch -a'
+a gw 'git switch'
+a gwm 'git switch main'
+a gc 'git commit'
+a gcob 'git checkout -b'
+
+a gil 'gh issue list'
+a gic 'gh issue create'
+
+alias newrepo='git init && git add . && git commit -m "Initial commit" && gh repo create $(basename $(pwd)) --private --confirm && git branch -M main && git remote add origin https://github.com/$(gh auth status --json login -q ".user.login")/$(basename $(pwd)).git && git push -u origin main'
+
+# Shell
+a l 'ls -ahl'
+a rd 'rm -r'
+a rf 'rm'
+
+## APT
+a au 'apt update'
+a sau 'sudo apt update'
+a ai 'apt install -y'
+a sai 'sudo apt install -y'
+
+## Docker
+a de 'docker exec'
+a dl 'docker logs'
+a dp 'docker ps'
+
+## Python
+a pv 'python3 -m venv'
+a p 'python3'
+a pi 'pi'
+a pc 'pip config'
+a ipy 'ipython'
+
+## Node.js
+a nc 'npm config'
+a ni 'npm install'
+
+## Bundler
+a bde 'bundle exec'
+a bdc 'bundle config'
+a bdi 'bundle install'
+
+## Aliases to edit config files
+a nes 'nvim ~/.config/espanso/match/matches.yml'
+a nn 'nvim ~/.config/nvim/init.lua'
+a nz 'nvim ~/.zshrc'
+a sz 'source ~/.zshrc'
+a na 'nvim ~/.zsh_aliases'
+a ne 'nvim ~/.zshenv'
