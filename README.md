@@ -1,10 +1,13 @@
 # dotfiles
 One command. Zero waste. The ultimate setup.
 
-# 1. Setup Linux
-## Windows
-### Clean-installaton
-### WSL2
+## 1. Setup Linux
+### Windows
+> Clean-installaton
+
+Comming soon...
+
+> WSL2
 ```Powershell
 wsl --install -d Debian
 echo 'WSL & Debian installed'
@@ -18,30 +21,28 @@ echo 'Starting Debian...'
 wsl -d Debian
 ```
 
-## MacOS 
-`FIXME`: In MacBook, default MacBook is used.
+### MacOS 
+In MacBook, use default MacOS.
 
-# 2. Setup package management tool
-## Arch Linux (Pacman)
+## 2. Setup package management tool
+### Arch Linux (Pacman)
 ```sh
 pacman -Syu
 ```
-## MacOS (Homebrew)
+### MacOS (Homebrew)
 ```sh
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
-# 3. Setup shell tools
-## 3.1. Zsh 
+## 3. Setup shell tools
+### 3.1. Zsh 
 ```sh
-sudo pacman -S zsh
+sudo pacman -S zsh # Arch
+sudo brew install zsh # Mac
 ```
-```sh
-sudo brew install zsh
-```
-## 3.2. `dotfiles` repository 
+### 3.2. `dotfiles` repository 
 ```sh
 sudo packman -S git # Arch
-sudo brew git # MacOS
+sudo brew install git # Mac
 ```
 ```sh
 git clone https://github.com/yunaimatsu/dotfiles ~/dotfiles
