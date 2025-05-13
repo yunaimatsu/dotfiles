@@ -1,12 +1,12 @@
 #!/bin/zsh
 
-g(){ echo "\033[1;32m$1\033[0m" }
+g(){ echo "\033[1;33m$1\033[0m"; }
 e(){ echo "export $1=\"$2\"" >> ~/.zshenv; }
 p(){ e PATH "$1:\$PATH"; }
 
-echo "Updating package database..."
-sudo pacman -Sy
 cd ~/dotfiles
+g "Updating package database..."
+sudo pacman -Sy
 
 g "Install shell tools"
 for st in $(cat shell-tools.txt); do
@@ -14,15 +14,15 @@ for st in $(cat shell-tools.txt); do
 done
 
 g "Mount config files to home directory"
-typeset -A path=(
+typeset -A files=(
   [ZSHRC]=~/.zshrc
   [ALIASES]=~/.aliases
   [TMUX_CONF]=~/.tmux.conf
   [NEOVIM_INIT.lua]=~/.config/nvim/init.lua
 )
 
-for src in "${(@k)path}"; do
-  dest="${path[$src]}"
+for src in "${(@k)files}"; do
+  dest="${files[$src]}"
   echo "Linking $src -> $dest"
   ln -sf "~/dotfiles/$src" "$dest"
 done
@@ -54,6 +54,4 @@ bun run tsc --version
 bun add -g @google/clasp
 
 # Espanso
-wget https://github.com/espanso/espanso/releases/latest/download/espanso-debian-amd64.deb
-sudo dpkg -i espanso-debian-amd64.deb
-sudo apt-get install -f
+yay -S espanso
