@@ -1,0 +1,47 @@
+cd
+source "$HOME/.aliases"
+
+# Unespace the following command when you use WSL
+source "$HOME/.aliases_win"
+
+
+# Unespace the following command when you use MacBook
+source "$HOME/.aliases_mac"
+
+## History -----------------------------------
+HISTSIZE=10000 
+SAVEHIST=10000
+HISTFILE=~/.zsh_history
+
+## `setopt` ----------------------------------
+setopt allexport
+setopt autocd
+setopt correct
+setopt hist_ignore_dups
+setopt hist_append
+
+# Pro: Easy to filter files and folders
+# Con: Lower searcheability
+CASE_SENSITIVE="true"
+HYPHEN_INSENSITIVE="true"
+
+## Color configurations ----------------------
+autoload -U colors && colors
+
+# pyenv の初期化
+# export PATH="$HOME/.pyenv/bin:$PATH"# 履歴検索
+# bindkey '^R' history-incremental-search-backward
+
+# eval "$(pyenv init --path)"
+# eval "$(pyenv init -)"
+
+# nvm の初期化
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+
+# 履歴検索
+# bindkey '^R' history-incremental-search-backward
+
+# 自動補完の強化
+# autoload -Uz compinit && compinit
+

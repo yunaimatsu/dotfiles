@@ -1,0 +1,7 @@
+a(){
+  alias "$1"="$2"
+}
+
+a cdc 'cd\ /mnt/c/'
+a cdh 'cd\ /mnt/c/Users/${USER_NAME_WIN}'
+a ahk '/mnt/c/Program\ Files/AutoHotkey/AutoHotkey.exe'
