@@ -5,7 +5,8 @@ e(){ echo "export $1=\"$2\"" >> ~/.zshenv; }
 p(){ e PATH "$1:\$PATH"; }
 
 cd ~/dotfiles
-g "Updating package database..."
+g "Update package database..."
+pacman -S sudo:
 sudo pacman -Sy
 
 g "Install shell tools"
