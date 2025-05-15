@@ -38,9 +38,13 @@ sudo pacman -Syu
 
 > Install necessary tools
 
+**Arch**
 ```sh
-sudo pacman -S zsh which chsh # Arch
-sudo brew install zsh which chsh # Mac
+sudo pacman -S zsh which
+```
+**Mac**
+```sh
+sudo brew install zsh which # Mac
 ```
 
 > Set Zsh as default shell
