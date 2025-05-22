@@ -2,24 +2,8 @@
 One command. Zero waste. The ultimate setup.
 
 ## 1. Setup Linux
-### Windows
-> Clean-installaton
-
-Comming soon...
-
-> WSL2
-```Powershell
-wsl --install -d Debian
-echo 'WSL & Debian installed'
-wsl --set-default Debian
-echo 'Debian is set as default distribution'
-wsl --set-default-version 2
-echo 'WSL version is set 2'
-echo '=== [ Current distributions ] ==='
-wsl -l -v
-echo 'Starting Debian...'
-wsl -d Debian
-```
+### Archlinux
+Never use Windows as it is. Always do a clean install of Arch Linux.
 
 ### MacOS 
 In MacBook, use default MacOS.
@@ -56,7 +40,6 @@ After that, to apply the shell change, please log out once and then log back in 
 
 The `chsh` command modifies the user’s configuration file (for example, the login shell field in `/etc/passwd`), so there is no need to run it every time in files like `.zshrc`.
 
-
 ### 3.2. `dotfiles` repository 
 ```sh
 sudo pacman -S git # Arch
@@ -64,5 +47,8 @@ sudo brew install git # Mac
 ```
 ```sh
 git clone https://github.com/yunaimatsu/dotfiles ~/dotfiles
+cd ~/dotfiles
+chmod +x setup.sh
+./setup.sh
 ```
 
