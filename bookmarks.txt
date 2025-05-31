@@ -1,3 +1,0 @@
-sl26="https://app.slack.com/client/T07NRAPQ1NE/C07Q53P5M3R?selected_team_id=T07NRAPQ1NE"
-line="chrome-extension://ophjlpahpchlmihnnnihgmmeilfjmjjc/index.html"
-yoshi="https://app.slack.com/client/T03FQJNJ3A5/C03FBV2EL3V"
