@@ -1,0 +1,28 @@
+matches:
+  - trigger: ":date"
+    replace: "{{mydate}}"
+    vars:
+      - name: mydate
+        type: date
+        params:
+          format: "%Y-%m-%d"
+
+  - trigger: ":shell"
+    replace: "{{output}}"
+    vars:
+      - name: output
+        type: shell
+        params:
+          cmd: "echo 'Hello from your shell'"
+
+  - trigger: ":en"
+    replace: "Please translate the following text into English;"
+
+  - trigger: ":pkg"
+    replace: "On a freshly installed Arch Linux system, please tell me how to locally build and install the following packages. Also, share the GitHub/GitLab/AUR links with me."
+
+  - trigger: ":ex"
+    replace: "This is an example!"
+
+  - trigger: ":ex!"
+    replace: "This is also example!"
