@@ -6,3 +6,5 @@ tree
 sudo
 which
 man
+networkmanager
+base-devel
