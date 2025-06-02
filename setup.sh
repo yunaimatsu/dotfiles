@@ -18,8 +18,10 @@ cd yay
 makepkg -si
 
 g "Install paru"
-git clone https://aur.archlinux.org/paru.git /tmp/paru
-makepkg -C -p /tmp/paru/PKGBUILD
+cd /tmp
+git clone https://aur.archlinux.org/paru.git
+cd paru
+makepkg -si
 
 g "Install shell tools"
 for st in $(cat shell-tools.txt); do
@@ -102,12 +104,6 @@ g "Setup environment variable file"
 touch ~/.zshenv
 e EDITOR nvim visudo
 e VISUAL $VISUAL
-
-echo "Enter your desired username"
-read USER_NAME_INIT
-echo "Your username will be ${USER_NAME_INIT}"
-useradd -mG wheel ${USER_NAME_INIT} 
-passwd ${USER_NAME_INIT}
 
 echo "Enter your GitHub username:"
 read USER_NAME_GH
