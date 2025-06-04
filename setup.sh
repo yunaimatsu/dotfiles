@@ -52,10 +52,10 @@ g "Configure clock"
 ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
 hwclock --systohc
 
-g "Add GUI(Wayland + sway)"
-pacman -S sway swaylock swayidle wayland wl-clipboard foot wofi mako
-pacman -S grim slurp wf-recorder xdg-desktop-portal-wlr
-if [ -z "$WAYLAND_DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then exec sway fi
+# g "Add GUI(Wayland + sway)"
+# pacman -S sway swaylock swayidle wayland wl-clipboard foot wofi mako
+# pacman -S grim slurp wf-recorder xdg-desktop-portal-wlr
+# if [ -z "$WAYLAND_DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then exec sway fi
 
 g "Set up security configuration"
 pacman -S firewalld firejail
@@ -90,7 +90,9 @@ typeset -A files=(
   [TMUX_CONF]="$HOME/.tmux.conf"
   [NEOVIM_INIT.lua]="$HOME/.config/nvim/init.lua"
   [ESPANSO_MATCH.yml]="$HOME/.config/espanso/match/base.yml"
-  [KEYD_DEFAULT.conf]="/etc/keyd/default.conf"
+  # [KEYD_DEFAULT.conf]="/etc/keyd/default.conf"
+  [LOCALE_CONF]="/etc/locale.conf"
+  [VIRTUAL_CONSOLE_CONF]="/etc/vconsole.conf"
 )
 sudo chmod 777 "$HOME/dotfiles/KEYD_DEFAULT.conf"
 for src in "${(@k)files}"; do
