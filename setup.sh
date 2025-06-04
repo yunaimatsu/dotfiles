@@ -91,8 +91,6 @@ typeset -A files=(
   [NEOVIM_INIT.lua]="$HOME/.config/nvim/init.lua"
   [ESPANSO_MATCH.yml]="$HOME/.config/espanso/match/base.yml"
   # [KEYD_DEFAULT.conf]="/etc/keyd/default.conf"
-  [LOCALE_CONF]="/etc/locale.conf"
-  [VIRTUAL_CONSOLE_CONF]="/etc/vconsole.conf"
 )
 sudo chmod 777 "$HOME/dotfiles/KEYD_DEFAULT.conf"
 for src in "${(@k)files}"; do
@@ -101,6 +99,12 @@ for src in "${(@k)files}"; do
   src_path="$HOME/dotfiles/$src"
   sudo ln -sf "$src_path" "$dest"
 done
+
+g "Localization"
+sudo locale-gen
+sudo localectl set-locale LANG=en_US.UTF-8
+sudo localectl set-keymap us
+sudo localectl status
 
 g "Setup environment variable file"
 touch ~/.zshenv
