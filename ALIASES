@@ -16,7 +16,7 @@ a gwm 'git switch main'
 a gc 'git commit'
 a gcob 'git checkout -b'
 
-a gil 'gh issue list'
+a gil 'gh issue list --limit 1000'
 a gic 'gh issue create'
 
 alias newrepo='git init && git add . && git commit -m "Initial commit" && gh repo create $(basename $(pwd)) --private --confirm && git branch -M main && git remote add origin https://github.com/$(gh auth status --json login -q ".user.login")/$(basename $(pwd)).git && git push -u origin main'
