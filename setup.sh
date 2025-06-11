@@ -1,32 +1,52 @@
 #!/bin/zsh
 
+w(){ echo "$1" >> "$2" }
 g(){ echo "\033[1;33m$1\033[0m"; }
 e(){ echo "export $1=\"$2\"" >> ~/.zshenv; }
-p(){ e PATH "$1:\$PATH"; }
-w(){ echo "$1" >> "$2" }
+path(){ e PATH "$1:\$PATH"; }
+
+set -e 
 
 cd "$HOME/dotfiles"
 g "Update Pacman"
-pacman -S sudo:
-sudo pacman -Sy
+
+sudo pacman -Sy --needed pacman
+sudo pacman -Syu
+
+pm(){ sudo pacman -S --needed --noconfirm "$@" } 
+y(){ yay -S --needed --noconfirm "$@" }
+p(){ paru -S --needed --noconfirm "$@" }
+
+g "Packages"
+g "Packages: base-devel"
+p base-devel
+for st in $(cat shelltools.txt); do
+  g "Packages: $st in $(which $st)"
+  echo "Installing $st"
+  p "$st"
+done
 
 g "Install yay"
-sudo pacman -S --needed git base-devel
-cd /tmp
-git clone https://aur.archlinux.org/yay.git
-cd yay
-makepkg -si
+if command -v yay >/dev/null 2>&1; then
+  echo "yay is already installed."
+else
+  echo "Installing yay..."
+  cd /tmp
+  git clone https://aur.archlinux.org/yay.git
+  cd yay
+  makepkg -si
+fi
 
 g "Install paru"
-cd /tmp
-git clone https://aur.archlinux.org/paru.git
-cd paru
-makepkg -si
-
-g "Install shell tools"
-for st in $(cat shell-tools.txt); do
-  sudo pacman -Syu "$st"
-done
+if command -v paru >/dev/null 2>&1; then
+  echo "paru is already installed."
+else
+  echo "Installing paru..."
+  cd /tmp
+  git clone https://aur.archlinux.org/paru.git
+  cd paru
+  makepkg -si
+fi
 
 g "Set up network"
 systemctl enable NetworkManager
@@ -37,8 +57,8 @@ locale-gen
 echo "LANG=en_US.UTF-8" > /etc/locale.conf
 
 g "Set up fonts"
-pacman -S noto-fonts noto-fonts-cjk noto-fonts-emoji
-pacman -S fcitx5-im fcitx5-mozc fcitx5-configtool
+pm noto-fonts noto-fonts-cjk noto-fonts-emoji
+pm fcitx5-im fcitx5-mozc fcitx5-configtool
 
 g "Set up X server configuration"
 touch "$HOME/.xprofile"
@@ -53,12 +73,12 @@ ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
 hwclock --systohc
 
 # g "Add GUI(Wayland + sway)"
-# pacman -S sway swaylock swayidle wayland wl-clipboard foot wofi mako
-# pacman -S grim slurp wf-recorder xdg-desktop-portal-wlr
+# p sway swaylock swayidle wayland wl-clipboard foot wofi mako
+# p grim slurp wf-recorder xdg-desktop-portal-wlr
 # if [ -z "$WAYLAND_DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then exec sway fi
 
 g "Set up security configuration"
-pacman -S firewalld firejail
+pm firewalld firejail
 systemctl enable firewalld
 
 swaymsg reload
@@ -79,18 +99,18 @@ else
 fi
 
 g "Set up Espanso"
-yay -S espanso
-
-
+y espanso
 
 g "Mount config files to home directory"
 typeset -A files=(
   [ZSHRC]="$HOME/.zshrc"
+  [ZSH_PROFILE]="$HOME/.zprofile"
   [ALIASES]="$HOME/.aliases"
   [TMUX_CONF]="$HOME/.tmux.conf"
   [NEOVIM_INIT.lua]="$HOME/.config/nvim/init.lua"
   [ESPANSO_MATCH.yml]="$HOME/.config/espanso/match/base.yml"
   # [KEYD_DEFAULT.conf]="/etc/keyd/default.conf"
+  [SWAY_CONFIG]="/.config/sway/config"
 )
 sudo chmod 777 "$HOME/dotfiles/KEYD_DEFAULT.conf"
 for src in "${(@k)files}"; do
@@ -116,23 +136,23 @@ read USER_NAME_GH
 echo "Your username in GitHub is ${USER_NAME_GH}."
 e USER_NAME_GH "$USER_NAME_GH"
 
-g "Set up programming languages"
+g "Programming Languages"
 
-g "C/C++"
+g "Programming Languages >> Node.js"
+pm nodejs
 
+g "Programming Languages >> Node.js >> npm"
+pm npm
 
-g "Node.js"
-sudo pacman -S nodejs npm
-
-g "Bun"
+g "Programming Languages >> Node.js >> Bun"
 curl -fsSL https://bun.sh/install | bash
-p $HOME/.bun/bin
+path $HOME/.bun/bin
 
-g "TypeScript"
+g "Programming Languages >> Node.js >> TypeScript"
 bun add -g typescript
 tsc --version
 
-g "GAS"
+g "Programming Languages >> Node.js >> GAS"
 bun add -g @google/clasp
 
 g "Python"

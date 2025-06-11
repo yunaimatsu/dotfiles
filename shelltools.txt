@@ -7,4 +7,4 @@ sudo
 which
 man
 networkmanager
-base-devel
+git

@@ -1,6 +1,11 @@
 cd
 source "$HOME/dotfiles/ALIASES"
-source "$HOME/dotfiles/common.sh"
+source .zprofile
+fcitx5 & -d
+
+cd "$HOME/dotfiles"
+source "./common.sh"
+cd
 
 # Unespace the following command when you use MacBook
 # source "$HOME/.aliases_mac"
@@ -45,5 +50,4 @@ autoload -U colors && colors
 
 # bun completions
 [ -s "/home/yunai/.bun/_bun" ] && source "/home/yunai/.bun/_bun"
-
 
