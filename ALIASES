@@ -18,6 +18,9 @@ a gcob 'git checkout -b'
 
 a gil 'gh issue list --limit 1000'
 a gic 'gh issue create'
+a giv 'gh issue view $1'
+a gie 'gh issue edit $1'
+a gif 'gh issue list | grep $1'
 
 alias newrepo='git init && git add . && git commit -m "Initial commit" && gh repo create $(basename $(pwd)) --private --confirm && git branch -M main && git remote add origin https://github.com/$(gh auth status --json login -q ".user.login")/$(basename $(pwd)).git && git push -u origin main'
 
@@ -58,5 +61,8 @@ a nes 'nvim ~/.config/espanso/match/matches.yml'
 a nn 'nvim ~/.config/nvim/init.lua'
 a nz 'nvim ~/dotfiles/ZSHRC'
 a sz 'source ~/.zshrc'
-a na 'nvim ~/dotfiles/ZSH_ALIASES'
+a na 'nvim ~/dotfiles/ALIASES'
 a ne 'nvim ~/.zshenv'
+
+## GUI apps
+a chromium 'chromium --ozone-platform=wayland &'

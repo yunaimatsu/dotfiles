@@ -40,3 +40,13 @@ cd ~/dotfiles
 chmod +x setup.sh
 ./setup.sh
 ```
+
+---
+
+# Process of config files
+Power on
+Booter
+Log in
+Read `.zprofile`
+Read `.zshrc`
+Read `.aliases`

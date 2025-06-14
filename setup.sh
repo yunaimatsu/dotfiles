@@ -48,13 +48,13 @@ else
   makepkg -si
 fi
 
-g "Set up network"
-systemctl enable NetworkManager
+# g "Set up network"
+# systemctl enable NetworkManager
 
-g "Localization"
-echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
-locale-gen
-echo "LANG=en_US.UTF-8" > /etc/locale.conf
+# g "Localization"
+# echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
+# locale-gen
+# echo "LANG=en_US.UTF-8" > /etc/locale.conf
 
 g "Set up fonts"
 pm noto-fonts noto-fonts-cjk noto-fonts-emoji
@@ -67,36 +67,34 @@ w 'export QT_IM_MODULE=fcitx' ~/.profile
 w 'export XMODIFIERS="@im=fcitx"' ~/.profile
 w 'fcitx5 &' ~/.profile
 
-g "Configure clock"
-# Change the timezone if you live outside of Japan
-ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
-hwclock --systohc
+# g "Configure clock"
+# # Change the timezone if you live outside of Japan
+# ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
+# hwclock --systohc
 
-# g "Add GUI(Wayland + sway)"
+# g "Add GUI(Wayland + hypr)"
 # p sway swaylock swayidle wayland wl-clipboard foot wofi mako
 # p grim slurp wf-recorder xdg-desktop-portal-wlr
-# if [ -z "$WAYLAND_DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then exec sway fi
+# if [ -z "$WAYLAND_DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then exec Hyprland fi
 
-g "Set up security configuration"
-pm firewalld firejail
-systemctl enable firewalld
+# g "Set up security configuration"
+# pm firewalld firejail
+# systemctl enable firewalld
 
-swaymsg reload
-echo "Sway config reloaded."
 
-g "Install Neovim"
-mkdir -p ~/.config/nvim
-git clone https://github.com/folke/lazy.nvim.git ~/.config/nvim/lazy/lazy.nvim
+# g "Install Neovim"
+# mkdir -p ~/.config/nvim
+# git clone https://github.com/folke/lazy.nvim.git ~/.config/nvim/lazy/lazy.nvim
 
-CONFIG_DIR="$HOME/.config/nvim"
-INIT_LUA="$CONFIG_DIR/init.lua"
+# CONFIG_DIR="$HOME/.config/nvim"
+# INIT_LUA="$CONFIG_DIR/init.lua"
 
-if [ ! -d "$CONFIG_DIR" ]; then
-    echo "Creating Neovim config directory at $CONFIG_DIR"
-    mkdir -p "$CONFIG_DIR"
-else
-    echo "Neovim config directory already exists."
-fi
+# if [ ! -d "$CONFIG_DIR" ]; then
+#    echo "Creating Neovim config directory at $CONFIG_DIR"
+#    mkdir -p "$CONFIG_DIR"
+# else
+#     echo "Neovim config directory already exists."
+# fi
 
 g "Set up Espanso"
 y espanso
@@ -110,7 +108,7 @@ typeset -A files=(
   [NEOVIM_INIT.lua]="$HOME/.config/nvim/init.lua"
   [ESPANSO_MATCH.yml]="$HOME/.config/espanso/match/base.yml"
   # [KEYD_DEFAULT.conf]="/etc/keyd/default.conf"
-  [SWAY_CONFIG]="/.config/sway/config"
+  [HYPRLAND_CONFIG.conf]="$HOME/.config/hypr/hyprland.conf"
 )
 sudo chmod 777 "$HOME/dotfiles/KEYD_DEFAULT.conf"
 for src in "${(@k)files}"; do

@@ -21,6 +21,11 @@ require("packer").startup(function(use)
   use "preservim/nerdtree"
   use "nvim-lua/plenary.nvim"
   use { "nvim-telescope/telescope.nvim", tag = "0.1.8" }
+  use({
+    "iamcco/markdown-preview.nvim",
+    run = function() vim.fn['mkdp#util#install']() end,
+    ft = { "markdown" },
+  })
   if packer_bootstrap then
     require("packer").sync()
   end
@@ -81,6 +86,9 @@ vim.o.relativenumber = true
 
 vim.keymap.set("n", "<C-p>", ":Telescope find_files<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<C-f>", ":Telescope live_grep<CR>", { noremap = true, silent = true })
+
+vim.g.mkdp_auto_close = 1      
+vim.g.mkdp_browser = "chromium"
 
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
