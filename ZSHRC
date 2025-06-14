@@ -1,13 +1,19 @@
-cd
-source "$HOME/dotfiles/ALIASES"
-source .zprofile
-fcitx5 & -d
+source "$HOME/.aliases"
+source "$HOME/.zprofile"
+source "$HOME/.zinit/bin/zinit.zsh"
+zinit light-mode for \
+    zsh-users/zsh-autosuggestions \
+    zsh-users/zsh-syntax-highlighting \
+    romkatv/powerlevel10k \
+    hlissner/zsh-autopair \
+    wait"1" lucid zsh-users/zsh-history-substring-search
+
+fcitx5 -d &
 
 cd "$HOME/dotfiles"
 source "./common.sh"
 cd
 
-# Unespace the following command when you use MacBook
 # source "$HOME/.aliases_mac"
 
 ## History
