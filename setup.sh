@@ -56,6 +56,28 @@ fi
 # locale-gen
 # echo "LANG=en_US.UTF-8" > /etc/locale.conf
 
+clone_base="$HOME/.local/src"
+mkdir -p "$clone_base"
+
+ghrepos=(
+  yunaimatsu/dotfiles
+  zdharma-continuum/zinit
+  # add more here
+)
+
+for repo in "${ghrepos[@]}"; do
+  user=${repo%%/*}
+  repo_name=${repo#*/}
+  target_dir="$clone_base/$repo_name"
+
+  if [[ ! -d "$target_dir" ]]; then
+    echo "Cloning $repo into $target_dir..."
+    git clone "https://github.com/$repo.git" "$target_dir"
+  else
+    echo "Directory $target_dir already exists, skipping clone."
+  fi
+done
+
 g "Set up fonts"
 pm noto-fonts noto-fonts-cjk noto-fonts-emoji
 pm fcitx5-im fcitx5-mozc fcitx5-configtool
