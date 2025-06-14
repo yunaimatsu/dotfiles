@@ -8,3 +8,4 @@ which
 man
 networkmanager
 git
+zsh-completions
