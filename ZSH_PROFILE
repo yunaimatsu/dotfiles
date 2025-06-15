@@ -1,9 +1,8 @@
-export GTK_IM_MODULE=fcitx
-export QT_IM_MODULE=fcitx
-export XMODIFIERS="@im=fcitx"
-export INPUT_METHOD=fcitx
-export SDL_IM_MODULE=fcitx
-
+export GTK_IM_MODULE=fcitx5
+export QT_IM_MODULE=fcitx5
+export XMODIFIERS=@im=fcitx
+# export INPUT_METHOD=fcitx
+# export SDL_IM_MODULE=fcitx
 
 # GTK apps (like Gedit, Nautilus, etc.)
 export GDK_BACKEND=wayland
