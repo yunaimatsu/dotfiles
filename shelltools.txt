@@ -12,3 +12,8 @@ zsh-completions
 xar
 cpio
 wget
+wine
+wine-mono
+wine-gecko
+winetricks
+cabextract
