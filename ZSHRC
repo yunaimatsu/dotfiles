@@ -14,7 +14,10 @@ cd "$HOME/dotfiles"
 source "./common.sh"
 cd
 
-# source "$HOME/.aliases_mac"
+autoload -Uz vcs_info
+precmd() { vcs_info }
+zstyle ':vcs_info:git:*' formats '(%b)'
+PROMPT='%n@%m${vcs_info_msg_0_}%~%# '
 
 ## History
 HISTSIZE=10000 
