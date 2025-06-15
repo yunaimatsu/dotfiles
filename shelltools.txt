@@ -9,3 +9,6 @@ man
 networkmanager
 git
 zsh-completions
+xar
+cpio
+wget
