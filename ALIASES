@@ -2,7 +2,7 @@
 a(){alias "$1"="$2"}
 
 # Git and GitHub
-gc 'git commit -m "$*"'
+gc 'git commit'
 a gl 'git log'
 a gs 'git status'
 a ga 'git add'
