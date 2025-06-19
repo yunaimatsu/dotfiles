@@ -9,7 +9,7 @@ f() {
 
 # Git and GitHub
 a gc 'git commit'
-a gl 'git log --all --graph --oneline'
+a gl 'git fetch origin && git log --all --graph --oneline'
 a unstaged 'git status --short'
 a gd 'git diff --cached'
 
@@ -83,11 +83,12 @@ a nc 'npm config'
 a ni 'npm install'
 
 ## Aliases to edit config files
-a nes 'nvim $HOME/.config/espanso/match/matches.yml'
-a nn 'nvim $HOME/.config/nvim/init.lua'
-a sz 'source $HOME/.zshrc'
-a na 'nvim $HOME/dotfiles/ALIASES'
-a n 'nvim'
+a nes "nvim $HOME/.config/espanso/match/matches.yml"
+a nn "nvim $HOME/.config/nvim/init.lua"
+a nz "nvim $HOME/.zshrc"
+a sz "source $HOME/.zshrc"
+a na "nvim $HOME/dotfiles/ALIASES"
+a n "nvim"
 
 ## GUI apps
 a chromium 'chromium --ozone-platform=wayland &'
