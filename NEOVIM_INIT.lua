@@ -31,6 +31,7 @@ require("packer").startup(function(use)
   end
 end)
 
+-- Neovim Core API
 vim.api.nvim_create_autocmd("VimEnter", {
   callback = function()
     vim.cmd("NERDTree")
@@ -74,22 +75,34 @@ vim.api.nvim_create_autocmd("BufDelete", {
   end
 })
 
+-- Keymap
 vim.keymap.set('n', '<leader>t', function()
   vim.cmd('botright 15split')
   vim.cmd('terminal')
   vim.cmd('startinsert')
 end, { noremap = true, silent = true, desc = "TERMINAL OPENED!!" })
 
+-- Vim Options
 vim.o.clipboard = "unnamedplus"
 vim.o.number = true
 vim.o.relativenumber = true
 
+-- Vim Buffer Options
+-- Vim Window Options
+
+-- Vim Keymap
+vim.keymap.set({'n', 'i', 'v'}, '<C-a>', '<Home>', { noremap = true, silent = true, desc = "Jump to beginning of line" })
+vim.keymap.set({'n', 'i', 'v'}, '<C-e>', '<End>', { noremap = true, silent = true, desc = "Jump to end of line" })
 vim.keymap.set("n", "<C-p>", ":Telescope find_files<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<C-f>", ":Telescope live_grep<CR>", { noremap = true, silent = true })
+vim.keymap.set('i', '<C-g>', '<Esc>', { noremap = true, silent = true, desc = "Exit insert mode with Ctrl+G" })
 
+-- Global variables
 vim.g.mkdp_auto_close = 1      
 vim.g.mkdp_browser = "chromium"
 
+-- Opt 
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
+
