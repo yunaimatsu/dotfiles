@@ -1,18 +1,12 @@
 source "$HOME/.aliases"
-source "$HOME/.zprofile"
 source "$HOME/.zinit/bin/zinit.zsh"
+source "$HOME/.p10k.zsh"
 zinit light-mode for \
     zsh-users/zsh-autosuggestions \
     zsh-users/zsh-syntax-highlighting \
     romkatv/powerlevel10k \
     hlissner/zsh-autopair \
     wait"1" lucid zsh-users/zsh-history-substring-search
-
-fcitx5 -d &
-
-cd "$HOME/dotfiles"
-source "./common.sh"
-cd
 
 autoload -Uz vcs_info
 precmd() { vcs_info }
