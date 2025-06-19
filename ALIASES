@@ -1,11 +1,28 @@
-# The alias of aliases
-a(){alias "$1"="$2"}
+a(){
+  alias "$1"="$2"
+}
+ua() { unalias "$1" 2>/dev/null }
+f() {
+  ua "$1"
+  eval "$1() { $2; }" 
+}
 
 # Git and GitHub
-gc 'git commit'
-a gl 'git log'
-a gs 'git status'
-a ga 'git add'
+a gc 'git commit'
+a gl 'git log --all --graph --oneline'
+a unstaged 'git status --short'
+a gd 'git diff --cached'
+
+# Worktree
+a gwc 'git worktree add'
+a gwr 'git worktree list'
+a gwd 'git worktree remove'
+
+# Git staging management `gs`
+a gstage 'git add'
+a gunstage 'git restore --staged'
+a guntrack 'git rm --cached -r'
+
 a gp 'git pull'
 # a dlgit 'function _clone(){git clone git@github.com:$1/$2.git} _clone'
 a gd 'git diff'
@@ -13,14 +30,34 @@ a gb 'git branch'
 a gba 'git branch -a'
 a gw 'git switch'
 a gwm 'git switch main'
-a gc 'git commit'
 a gcob 'git checkout -b'
 
-a gil 'gh issue list --limit 1000'
-a gic 'gh issue create'
-a giv 'gh issue view $1'
-a gie 'gh issue edit $1'
+# GitHub Issues `gi`
+## CRUD
+a gic 'gh issue create' # CREATE
+f giv 'gh issue view "$1" --comments'
+a gil 'gh issue list --limit 1000' # READ
 a gif 'gh issue list | grep $1'
+a gie 'gh issue edit' # UPDATE
+a gid 'gh issue close' # DELETE
+
+## Comment
+a gim 'gh issue comment'
+
+# GitHub Pull Requests `gp`
+## CRUD
+a gpc 'gh pr create' # CREATE
+a gpl 'gh pr list --limit 1000' # READ
+a ppv 'gh pr view' # READ
+a gpe 'gh pr edit' # UPDATE
+a gpd 'gh pr close' # DELETE
+
+## Comment
+a gpm 'gh pr comment'
+
+# GitHub Actions `gha`
+## CRUD
+
 
 alias newrepo='git init && git add . && git commit -m "Initial commit" && gh repo create $(basename $(pwd)) --private --confirm && git branch -M main && git remote add origin https://github.com/$(gh auth status --json login -q ".user.login")/$(basename $(pwd)).git && git push -u origin main'
 
@@ -28,12 +65,6 @@ alias newrepo='git init && git add . && git commit -m "Initial commit" && gh rep
 a l 'ls -ahl'
 a rd 'rm -r'
 a rf 'rm'
-
-## APT
-a au 'apt update'
-a sau 'sudo apt update'
-a ai 'apt install -y'
-a sai 'sudo apt install -y'
 
 ## Docker
 a de 'docker exec'
@@ -51,18 +82,14 @@ a ipy 'ipython'
 a nc 'npm config'
 a ni 'npm install'
 
-## Bundler
-a bde 'bundle exec'
-a bdc 'bundle config'
-a bdi 'bundle install'
-
 ## Aliases to edit config files
-a nes 'nvim ~/.config/espanso/match/matches.yml'
-a nn 'nvim ~/.config/nvim/init.lua'
-a nz 'nvim ~/dotfiles/ZSHRC'
-a sz 'source ~/.zshrc'
-a na 'nvim ~/dotfiles/ALIASES'
-a ne 'nvim ~/.zshenv'
+a nes 'nvim $HOME/.config/espanso/match/matches.yml'
+a nn 'nvim $HOME/.config/nvim/init.lua'
+a sz 'source $HOME/.zshrc'
+a na 'nvim $HOME/dotfiles/ALIASES'
+a n 'nvim'
 
 ## GUI apps
 a chromium 'chromium --ozone-platform=wayland &'
+a obsidian 'OZONE_PLATFORM=wayland obsidian &'
+a cursor 'OZONE_PLATFORM=walland cursor &'
