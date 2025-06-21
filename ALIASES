@@ -6,6 +6,9 @@ f() {
   ua "$1"
   eval "$1() { $2; }" 
 }
+# Package management
+a p 'pacman'
+a y 'yay'
 
 # Git and GitHub
 a gc 'git commit'
@@ -17,11 +20,15 @@ a gwc 'git worktree add'
 a gwr 'git worktree list'
 a gwd 'git worktree remove'
 
+# Git tracking management `gt
+a gtc 'git add' 
+a gtd 'git rm --cached -r'
+
 # Git staging management `gs`
-a guntrack 'git rm --cached -r'
-a gstage 'git add'
-a gunstage 'git restore --staged'
-a gs 'git status --short'
+a gsc 'git add'
+a gsd 'git restore --staged'
+a gsr 'git status --short'
+a gsd 'git restore --staged'
 
 # Git repository synchronization `gsy`
 a gp 'git pull'
@@ -74,7 +81,7 @@ a dp 'docker ps'
 
 ## Python
 a pv 'python3 -m venv'
-a p 'python3'
+a py 'python3'
 a pi 'pi'
 a pc 'pip config'
 a ipy 'ipython'
