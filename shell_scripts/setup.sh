@@ -135,6 +135,7 @@ typeset -A files=(
   # [KEYD_DEFAULT.conf]="/etc/keyd/default.conf"
   [GIT_CONFIG]="$HOME/.gitconfig" 
   [HYPRLAND_CONFIG.conf]="$HOME/.config/hypr/hyprland.conf"
+  [HYPRLAND_PAPER_CONFIG.conf]="$HOME/.config/hypr/hyprpaper.conf"
 )
 sudo chmod 777 "$HOME/dotfiles/KEYD_DEFAULT.conf"
 for src in "${(@k)files}"; do
