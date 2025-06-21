@@ -10,19 +10,20 @@ f() {
 # Git and GitHub
 a gc 'git commit'
 a gl 'git fetch origin && git log --all --graph --oneline'
-a unstaged 'git status --short'
 a gd 'git diff --cached'
 
-# Worktree
+# Worktree `gw`
 a gwc 'git worktree add'
 a gwr 'git worktree list'
 a gwd 'git worktree remove'
 
 # Git staging management `gs`
+a guntrack 'git rm --cached -r'
 a gstage 'git add'
 a gunstage 'git restore --staged'
-a guntrack 'git rm --cached -r'
+a gs 'git status --short'
 
+# Git repository synchronization `gsy`
 a gp 'git pull'
 # a dlgit 'function _clone(){git clone git@github.com:$1/$2.git} _clone'
 a gd 'git diff'
@@ -85,6 +86,7 @@ a ni 'npm install'
 ## Aliases to edit config files
 a nes "nvim $HOME/.config/espanso/match/matches.yml"
 a nn "nvim $HOME/.config/nvim/init.lua"
+a nh "nvim $HOME/.config/hypr/hyprland.conf"
 a nz "nvim $HOME/.zshrc"
 a sz "source $HOME/.zshrc"
 a na "nvim $HOME/dotfiles/ALIASES"

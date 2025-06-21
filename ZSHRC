@@ -54,3 +54,7 @@ autoload -U colors && colors
 # bun completions
 [ -s "/home/yunai/.bun/_bun" ] && source "/home/yunai/.bun/_bun"
 
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
