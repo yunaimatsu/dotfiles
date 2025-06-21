@@ -1,0 +1,12 @@
+cursor-electron
+espanso-wayland
+google-chrome
+ibus-m17n
+ibus-m17n-debug
+minecraft-launcher
+minecraft-launcher-debug
+neofetch
+ruby-xdg
+tmuxinator
+warp-terminal
+xar
