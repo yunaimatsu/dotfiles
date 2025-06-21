@@ -13,9 +13,8 @@ g "Update Pacman"
 sudo pacman -Sy --needed pacman
 sudo pacman -Syu
 
-pm(){ sudo pacman -S --needed --noconfirm "$@" } 
+p(){ sudo pacman -S --needed --noconfirm "$@" } 
 y(){ yay -S --needed --noconfirm "$@" }
-p(){ paru -S --needed --noconfirm "$@" }
 
 g "Packages"
 g "Packages: base-devel"
@@ -34,17 +33,6 @@ else
   cd /tmp
   git clone https://aur.archlinux.org/yay.git
   cd yay
-  makepkg -si
-fi
-
-g "Install paru"
-if command -v paru >/dev/null 2>&1; then
-  echo "paru is already installed."
-else
-  echo "Installing paru..."
-  cd /tmp
-  git clone https://aur.archlinux.org/paru.git
-  cd paru
   makepkg -si
 fi
 
@@ -79,8 +67,8 @@ for repo in "${ghrepos[@]}"; do
 done
 
 g "Set up fonts"
-pm noto-fonts noto-fonts-cjk noto-fonts-emoji
-pm fcitx5-im fcitx5-mozc fcitx5-configtool
+p noto-fonts noto-fonts-cjk noto-fonts-emoji
+p fcitx5-im fcitx5-mozc fcitx5-configtool
 
 g "Set up X server configuration"
 touch "$HOME/.xprofile"
@@ -100,7 +88,7 @@ w 'fcitx5 &' ~/.profile
 # if [ -z "$WAYLAND_DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then exec Hyprland fi
 
 # g "Set up security configuration"
-# pm firewalld firejail
+# p firewalld firejail
 # systemctl enable firewalld
 
 
@@ -121,30 +109,6 @@ w 'fcitx5 &' ~/.profile
 g "Set up Espanso"
 y espanso
 
-g "Mount config files to home directory"
-typeset -A files=(
-  [ZSHRC]="$HOME/.zshrc"
-  [ZSH_PROFILE]="$HOME/.zprofile"
-  [ZSH_LOGIN]="$HOME/.zlogin"
-  [ZSH_LOGOUT]="$HOME/.zlogout"
-  [POWERLEVEL_10K.zsh]="$HOME/.p10k.zsh"
-  [ALIASES]="$HOME/.aliases"
-  [TMUX_CONF]="$HOME/.tmux.conf"
-  [NEOVIM_INIT.lua]="$HOME/.config/nvim/init.lua"
-  [ESPANSO_MATCH.yml]="$HOME/.config/espanso/match/base.yml"
-  # [KEYD_DEFAULT.conf]="/etc/keyd/default.conf"
-  [GIT_CONFIG]="$HOME/.gitconfig" 
-  [HYPRLAND_CONFIG.conf]="$HOME/.config/hypr/hyprland.conf"
-  [HYPRLAND_PAPER_CONFIG.conf]="$HOME/.config/hypr/hyprpaper.conf"
-)
-sudo chmod 777 "$HOME/dotfiles/KEYD_DEFAULT.conf"
-for src in "${(@k)files}"; do
-  dest="${files[$src]}"
-  echo "Linking $src -> $dest"
-  src_path="$HOME/dotfiles/$src"
-  sudo ln -sf "$src_path" "$dest"
-done
-
 g "Localization"
 sudo locale-gen
 sudo localectl set-locale LANG=en_US.UTF-8
@@ -164,10 +128,10 @@ e USER_NAME_GH "$USER_NAME_GH"
 g "Programming Languages"
 
 g "Programming Languages >> Node.js"
-pm nodejs
+p nodejs
 
 g "Programming Languages >> Node.js >> npm"
-pm npm
+p npm
 
 g "Programming Languages >> Node.js >> Bun"
 curl -fsSL https://bun.sh/install | bash
