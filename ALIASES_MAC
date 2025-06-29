@@ -1,6 +1,0 @@
-a(){alias "$1"="$2"}
-
-a bri 'brew install'
-a bru 'brew uninstall'
-
-# FIXME: Add Karabiner JSON
