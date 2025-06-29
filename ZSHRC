@@ -1,6 +1,22 @@
-source "$HOME/.aliases"
-source "$HOME/.zinit/bin/zinit.zsh"
-source "$HOME/.p10k.zsh"
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+a(){ alias "$1"="$2" }
+_ualias() { unalias "$1" 2>/dev/null }
+f() {
+  _ualias "$1"
+  eval "$1() { $2; }" 
+}
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+source "$HOME/.aliases" # Execute externalized shell script of aliases
+source "$HOME/.zinit/bin/zinit.zsh" # Load Zinit
+source "$HOME/powerlevel10k/powerlevel10k.zsh-theme"
+source "$HOME/.p10k.zsh" # Load p10k
+
+# Cloned? load: clone, load
 zinit light-mode for \
     zsh-users/zsh-autosuggestions \
     zsh-users/zsh-syntax-highlighting \
@@ -16,9 +32,9 @@ PROMPT='%n@%m${vcs_info_msg_0_}%~%# '
 ## History
 HISTSIZE=10000 
 SAVEHIST=10000
-HISTFILE=~/.zsh_history
+HISTFILE="$HOME/.log/zsh"
 
-## `setopt`
+## Setopt
 setopt allexport
 setopt autocd
 setopt correct
@@ -33,7 +49,6 @@ HYPHEN_INSENSITIVE="true"
 ## Color configurations ----------------------
 autoload -U colors && colors
 
-# pyenv の初期化
 # export PATH="$HOME/.pyenv/bin:$PATH"# 履歴検索
 # bindkey '^R' history-incremental-search-backward
 
@@ -58,3 +73,6 @@ autoload -U colors && colors
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

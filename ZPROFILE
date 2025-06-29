@@ -1,5 +1,6 @@
 # FIXME: EConnect to network here
 
+export EDITOR_GH=nvim
 export DIR_LOG="$HOME/.log
 export GTK_IM_MODULE=fcitx5
 export QT_IM_MODULE=fcitx5

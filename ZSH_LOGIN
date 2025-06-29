@@ -1,1 +1,0 @@
-echo "🎉 Welcome back, $USER! Logged in at $(date)."
