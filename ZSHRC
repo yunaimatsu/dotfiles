@@ -15,7 +15,9 @@ source "$HOME/.aliases" # Execute externalized shell script of aliases
 source "$HOME/.zinit/bin/zinit.zsh" # Load Zinit
 source "$HOME/powerlevel10k/powerlevel10k.zsh-theme"
 source "$HOME/.p10k.zsh" # Load p10k
-
+if [ "$(tty)" = "/dev/tty1" ]; then
+  exec Hyprland
+fi
 # Cloned? load: clone, load
 zinit light-mode for \
     zsh-users/zsh-autosuggestions \
@@ -46,7 +48,6 @@ setopt hist_append
 CASE_SENSITIVE="true"
 HYPHEN_INSENSITIVE="true"
 
-## Color configurations ----------------------
 autoload -U colors && colors
 
 # export PATH="$HOME/.pyenv/bin:$PATH"# 履歴検索
@@ -69,7 +70,8 @@ autoload -U colors && colors
 # bun completions
 [ -s "/home/yunai/.bun/_bun" ] && source "/home/yunai/.bun/_bun"
 
-
+export EDITOR="nvim"
+export VISUAL="nvim"
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
