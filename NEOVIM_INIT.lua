@@ -1,3 +1,6 @@
+local bg_color = '#1e1e1e'
+-- local font_color = vim.fn.expand('#333333')
+
 local ensure_packer = function()
   local fn = vim.fn
   local install_path = fn.stdpath("data").."/site/pack/packer/start/packer.nvim"
@@ -75,6 +78,8 @@ vim.api.nvim_create_autocmd("BufDelete", {
   end
 })
 
+vim.cmd('syntax on')
+
 -- Keymap
 vim.keymap.set('n', '<leader>t', function()
   vim.cmd('botright 15split')
@@ -86,6 +91,8 @@ end, { noremap = true, silent = true, desc = "TERMINAL OPENED!!" })
 vim.o.clipboard = "unnamedplus"
 vim.o.number = true
 vim.o.relativenumber = true
+vim.o.termguicolors = true
+vim.api.nvim_set_hl(0, "Normal", { bg = bg_color })
 
 -- Vim Buffer Options
 -- Vim Window Options
