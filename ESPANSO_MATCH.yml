@@ -21,8 +21,3 @@ matches:
   - trigger: ":pkg"
     replace: "On a freshly installed Arch Linux system, please tell me how to locally build and install the following packages. Also, share the GitHub/GitLab/AUR links with me."
 
-  - trigger: ":ex"
-    replace: "This is an example!"
-
-  - trigger: ":ex!"
-    replace: "This is also example!"
