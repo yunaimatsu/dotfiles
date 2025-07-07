@@ -11,11 +11,11 @@ f() {
 a p 'pacman'
 a y 'yay'
 a g "git clone --depth 1 https://github.com/$1/$2.git"
+a n 'nvim'
 
-# Git and GitHub
-a gc 'git commit'
-a gl 'git fetch origin && git log --all --graph --oneline'
-a gd 'git diff --cached'
+# Git log
+a gll 'git fetch origin && git log --all --graph --oneline'
+a glc 'git commit -m'
 
 # Worktree `gw`
 a gwc 'git worktree add'
@@ -45,7 +45,7 @@ a gcob 'git checkout -b'
 # GitHub Issues `gi`
 a gic 'gh issue create'
 f gir 'gh issue view "$1" --comments'
-a gil 'gh issue list --limit 1000 | bat' # READ
+a gil 'gh issue list --limit 1000' # READ
 a giu 'gh issue edit' # UPDATE
 a gid 'gh issue close' # DELETE
 
@@ -74,7 +74,6 @@ a gei 'gh extension install'
 a gel 'gh extension list'
 a ged 'gh extension remove'
 
-
 alias newrepo='git init && git add . && git commit -m "Initial commit" && gh repo create $(basename $(pwd)) --private --confirm && git branch -M main && git remote add origin https://github.com/$(gh auth status --json login -q ".user.login")/$(basename $(pwd)).git && git push -u origin main'
 
 # Shell
@@ -96,31 +95,57 @@ a ipy 'ipython'
 a nc 'npm config'
 a ni 'npm install'
 
-# EASY_CONFIG
-a na "nvim $HOME/dotfiles/ALIASES"
-a ra "source $HOME/.zshrc"
+# Edit each config file -----------------------------------------
+
+# Waybar
 a nb "nvim $HOME/.config/waybar/config"
-a nc "nvim $HOME/dotfiles/ZSHRC"
-a rc "source $HOME/.zshrc"
-a ne "nvim $HOME/.zshenv"
-a re "source $HOME/dotfiles/ZSH_ENV"
-a nf "nvim $HOME/dotfiles/ZSH_PROFILE"
-a rgr -> "command rg" 
+a nbs "nvim $HOME/.config/waybar/style.css"
+a rb "pkill waybar && waybar &"
+
+# Zsh config files
+a nze "nvim $HOME/.zshenv"
+a nzr "nvim $HOME/.zshrc"
+a nzp "nvim $HOME/.zprofile"
+a na "nvim $HOME/.aliases"
+
+a rze "source $HOME/.zshenv && source $HOME/.zshrc && source $HOME/.profile"
+
+# Hyprland
 a nh "nvim $HOME/.config/hypr/hyprland.conf"
+a nhp "nvim $HOME/.config/hypr/hyprpaper.conf"
 a rh "hyprctl reload"
+
+# Terminal
 a ni "nvim $HOME/.config/alacritty/alacritty.toml"
-a nk "nvim $HOME/dotfiles/POWERLEVEL_10K.zsh"
+a nj "nvim $HOME"
+a nk "nvim $HOME/.p10k.zsh"
 a nl "nvim $HOME/.zprofile"
-a nlr='command nl'
+a nm "nvim $HOME"
 a nn "nvim $HOME/.config/nvim/init.lua"
+a no "nvim $HOME"
 a np "nvim $HOME/dotfiles/PKG_PACMAN.txt"
-a nq "nvim $HOME/dotfiles/QUTE_BROWSER_CONFIG.py"
+a nq "nvim $HOME/.config/qutebrowser/config.py"
 a nr "nvim $HOME/dotfiles/PKG_GH.txt"
-a ns "nvim $HOME/dotfiles/ESPANSO_MATCH.yml"
-a nt "nvim $HOME/dotfiles/TMUX_CONF.yml"
+a ns "nvim $HOME"
+a nt "nvim $HOME/.tmux.conf"
+a nu "nvim $HOME"
+a nv
+a nw
+a nx "nvim $HOME/.config/espanso/match/base.yml"
+a rx "espanso restart"
 a ny "nvim $HOME/dotfiles/PKG_AUR.txt"
+a nz "nvim $HOME"
+
+# Reload
+a ra "source $HOME/.zshrc"
+
+# Read the execution log
+a rc "source $HOME/.zshrc"
+a re "source $HOME/dotfiles/ZSH_ENV"
+a rgr "command rg" 
+a rh "hyprctl reload"
+a nlr='command nl'
 a rz "source $HOME/.zshrc"
-a n "nvim"
 
 ## GUI apps
 a chromium 'OZONE_PLATFORM=wayland chromium &'
