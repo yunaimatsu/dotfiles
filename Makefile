@@ -1,18 +1,24 @@
 SHELL := /bin/zsh 
-DOTFILES := $(HOME)/dotfiles
-MAPFILE := $(DOTFILES)/MAP
-PKG := $(DOTFILES)/PKG
 
-archuser: 
+DOTFILES := $(HOME)/dotfiles
+ENVDIR := $(DOTFILES)/env
+MAPDIR := $(DOTFILES)/map
+-include $(wildcard $(ENVDIR)/* ) $(wildcard $(MAPDIR)/* )
+
+env:
 	cd "$$HOME/dotfiles"
 	sudo pacman -S --needed --noconfirm base-devel
-	@for file in "$$HOME/dotfiles/*.sh"; do \
-		[ -x "$$file" ] && "$$file" \
-		echo "Packages: $$st in $$(which $$st)" \
-		echo "Installing $$st" \
-		p "$$st" \
+	for file in $(ENVDIR)/*; do \
+		[ -x "$$file" ] && "$$file"; \
+		sudo chmod +x "$$file"; \
+		st=$$(basename "$$file"); \
+		echo "Packages: $$st in $$(which $$st)"; \
+		echo "Installing $$st"; \
+		sudo pacman -S --needed --noconfirm "$$st"; \
 	done
-	@echo "Install yay" \
+
+yay:
+	echo "Install yay" \
 	if command -v yay >/dev/null 2>&1; then \
 		echo "yay is already installed." \
 	else \
@@ -22,30 +28,44 @@ archuser:
 		cd yay \
 		makepkg -si \
 	fi \
-	echo "Set up Espanso" \
-	yay -S --needed --noconfirm espanso 
-	echo "Programming Languages"
-	echo "Programming Languages >> Node.js"
-	p nodejs
-	echo "Programming Languages >> Node.js >> npm"
-	p npm
-	echo "Programming Languages >> Node.js >> Bun"
-	curl -fsSL https://bun.sh/install | bash
-	path $$HOME/.bun/bin
-	echo "Programming Languages >> Node.js >> TypeScript"
-	bun add -g typescript
-	tsc --version
-	echo "Programming Languages >> Node.js >> GAS"
-	bun add -g @google/clasp
+
+nodejs:
+	echo "Node.js" \
+	sudo pacman -S nodejs \
+	echo "npm" \
+	sudo pacman -S npm \
+	echo "Bun" \
+	curl -fsSL https://bun.sh/install | bash \
+	path $$HOME/.bun/bin \
+	echo "TypeScript" \
+	bun add -g typescript \
+	tsc --version \
+	echo "GAS" \
+	bun add -g @google/clasp \
+	echo "Gemini" \
+	bun 
+
+gitconfig:
+	git config --global user.name "$(GIT_USER_NAME)"
+	git config --global user.email "$(GIT_USER_EMAIL)"
+	git config --global core.editor "$(GIT_CORE_EDITOR)"
+	git config --global core.pager "$(GIT_CORE_PAGER)"
+	git config --list
+
+python:  
 	echo "Python"
-	sudo p -S python
-	sudo p -S pyenv
+	sudo pacman -S python
+	sudo pacman -S pyenv
+
+go:
 	echo "Go"
-	sudo p -S go
+	sudo pacman -S go
 	e GOPATH=$$HOME/go
 	path $$GOPATH/bin 
+
+rust:
 	echo "Rust"
-	sudo p -S rust
+	sudo pacman -S rust
 
 # Void Linux
 voidroot: 
@@ -53,6 +73,80 @@ voidroot:
 
 voiduser:  voidroot
 	echo "Void user setup coming soon!"
+
+# FIXME: Install C/C++ in distro without systemd
+
+nw:
+# systemctl enable NetworkManager
+
+locale:
+	echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
+	locale-gen
+	echo "LANG=en_US.UTF-8" > /etc/locale.conf
+	sudo localectl set-locale LANG=en_US.UTF-8
+	sudo localectl set-keymap us
+	sudo localectl status
+
+clone_base="$HOME/.local/src"
+mkdir -p "$clone_base"
+
+ghrepos=(
+  yunaimatsu/dotfiles
+  zdharma-continuum/zinit
+  # add more here
+)
+
+for repo in "${ghrepos[@]}"; do
+  user=${repo%%/*}
+  repo_name=${repo#*/}
+  target_dir="$clone_base/$repo_name"
+
+  if [[ ! -d "$target_dir" ]]; then
+    echo "Cloning $repo into $target_dir..."
+    git clone "https://github.com/$repo.git" "$target_dir"
+  else
+    echo "Directory $target_dir already exists, skipping clone."
+  fi
+done
+
+font:
+	sudo pacman -S noto-fonts noto-fonts-cjk noto-fonts-emoji
+	sudo pacman -S fcitx5-im fcitx5-mozc fcitx5-configtool
+
+x:
+	touch "$HOME/.xprofile"
+	w 'export GTK_IM_MODULE=fcitx' ~/.profile
+	w 'export QT_IM_MODULE=fcitx' ~/.profile
+	w 'export XMODIFIERS="@im=fcitx"' ~/.profile
+	w 'fcitx5 &' ~/.profile
+
+clock:
+	ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
+	hwclock --systohc
+
+# g "Add GUI(Wayland + hypr)"
+# p sway swaylock swayidle wayland wl-clipboard foot wofi mako
+# p grim slurp wf-recorder xdg-desktop-portal-wlr
+# if [ -z "$WAYLAND_DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then exec Hyprland fi
+
+# g "Set up security configuration"
+# p firewalld firejail
+# systemctl enable firewalld
+
+# g "Install Neovim"
+# mkdir -p ~/.config/nvim
+# git clone https://github.com/folke/lazy.nvim.git ~/.config/nvim/lazy/lazy.nvim
+
+# CONFIG_DIR="$HOME/.config/nvim"
+# INIT_LUA="$CONFIG_DIR/init.lua"
+
+# if [ ! -d "$CONFIG_DIR" ]; then
+#    echo "Creating Neovim config directory at $CONFIG_DIR"
+#    mkdir -p "$CONFIG_DIR"
+# else
+#     echo "Neovim config directory already exists."
+# fi
+
 
 # Android
 android: 
@@ -70,8 +164,6 @@ android:
 pacman:
 	sudo pacman -Syu --needed $$(grep -vE '^\s*#|^\s*$$'$(PKG))
 
-# Cross-distro
-
 # Softlink dotfiles
 map:
 	while IFS=':' read -r src dest; do \
@@ -88,25 +180,18 @@ env:
 		echo "環境変数 $VAR_NAME は存在しません。" \
 		exit 1 \
 	fi \
-	echo "あなたの $VAR_NAME は $VAR_VALUE です。" \
-	read -p "変更しますか？(y/n) " ANSWER \
-	if [[ "$ANSWER" == "y" ]]; then \
-		read -p "$VAR_NAME の値を入力してください: " NEW_VALUE \
+	echo "Current $VAR_NAME is $VAR_VALUE." \
+	read -p "Edit? (y/n) " ANSWER \
+	if [[ "$$ANSWER" == "y" ]]; then \
+		read -p "Input $$VAR_NAME value" NEW_VALUE \
 		cp ~/.zshenv ~/.zshenv.bak \
-		if grep -q "^export $VAR_NAME=" ~/.zshenv; then \
-			sed -i '' "s|^export $VAR_NAME=.*|export $VAR_NAME=\"$NEW_VALUE\"|" ~/.zshenv \
+		if grep -q "^export $$VAR_NAME=" ~/.zshenv; then \
+			sed -i '' "s|^export $$VAR_NAME=.*|export $$VAR_NAME=\"$$NEW_VALUE\"|" ~/.zshenv \
 		else \
-			echo "export $VAR_NAME=\"$NEW_VALUE\"" >> ~/.zshenv \
+			echo "export $$VAR_NAME=\"$NEW_VALUE\"" >> ~/.zshenv \
 		fi \
-		echo "$VAR_NAME を $NEW_VALUE に更新しました。ターミナルを再起動するか 'source ~/.zshenv' を実行してください。" \
+		echo "$$VAR_NAME を $$NEW_VALUE に更新しました。ターミナルを再起動するか 'source ~/.zshenv' を実行してください。" \
 	else \
-		echo "変更をキャンセルしました。" \
+		echo "Changes canceled." \
 	fi
-	echo "Setup environment variable file" \
-	echo "Enter your GitHub username:" \
-	read USER_NAME_GH \
-	echo "Your username in GitHub is $${USER_NAME_GH}." \
-	export USER_NAME_GH "$$USER_NAME_GH" \
-	GIT_EMAIL="${USER_NAME_GH}@users.noreply.github.com"
-	git config --global user.name "$USER_NAME_GH"
-	git config --global user.email "$GIT_EMAIL"
+
