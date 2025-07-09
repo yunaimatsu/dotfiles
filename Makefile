@@ -10,18 +10,6 @@ ghx:
 		gh extension install $$plugin; \
 	done 
 
-env:
-	cd "$$HOME/dotfiles"
-	sudo pacman -S --needed --noconfirm base-devel
-	for file in $(ENVDIR)/*; do \
-		[ -x "$$file" ] && "$$file"; \
-		sudo chmod +x "$$file"; \
-		st=$$(basename "$$file"); \
-		echo "Packages: $$st in $$(which $$st)"; \
-		echo "Installing $$st"; \
-		sudo pacman -S --needed --noconfirm "$$st"; \
-	done
-
 yay:
 	echo "Install yay" \
 	if command -v yay >/dev/null 2>&1; then \
@@ -92,7 +80,7 @@ locale:
 	sudo localectl set-keymap us
 	sudo localectl status
 
-font:
+fonts:
 	sudo pacman -S noto-fonts noto-fonts-cjk noto-fonts-emoji
 	sudo pacman -S fcitx5-im fcitx5-mozc fcitx5-configtool
 
@@ -107,15 +95,8 @@ clock:
 	ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
 	hwclock --systohc
 
-# g "Add GUI(Wayland + hypr)"
-# p sway swaylock swayidle wayland wl-clipboard foot wofi mako
-# p grim slurp wf-recorder xdg-desktop-portal-wlr
-# if [ -z "$WAYLAND_DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then exec Hyprland fi
-
-# g "Set up security configuration"
-# p firewalld firejail
-# systemctl enable firewalld
-
+nvim:
+	echo "Neovim recipe coming soon!"
 # g "Install Neovim"
 # mkdir -p ~/.config/nvim
 # git clone https://github.com/folke/lazy.nvim.git ~/.config/nvim/lazy/lazy.nvim
@@ -129,7 +110,6 @@ clock:
 # else
 #     echo "Neovim config directory already exists."
 # fi
-
 
 # Android
 android: 
@@ -157,24 +137,14 @@ map:
 	done < $(MAPFILE)
 
 env:
-	VAR_NAME="USER_NAME_GH" \
-	VAR_VALUE="${!VAR_NAME}" \
-	if [ -z "$VAR_VALUE" ]; then \
-		echo "環境変数 $VAR_NAME は存在しません。" \
-		exit 1 \
-	fi \
-	echo "Current $VAR_NAME is $VAR_VALUE." \
-	read -p "Edit? (y/n) " ANSWER \
-	if [[ "$$ANSWER" == "y" ]]; then \
-		read -p "Input $$VAR_NAME value" NEW_VALUE \
-		cp ~/.zshenv ~/.zshenv.bak \
-		if grep -q "^export $$VAR_NAME=" ~/.zshenv; then \
-			sed -i '' "s|^export $$VAR_NAME=.*|export $$VAR_NAME=\"$$NEW_VALUE\"|" ~/.zshenv \
-		else \
-			echo "export $$VAR_NAME=\"$NEW_VALUE\"" >> ~/.zshenv \
-		fi \
-		echo "$$VAR_NAME を $$NEW_VALUE に更新しました。ターミナルを再起動するか 'source ~/.zshenv' を実行してください。" \
-	else \
-		echo "Changes canceled." \
-	fi
+	cd "$$HOME/dotfiles"
+	sudo pacman -S --needed --noconfirm base-devel
+	for file in $(ENVDIR)/*; do \
+		[ -x "$$file" ] && "$$file"; \
+		sudo chmod +x "$$file"; \
+		st=$$(basename "$$file"); \
+		echo "Packages: $$st in $$(which $$st)"; \
+		echo "Installing $$st"; \
+		sudo pacman -S --needed --noconfirm "$$st"; \
+	done
 
