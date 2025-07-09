@@ -1,6 +1,4 @@
-# dotfiles
-One command. Zero waste. The ultimate setup.
-
+# Setup
 ## 1. Setup Linux
 ### Archlinux
 Never use Windows as it is. Always do a clean install of Arch Linux.
@@ -37,16 +35,17 @@ sudo pacman -S git
 ```sh
 git clone https://github.com/yunaimatsu/dotfiles ~/dotfiles
 cd ~/dotfiles
-chmod +x setup.sh
-./setup.sh
 ```
 
----
+## Alias
+## Browser
+### Qutebrowser
 
-# Process of config files
-Power on
-Booter
-Log in
-Read `.zprofile`
-Read `.zshrc`
-Read `.aliases`
+## Terminal
+
+## Makefile
+To accommodate potential changes in the file name, define the path/file name as a global variable.
+
+### Interactive setting: shell script
+### Non-interactive setting: Make file
+
