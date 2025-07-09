@@ -5,6 +5,11 @@ ENVDIR := $(DOTFILES)/env
 MAPDIR := $(DOTFILES)/map
 -include $(wildcard $(ENVDIR)/* ) $(wildcard $(MAPDIR)/* )
 
+ghx:
+	@cat $(ENVDIR)/GH_EXTENSIONS | while read plugin; do \
+		gh extension install $$plugin; \
+	done 
+
 env:
 	cd "$$HOME/dotfiles"
 	sudo pacman -S --needed --noconfirm base-devel
@@ -46,10 +51,10 @@ nodejs:
 	bun 
 
 gitconfig:
-	git config --global user.name "$(GIT_USER_NAME)"
-	git config --global user.email "$(GIT_USER_EMAIL)"
-	git config --global core.editor "$(GIT_CORE_EDITOR)"
-	git config --global core.pager "$(GIT_CORE_PAGER)"
+	@git config --global user.name "$(GIT_USER_NAME)"
+	@git config --global user.email "$(GIT_USER_EMAIL)"
+	@git config --global core.editor "$(GIT_CORE_EDITOR)"
+	@git config --global core.pager "$(GIT_CORE_PAGER)"
 	git config --list
 
 python:  
@@ -86,28 +91,6 @@ locale:
 	sudo localectl set-locale LANG=en_US.UTF-8
 	sudo localectl set-keymap us
 	sudo localectl status
-
-clone_base="$HOME/.local/src"
-mkdir -p "$clone_base"
-
-ghrepos=(
-  yunaimatsu/dotfiles
-  zdharma-continuum/zinit
-  # add more here
-)
-
-for repo in "${ghrepos[@]}"; do
-  user=${repo%%/*}
-  repo_name=${repo#*/}
-  target_dir="$clone_base/$repo_name"
-
-  if [[ ! -d "$target_dir" ]]; then
-    echo "Cloning $repo into $target_dir..."
-    git clone "https://github.com/$repo.git" "$target_dir"
-  else
-    echo "Directory $target_dir already exists, skipping clone."
-  fi
-done
 
 font:
 	sudo pacman -S noto-fonts noto-fonts-cjk noto-fonts-emoji
