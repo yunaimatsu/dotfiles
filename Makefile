@@ -1,12 +1,11 @@
 SHELL := /bin/zsh 
 
 DOTFILES := $(HOME)/dotfiles
-ENVDIR := $(DOTFILES)/env
-MAPDIR := $(DOTFILES)/map
--include $(wildcard $(ENVDIR)/* ) $(wildcard $(MAPDIR)/* )
+PKG_DIR := $(DOTFILES)/packages
+MAP_FILE := mapping
 
 ghx:
-	@cat $(ENVDIR)/GH_EXTENSIONS | while read plugin; do \
+	@cat $(PKG_DIR)/GH_EXTENSIONS | while read plugin; do \
 		gh extension install $$plugin; \
 	done 
 
@@ -15,7 +14,6 @@ yay:
 	if command -v yay >/dev/null 2>&1; then \
 		echo "yay is already installed." \
 	else \
-		echo "Installing yay..." \
 		cd /tmp \
 		git clone https://aur.archlinux.org/yay.git \
 		cd yay \
@@ -23,20 +21,14 @@ yay:
 	fi \
 
 nodejs:
-	echo "Node.js" \
 	sudo pacman -S nodejs \
-	echo "npm" \
 	sudo pacman -S npm \
-	echo "Bun" \
 	curl -fsSL https://bun.sh/install | bash \
 	path $$HOME/.bun/bin \
-	echo "TypeScript" \
 	bun add -g typescript \
 	tsc --version \
-	echo "GAS" \
 	bun add -g @google/clasp \
-	echo "Gemini" \
-	bun 
+	gemini -v
 
 gitconfig:
 	@git config --global user.name "$(GIT_USER_NAME)"
@@ -125,26 +117,25 @@ android:
 
 # Archlinux
 pacman:
-	sudo pacman -Syu --needed $$(grep -vE '^\s*#|^\s*$$'$(PKG))
+	@while read -r pkg; do \
+		if ! pacman -Qi $$pkg > /dev/null 2>&1; then \
+			echo "Installing $$pkg..."; \
+			sudo pacman -S --noconfirm --needed $$pkg; \
+		else \
+			echo "$$pkg is already installed.";\
+		fi; \
+	done < $(PKG_DIR)/PACMAN_PKG
 
 # Softlink dotfiles
 map:
-	while IFS=':' read -r src dest; do \
-		echo "Linking $$src -> $$dest"; \
+	@while IFS=':' read -r src dest; do \
 		src_path="$(DOTFILES)/$$src"; \
 		dest_path=$$(eval echo $$dest); \
 		sudo ln -sf "$$src_path" "$$dest_path"; \
-	done < $(MAPFILE)
+		echo "Linked $$src -> $$dest"; \
+	done < $(MAP_FILE)
 
 env:
 	cd "$$HOME/dotfiles"
-	sudo pacman -S --needed --noconfirm base-devel
-	for file in $(ENVDIR)/*; do \
-		[ -x "$$file" ] && "$$file"; \
-		sudo chmod +x "$$file"; \
-		st=$$(basename "$$file"); \
-		echo "Packages: $$st in $$(which $$st)"; \
-		echo "Installing $$st"; \
-		sudo pacman -S --needed --noconfirm "$$st"; \
-	done
+	cp .env.example .env
 
