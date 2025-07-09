@@ -35,4 +35,5 @@ pipewire-jack
 wireplumber
 xdg-desktop-portal
 xdg-desktop-portal-gtk
+base-devel
 cronie
