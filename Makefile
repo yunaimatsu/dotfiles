@@ -137,5 +137,5 @@ map:
 
 env:
 	cd "$$HOME/dotfiles"
-	cp .env.example .env
+	cp .secrets.example .secrets
 
