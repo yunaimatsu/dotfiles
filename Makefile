@@ -61,49 +61,24 @@ voiduser:  voidroot
 
 # FIXME: Install C/C++ in distro without systemd
 
-nw:
-# systemctl enable NetworkManager
-
-locale:
-	echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
-	locale-gen
-	echo "LANG=en_US.UTF-8" > /etc/locale.conf
-	sudo localectl set-locale LANG=en_US.UTF-8
-	sudo localectl set-keymap us
-	sudo localectl status
-
-fonts:
-	sudo pacman -S noto-fonts noto-fonts-cjk noto-fonts-emoji
-	sudo pacman -S fcitx5-im fcitx5-mozc fcitx5-configtool
-
-x:
-	touch "$HOME/.xprofile"
-	w 'export GTK_IM_MODULE=fcitx' ~/.profile
-	w 'export QT_IM_MODULE=fcitx' ~/.profile
-	w 'export XMODIFIERS="@im=fcitx"' ~/.profile
-	w 'fcitx5 &' ~/.profile
 
 clock:
 	ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
 	hwclock --systohc
 
 nvim:
-	echo "Neovim recipe coming soon!"
-# g "Install Neovim"
-# mkdir -p ~/.config/nvim
-# git clone https://github.com/folke/lazy.nvim.git ~/.config/nvim/lazy/lazy.nvim
+	mkdir -p ~/.config/nvim \
+	git clone https://github.com/folke/lazy.nvim.git ~/.config/nvim/lazy/lazy.nvim
+	CONFIG_DIR="$HOME/.config/nvim"
+	INIT_LUA="$CONFIG_DIR/init.lua"
 
-# CONFIG_DIR="$HOME/.config/nvim"
-# INIT_LUA="$CONFIG_DIR/init.lua"
+	if [ ! -d "$CONFIG_DIR" ]; then
+	   echo "Creating Neovim config directory at $CONFIG_DIR"
+	   mkdir -p "$CONFIG_DIR"
+	else
+	    echo "Neovim config directory already exists."
+	fi
 
-# if [ ! -d "$CONFIG_DIR" ]; then
-#    echo "Creating Neovim config directory at $CONFIG_DIR"
-#    mkdir -p "$CONFIG_DIR"
-# else
-#     echo "Neovim config directory already exists."
-# fi
-
-# Android
 android: 
 	pkg install git
 	pkg install gh
@@ -127,15 +102,16 @@ pacman:
 	done < $(PKG_DIR)/PACMAN_PKG
 
 # Softlink dotfiles
-map:
-	@while IFS=':' read -r src dest; do \
-		src_path="$(DOTFILES)/$$src"; \
+mapping:
+	@mkdir -p "$$HOME/.aliases" && mkdir -p "$$HOME/.secrets" && \
+	while IFS=':' read -r src dest; do \
+		src_path="$$HOME/dotfiles/$$src"; \
 		dest_path=$$(eval echo $$dest); \
 		sudo ln -sf "$$src_path" "$$dest_path"; \
 		echo "Linked $$src -> $$dest"; \
 	done < $(MAP_FILE)
 
-env:
+secrets:
 	cd "$$HOME/dotfiles"
-	cp .secrets.example .secrets
+	cp SECRETS_EXAMPLE SECRETS 
 
