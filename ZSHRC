@@ -1,24 +1,8 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-a(){ alias "$1"="$2" }
-_ualias() { unalias "$1" 2>/dev/null }
-f() {
-  _ualias "$1"
-  eval "$1() { $2; }" 
-}
+source "$HOME/powerlevel10k/powerlevel10k.zsh-theme"
+source "$HOME/.p10k.zsh"
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
-
-source "$HOME/.aliases" # Execute externalized shell script of aliases
-source "$HOME/.zinit/bin/zinit.zsh" # Load Zinit
-source "$HOME/powerlevel10k/powerlevel10k.zsh-theme"
-source "$HOME/.p10k.zsh" # Load p10k
-if [ "$(tty)" = "/dev/tty1" ]; then
-  exec Hyprland
-fi
-# Cloned? load: clone, load
 zinit light-mode for \
     zsh-users/zsh-autosuggestions \
     zsh-users/zsh-syntax-highlighting \
@@ -30,6 +14,26 @@ autoload -Uz vcs_info
 precmd() { vcs_info }
 zstyle ':vcs_info:git:*' formats '(%b)'
 PROMPT='%n@%m${vcs_info_msg_0_}%~%# '
+
+#########################################################
+
+a(){ alias "$1"="$2" }
+_ualias() { unalias "$1" 2>/dev/null }
+f() {
+  _ualias "$1"
+  eval "$1() { $2; }" 
+}
+
+#########################################################
+
+for file in "$HOME/.aliases"/* "$HOME/.secrets"/*; do
+  [ -f "$file" ] && [ -r "$file" ] && source "$file"
+done
+source "$HOME/.zinit/bin/zinit.zsh" # Load Zinit
+
+if [ "$(tty)" = "/dev/tty1" ]; then
+  exec Hyprland
+fi
 
 ## History
 HISTSIZE=10000 

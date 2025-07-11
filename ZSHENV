@@ -7,5 +7,4 @@ f() {
   eval "$1() { $2; }" 
 }
 
-export GEMINI_API_KEY="AIzaSyAKCsr-taIBRNn9ZcI32z0R_EMTqY9oImo"
 export GRAY='#343434'
