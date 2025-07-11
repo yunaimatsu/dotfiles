@@ -36,16 +36,10 @@ sudo pacman -S git
 git clone https://github.com/yunaimatsu/dotfiles ~/dotfiles
 cd ~/dotfiles
 ```
-
-## Alias
-## Browser
-### Qutebrowser
-
 ## Terminal
+Uses zsh
+- Powerlevel10k
+- 3 zsh config files
 
 ## Makefile
-To accommodate potential changes in the file name, define the path/file name as a global variable.
-
-### Interactive setting: shell script
-### Non-interactive setting: Make file
-
+Makefile docs coming soon!
