@@ -29,6 +29,7 @@ nodejs:
 	tsc --version \
 	bun add -g @google/clasp \
 	gemini -v
+	# FIXME: Hide side effects like `==========================`
 
 gitconfig:
 	@git config --global user.name "$(GIT_USER_NAME)"
