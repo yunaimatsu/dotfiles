@@ -95,8 +95,6 @@ a ipy 'ipython'
 a nc 'npm config'
 a ni 'npm install'
 
-# Edit each config file -----------------------------------------
-
 # Waybar
 a nb "nvim $HOME/.config/waybar/config"
 a nbs "nvim $HOME/.config/waybar/style.css"
@@ -106,7 +104,7 @@ a rb "pkill waybar && waybar &"
 a nze "nvim $HOME/.zshenv"
 a nzr "nvim $HOME/.zshrc"
 a nzp "nvim $HOME/.zprofile"
-a na "nvim $HOME/.aliases"
+a na "nvim $HOME/.aliases/aliases_dotfiles"
 
 a rze "source $HOME/.zshenv && source $HOME/.zshrc && source $HOME/.profile"
 
@@ -117,24 +115,20 @@ a rh "hyprctl reload"
 
 # Terminal
 a ni "nvim $HOME/.config/alacritty/alacritty.toml"
-a nj "nvim $HOME"
 a nk "nvim $HOME/.p10k.zsh"
-a nl "nvim $HOME/.zprofile"
-a nm "nvim $HOME"
-a nn "nvim $HOME/.config/nvim/init.lua"
-a no "nvim $HOME"
 a np "nvim $HOME/dotfiles/PKG_PACMAN.txt"
 a nq "nvim $HOME/.config/qutebrowser/config.py"
 a nr "nvim $HOME/dotfiles/PKG_GH.txt"
 a ns "nvim $HOME"
 a nt "nvim $HOME/.tmux.conf"
 a nu "nvim $HOME"
-a nv
-a nw
 a nx "nvim $HOME/.config/espanso/match/base.yml"
 a rx "espanso restart"
 a ny "nvim $HOME/dotfiles/PKG_AUR.txt"
-a nz "nvim $HOME"
+
+# Neovim
+a nn "nvim $HOME/.config/nvim/init.lua"
+
 
 # Reload
 a ra "source $HOME/.zshrc"
