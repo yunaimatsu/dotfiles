@@ -1,19 +1,38 @@
-source "$HOME/powerlevel10k/powerlevel10k.zsh-theme"
-source "$HOME/.p10k.zsh"
+# --- Powerlevel10k instant prompt (MUST BE FIRST!) ---
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
+
+# --- Plugin manager (e.g. zinit) ---
+source "$HOME/.zinit/bin/zinit.zsh"
+
+# --- Load plugins ---
+zinit light romkatv/powerlevel10k
+zinit light zsh-users/zsh-autosuggestions
+zinit light zsh-users/zsh-syntax-highlighting
+zinit light hlissner/zsh-autopair
+
+# --- Load Powerlevel10k configuration ---
+[[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
+# This must be the very first thing in .zshrc
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# <<< POWERLEVEL10K INSTANT PROMPT <<<
+
+# Load Powerlevel10k and plugins via zinit
 zinit light-mode for \
     zsh-users/zsh-autosuggestions \
     zsh-users/zsh-syntax-highlighting \
     romkatv/powerlevel10k \
-    hlissner/zsh-autopair \
-    wait"1" lucid zsh-users/zsh-history-substring-search
+    hlissner/zsh-autopair
 
-autoload -Uz vcs_info
-precmd() { vcs_info }
-zstyle ':vcs_info:git:*' formats '(%b)'
-PROMPT='%n@%m${vcs_info_msg_0_}%~%# '
+# Separate delayed loading plugin
+zinit wait lucid for zsh-users/zsh-history-substring-search
+
+# Load Powerlevel10k configuration
+[[ -f "$HOME/.p10k.zsh" ]] && source "$HOME/.p10k.zsh"
 
 #########################################################
 
@@ -39,7 +58,7 @@ fi
 HISTSIZE=10000 
 SAVEHIST=10000
 HISTFILE="$HOME/.log/zsh"
-
+# export HISTFILE="/path/to/your/new/history/file"
 ## Setopt
 setopt allexport
 setopt autocd
