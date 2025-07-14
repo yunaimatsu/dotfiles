@@ -3,6 +3,7 @@ SHELL := /bin/zsh
 DOTFILES := $(HOME)/dotfiles
 PKG_DIR := $(DOTFILES)/packages
 MAP_FILE := mapping
+.PHONY: ghx yay nodejs gitconfig python go rust mapping
 
 ghx:
 	@cat $(PKG_DIR)/GH_EXTENSIONS | while read plugin; do \
@@ -39,18 +40,15 @@ gitconfig:
 	git config --list
 
 python:  
-	echo "Python"
 	sudo pacman -S python
 	sudo pacman -S pyenv
 
 go:
-	echo "Go"
 	sudo pacman -S go
 	e GOPATH=$$HOME/go
 	path $$GOPATH/bin 
 
 rust:
-	echo "Rust"
 	sudo pacman -S rust
 
 # Void Linux
@@ -87,7 +85,6 @@ android:
 	termux-setup-storage
 	git config --global --add safe.directory /storage/emulated/0/*
 	cd /storage/emulated/0/
-	echo "Enable termux sshd"
 	pkg install sshd
 	passwd
 
@@ -111,6 +108,7 @@ mapping:
 		sudo ln -sf "$$src_path" "$$dest_path"; \
 		echo "Linked $$src -> $$dest"; \
 	done < $(MAP_FILE)
+	@source "$$HOME/.zshrc"
 
 secrets:
 	cd "$$HOME/dotfiles"
