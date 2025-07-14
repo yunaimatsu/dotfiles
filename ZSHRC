@@ -1,103 +1,86 @@
-# --- Powerlevel10k instant prompt (MUST BE FIRST!) ---
+#########################################################
+# --- Powerlevel10k Instant Prompt (MUST BE FIRST!) ---
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
-
-# --- Plugin manager (e.g. zinit) ---
-source "$HOME/.zinit/bin/zinit.zsh"
-
-# --- Load plugins ---
-zinit light romkatv/powerlevel10k
-zinit light zsh-users/zsh-autosuggestions
-zinit light zsh-users/zsh-syntax-highlighting
-zinit light hlissner/zsh-autopair
-
-# --- Load Powerlevel10k configuration ---
-[[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
-# This must be the very first thing in .zshrc
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
-# <<< POWERLEVEL10K INSTANT PROMPT <<<
-
-# Load Powerlevel10k and plugins via zinit
-zinit light-mode for \
-    zsh-users/zsh-autosuggestions \
-    zsh-users/zsh-syntax-highlighting \
-    romkatv/powerlevel10k \
-    hlissner/zsh-autopair
-
-# Separate delayed loading plugin
-zinit wait lucid for zsh-users/zsh-history-substring-search
-
-# Load Powerlevel10k configuration
-[[ -f "$HOME/.p10k.zsh" ]] && source "$HOME/.p10k.zsh"
 
 #########################################################
+# --- Zinit (Plugin Manager) ---
+source "$HOME/.zinit/bin/zinit.zsh"
 
-a(){ alias "$1"="$2" }
-_ualias() { unalias "$1" 2>/dev/null }
+#########################################################
+# --- Plugins ---
+zinit light-mode for \
+  romkatv/powerlevel10k \
+  zsh-users/zsh-autosuggestions \
+  zsh-users/zsh-syntax-highlighting \
+  hlissner/zsh-autopair
+
+# Load this one after delay
+zinit wait lucid for zsh-users/zsh-history-substring-search
+
+#########################################################
+# --- Powerlevel10k Configuration ---
+[[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
+
+#########################################################
+# --- Functions ---
+a()       { alias "$1"="$2"; }
+_ualias() { unalias "$1" 2>/dev/null; }
 f() {
   _ualias "$1"
-  eval "$1() { $2; }" 
+  eval "$1() { $2; }"
 }
 
 #########################################################
-
+# --- Source Aliases and Secrets ---
 for file in "$HOME/.aliases"/* "$HOME/.secrets"/*; do
   [ -f "$file" ] && [ -r "$file" ] && source "$file"
 done
-source "$HOME/.zinit/bin/zinit.zsh" # Load Zinit
 
+#########################################################
+# --- Auto-launch Hyprland on TTY1 ---
 if [ "$(tty)" = "/dev/tty1" ]; then
   exec Hyprland
 fi
 
-## History
-HISTSIZE=10000 
+#########################################################
+# --- History Settings ---
+HISTSIZE=10000
 SAVEHIST=10000
 HISTFILE="$HOME/.log/zsh"
-# export HISTFILE="/path/to/your/new/history/file"
-## Setopt
+
 setopt allexport
 setopt autocd
 setopt correct
 setopt hist_ignore_dups
 setopt hist_append
 
-# Pro: Easy to filter files and folders
-# Con: Lower searcheability
+#########################################################
+# --- Case Sensitivity Settings ---
 CASE_SENSITIVE="true"
 HYPHEN_INSENSITIVE="true"
 
+#########################################################
+# --- Misc Settings ---
 autoload -U colors && colors
 
-# export PATH="$HOME/.pyenv/bin:$PATH"# 履歴検索
-# bindkey '^R' history-incremental-search-backward
-
-# eval "$(pyenv init --path)"
-# eval "$(pyenv init -)"
-
-# nvm の初期化
-# export NVM_DIR="$HOME/.nvm"
-# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-
-# 履歴検索
-# bindkey '^R' history-incremental-search-backward
-
-# 自動補完の強化
-# autoload -Uz compinit && compinit
-
-
-# bun completions
-[ -s "/home/yunai/.bun/_bun" ] && source "/home/yunai/.bun/_bun"
-
-export EDITOR="nvim"
-export VISUAL="nvim"
-# bun
+#########################################################
+# --- Bun ---
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+#########################################################
+# --- Editor ---
+export EDITOR="nvim"
+export VISUAL="nvim"
+
+# Uncomment below if needed in the future
+# bindkey '^R' history-incremental-search-backward
+# autoload -Uz compinit && compinit
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+# export PATH="$HOME/.pyenv/bin:$PATH"
+# eval "$(pyenv init --path)"
+# eval "$(pyenv init -)"
