@@ -1,4 +1,4 @@
-local bg_color = '#1e1e1e'
+local bg_color = '#444444'
 -- local font_color = vim.fn.expand('#333333')
 
 local ensure_packer = function()
@@ -32,6 +32,21 @@ require("packer").startup(function(use)
   if packer_bootstrap then
     require("packer").sync()
   end
+  use {
+    'nvim-treesitter/nvim-treesitter',
+    run = ':TSUpdate'
+  }
+  use 'folke/tokyonight.nvim'
+  use 'neovim/nvim-lspconfig'           -- LSPの設定を簡単にするプラグイン
+  use 'williamboman/mason.nvim'         -- LSPサーバーやツールのインストーラ（管理ツール）
+  use 'williamboman/mason-lspconfig.nvim' -- masonとlspconfigの連携
+  use 'hrsh7th/nvim-cmp'                -- 補完エンジン本体
+  use 'hrsh7th/cmp-nvim-lsp'            -- LSP補完ソース
+  use 'hrsh7th/cmp-buffer'              -- バッファ内補完
+  use 'hrsh7th/cmp-path'                -- パス補完
+  use 'hrsh7th/cmp-cmdline'             -- コマンドライン補完
+  use 'saadparwaiz1/cmp_luasnip'        -- スニペット補完
+  use 'L3MON4D3/LuaSnip'                -- スニペットエンジン
 end)
 
 -- Neovim Core API
@@ -113,3 +128,11 @@ vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 
+require('nvim-treesitter.configs').setup {
+  ensure_installed = { "javascript", "typescript", "json" },
+  highlight = {
+    enable = true,
+    additional_vim_regex_highlighting = false,
+  },
+}
+vim.cmd [[colorscheme tokyonight]]
