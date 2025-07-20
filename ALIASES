@@ -113,7 +113,7 @@ a nhp "nvim $HOME/.config/hypr/hyprpaper.conf"
 a rh "hyprctl reload"
 
 # Terminal
-a ni "nvim $HOME/.config/alacritty/alacritty.toml"
+a nf "nvim $HOME/.config/foot/foot.ini"
 a nk "nvim $HOME/.p10k.zsh"
 a np "nvim $HOME/dotfiles/PKG_PACMAN.txt"
 a nq "nvim $HOME/.config/qutebrowser/config.py"
@@ -125,9 +125,11 @@ a nx "nvim $HOME/.config/espanso/match/base.yml"
 a rx "espanso restart"
 a ny "nvim $HOME/dotfiles/PKG_AUR.txt"
 
-# Neovim
+# Neovim(Editor)
 a nn "nvim $HOME/.config/nvim/init.lua"
 
+# Mako(Notification)
+a nm "nvim $HOME/.config/mako/config"
 
 # Reload
 a ra "source $HOME/.zshrc"
