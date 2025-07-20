@@ -98,8 +98,7 @@ a ni 'npm install'
 # Waybar
 a nb "nvim $HOME/.config/waybar/config"
 a nbs "nvim $HOME/.config/waybar/style.css"
-a rb "pkill waybar && waybar &"
-
+a rb "killall waybar && waybar >/dev/null 2>&1 &"
 # Zsh config files
 a nze "nvim $HOME/.zshenv"
 a nzr "nvim $HOME/.zshrc"
