@@ -74,10 +74,10 @@ a gei 'gh extension install'
 a gel 'gh extension list'
 a ged 'gh extension remove'
 
-alias newrepo='git init && git add . && git commit -m "Initial commit" && gh repo create $(basename $(pwd)) --private --confirm && git branch -M main && git remote add origin https://github.com/$(gh auth status --json login -q ".user.login")/$(basename $(pwd)).git && git push -u origin main'
-
 # Shell
 a l 'ls -ahli --color=auto'
+a t 'tree -ahl -L'
+a o 'xdg-open'
 
 ## Docker
 a de 'docker exec'
@@ -146,3 +146,9 @@ a rz "source $HOME/.zshrc"
 a chromium 'OZONE_PLATFORM=wayland chromium &'
 a obsidian 'OZONE_PLATFORM=wayland obsidian &'
 a cursor 'OZONE_PLATFORM=wayland cursor &'
+
+mkpg() { mkdir "$1" && touch "$1/main.md"; }
+
+export ELECTRON_OZONE_PLATFORM_HINT=wayland
+export GDK_SCALE=1
+export GDK_DPI_SCALE=1
