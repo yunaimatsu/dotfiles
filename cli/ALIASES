@@ -1,3 +1,21 @@
+#####
+# Git
+#####
+
+
+# Commit
+
+## C: Create
+a glc 'git commit -v'
+
+## R: List
+a gll 'git fetch origin && git log --all --graph --oneline'
+
+## U: Update
+
+## D: Delete
+a gld 
+
 # Helper functions
 a(){ alias "$1"="$2" }
 _ualias() { unalias "$1" 2>/dev/null }
@@ -13,9 +31,6 @@ a y 'yay'
 a g "git clone --depth 1 https://github.com/$1/$2.git"
 a n 'nvim'
 
-# Git log
-a gll 'git fetch origin && git log --all --graph --oneline'
-a glc 'git commit -m'
 
 # Worktree `gw`
 a gwc 'git worktree add'

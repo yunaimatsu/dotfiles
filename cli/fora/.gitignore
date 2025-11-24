@@ -1,0 +1,5 @@
+# Ignore the environment file containing sensitive credentials
+.env
+
+# Ignore the temporary API response file
+response*

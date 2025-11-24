@@ -95,12 +95,46 @@ vim.api.nvim_create_autocmd("BufDelete", {
 
 vim.cmd('syntax on')
 
--- Keymap
-vim.keymap.set('n', '<leader>t', function()
+-- Terminal Keymap
+-- Toggle terminal with Super+\
+vim.keymap.set('n', '<D-\\>', function()
+  -- 既存のターミナルバッファを探す
+  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+    if vim.bo[buf].buftype == 'terminal' then
+      local wins = vim.fn.win_findbuf(buf)
+      if #wins > 0 then
+        -- ターミナルが表示されている場合は閉じる
+        vim.api.nvim_win_close(wins[1], true)
+        return
+      else
+        -- ターミナルバッファはあるが非表示の場合は表示
+        vim.cmd('botright 15split')
+        vim.api.nvim_win_set_buf(0, buf)
+        vim.cmd('startinsert')
+        return
+      end
+    end
+  end
+  -- ターミナルバッファがない場合は新規作成
   vim.cmd('botright 15split')
   vim.cmd('terminal')
   vim.cmd('startinsert')
-end, { noremap = true, silent = true, desc = "TERMINAL OPENED!!" })
+end, { noremap = true, silent = true, desc = "Toggle terminal" })
+
+-- ターミナルモードから抜ける (Esc)
+vim.keymap.set('t', '<Esc>', [[<C-\><C-n>]], { noremap = true, silent = true })
+
+-- ウィンドウ間の移動を簡単に (Super+h/j/k/l)
+vim.keymap.set('n', '<D-h>', '<C-w>h', { noremap = true, silent = true, desc = "Move to left window" })
+vim.keymap.set('n', '<D-j>', '<C-w>j', { noremap = true, silent = true, desc = "Move to bottom window" })
+vim.keymap.set('n', '<D-k>', '<C-w>k', { noremap = true, silent = true, desc = "Move to top window" })
+vim.keymap.set('n', '<D-l>', '<C-w>l', { noremap = true, silent = true, desc = "Move to right window" })
+
+-- ターミナルモードでもウィンドウ移動
+vim.keymap.set('t', '<D-h>', [[<C-\><C-n><C-w>h]], { noremap = true, silent = true })
+vim.keymap.set('t', '<D-j>', [[<C-\><C-n><C-w>j]], { noremap = true, silent = true })
+vim.keymap.set('t', '<D-k>', [[<C-\><C-n><C-w>k]], { noremap = true, silent = true })
+vim.keymap.set('t', '<D-l>', [[<C-\><C-n><C-w>l]], { noremap = true, silent = true })
 
 -- Vim Options
 vim.o.clipboard = "unnamedplus"
@@ -117,7 +151,7 @@ vim.keymap.set({'n', 'i', 'v'}, '<C-a>', '<Home>', { noremap = true, silent = tr
 vim.keymap.set({'n', 'i', 'v'}, '<C-e>', '<End>', { noremap = true, silent = true, desc = "Jump to end of line" })
 vim.keymap.set("n", "<C-p>", ":Telescope find_files<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<C-f>", ":Telescope live_grep<CR>", { noremap = true, silent = true })
-vim.keymap.set('i', '<C-g>', '<Esc>', { noremap = true, silent = true, desc = "Exit insert mode with Ctrl+G" })
+vim.keymap.set('i', '<M-g>', '<Esc>', { noremap = true, silent = true, desc = "Exit insert mode with Ctrl+G" })
 
 -- Global variables
 vim.g.mkdp_auto_close = 1      

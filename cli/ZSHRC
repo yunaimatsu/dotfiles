@@ -20,6 +20,13 @@ zinit light-mode for \
 zinit wait lucid for zsh-users/zsh-history-substring-search
 
 #########################################################
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export XMODIFIERS=@im=fcitx
+export SDL_IM_MODULE=fcitx
+export INPUT_METHOD=fcitx
+export IMSETTINGS_MODULE=fcitx
+#########################################################
 # --- Powerlevel10k Configuration ---
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
 
@@ -84,3 +91,7 @@ export VISUAL="nvim"
 # export PATH="$HOME/.pyenv/bin:$PATH"
 # eval "$(pyenv init --path)"
 # eval "$(pyenv init -)"
+
+# To customize prompt, run `p10k configure` or edit ~/dotfiles/POWERLEVEL_10K.zsh.
+[[ ! -f ~/dotfiles/POWERLEVEL_10K.zsh ]] || source ~/dotfiles/POWERLEVEL_10K.zsh
+
