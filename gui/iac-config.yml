@@ -1,0 +1,5 @@
+matches:
+  - trigger: 
+    replace: |
+      Please teach me the structure in a hierarchical and MECE (Mutually Exclusive, Collectively Exhaustive) manner. Please write comprehensively, including even those items that are not frequently used.
+      Also, output code snippets according to the actual syntax. Please write comments in concise English.

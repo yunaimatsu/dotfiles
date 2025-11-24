@@ -1,0 +1,22 @@
+matches:
+  - trigger: "tr:en"
+    replace: "Please translate the following text into English;"
+
+  - trigger: "tr:ja"
+    replace: "Please translate the following text into Japanese;"
+
+  - trigger: "tr:ko"
+    replace: "Please translate the following text into Korean;"
+
+  - trigger: "tr:zh"
+    replace: "Please translate the following text into Mandarin;"
+
+  - trigger: "tr:es"
+    replace: "Please translate the following text into Spanish;"
+
+  - trigger: "tr:pt"
+    replace: "Please translate the following text into Portuguese;"
+
+  - trigger: "tr:vt"
+    replace: "Please translate the following text into Vietnamese;"
+

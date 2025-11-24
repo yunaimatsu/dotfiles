@@ -1,0 +1,72 @@
+* {
+    border: none;
+    font-family: monospace;
+    border-radius: 10px 10px 10px 10px;
+    font-size: 9px;
+    min-height: 0;
+}
+
+window#waybar {
+    background-color: transparent;
+    color: #ffffff;
+}
+
+/* left */
+#pulseaudio,
+#backlight,
+#network,
+#bluetooth {
+    margin-left: 5px;
+}
+
+/* right */
+#cpu,
+#memory,
+#disk,
+#battery {
+  margin-right: 5px;
+}
+
+/* common */
+#pulseaudio,
+#backlight,
+#bluetooth,
+#network,
+#clock,
+#cpu,
+#memory,
+#disk,
+#battery {
+    padding: 5px 10px 5px 10px;
+    opacity: 0.8;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+#pulseaudio,
+#bluetooth,
+#network,
+#backlight,
+#cpu,
+#memory,
+#disk,
+#battery {
+    background-color: #2a2a2a;
+}
+
+#clock {
+    background-color: #2a2a2a;
+    font-weight: bold;
+}
+
+#battery.charging {
+    background-color: #2a4a2a;
+}
+
+#battery.warning:not(.charging) {
+    background-color: #4a3a2a;
+}
+
+#battery.critical:not(.charging) {
+    background-color: #4a2a2a;
+}

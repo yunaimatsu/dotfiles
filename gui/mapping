@@ -1,0 +1,13 @@
+ESPANSO_CONFIG_DEFAULT.yml:$HOME/.config/espanso/config/default.yml
+ESPANSO_MATCH_BASE.yml:$HOME/.config/espanso/match/base.yml
+ESPANSO_MATCH_MATCHES.yml:$HOME/.config/espanso/match/matches.yml
+FCITX5_PROFILE:$HOME/.config/fcitx5/profile
+FCITX5_CONFIG:$HOME/.config/fcitx5/config
+FCITX5_CONF_CHTTRANS.conf:$HOME/.config/fcitx5/conf/chttrans.conf
+FCITX5_CONF_CLASSICUI.conf:$HOME/.config/fcitx5/conf/classicui.conf
+FCITX5_CONF_CLIPBOARD.conf:$HOME/.config/fcitx5/conf/clipboard.conf
+FCITX5_CONF_HANGUL.conf:$HOME/.config/fcitx5/conf/hangul.conf
+FCITX5_CONF_NOTIFICATION.conf:$HOME/.config/fcitx5/conf/notification.conf
+FCITX5_CONF_PINYIN.conf:$HOME/.config/fcitx5/conf/pinyin.conf
+FCITX5_CONF_PUNCTUATION.conf:$HOME/.config/fcitx5/conf/punctuation.conf
+

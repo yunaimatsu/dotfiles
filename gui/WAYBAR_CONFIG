@@ -1,0 +1,100 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 30,
+    "spacing": 4,
+
+    // Module
+    "modules-left": [
+        "pulseaudio",
+        "backlight",
+        "network",
+        "bluetooth"
+    ],
+    "modules-center": [
+        "clock",
+        "hyprland/workspaces"
+    ],
+    "modules-right": [
+        "cpu",
+        "memory",
+        "disk",
+        "battery"
+    ],
+
+    // Left: components
+    "pulseaudio": {
+        "format": "AUDIO {volume}",
+        "format-muted": "MUTED",
+        "on-click": "pavucontrol"
+    },
+    "backlight": {
+        "format": "BRIGHT {percent}"
+    },
+    "network": {
+        "format-wifi": "NW {essid} {signalStrength}",
+        "format-ethernet": "NW Ethernet {ifname}",
+        "format-disconnected": "NW DISCONNECTED",
+        "tooltip-format": "{ifname} via {gwaddr}",
+        "tooltip-format-wifi": "{essid} ({signalStrength}%)",
+        "tooltip-format-ethernet": "{ifname}",
+        "tooltip-format-disconnected": "NO NW"
+    },
+    "bluetooth": {
+        "format": "BT {status}",
+        "format-disabled": "BT DIABLED",
+        "format-off": "BT DISCONNECTED",
+        "format-connected": "BT {device_alias}",
+        "format-connected-battery": "BT {device_alias}",
+        "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+        "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+        "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+        "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%"
+    },
+
+    // Center: components
+    "clock": {
+        "format": "{:%Y-%m-%d %a %H:%M:%S}",
+        "interval": 1
+    },
+    "hyprland/workspaces": {
+        "format": "{name}: {windows}",
+        "format-window-separator": " ",
+        "window-rewrite-default": "◉",
+        "window-rewrite": {},
+        "on-click": "activate",
+        "persistent-workspaces": {
+            "1": [],
+            "2": [],
+            "3": [],
+            "4": [],
+            "5": []
+        }
+    },
+
+    // Right: components
+    "cpu": {
+        "format": "CPU {usage}",
+        "interval": 2
+    },
+    "memory": {
+        "format": "MM {percentage}",
+        "interval": 2
+    },
+
+    "disk": {
+        "format": "STR {percentage_used}",
+        "path": "/"
+    },
+    "battery": {
+        "bat": "BAT0",
+        "format": "BAT {capacity}",
+        "format-charging": "BATTERY CHARGING {capacity}",
+        "format-plugged": "BATTERY CHARGED {capacity}",
+        "format-full": "BATTERY CHARGED {capacity}",
+        "states": {
+            "warning": 30,
+            "critical": 15
+        }
+    }
+}
