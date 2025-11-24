@@ -10,27 +10,19 @@ PKG_DIR := $(DOTFILES)/packages
 MAP_FILE := mapping
 
 # Targets
-.PHONY: all mapping firefox firefox-config firefox-extensions firefox-backup help ghx yay nodejs gitconfig python go rust mapping
+.PHONY: all mapping firefox firefox-config firefox-extensions firefox-backup help ghx yay nodejs gitconfig python go rust pacman secrets
 
 all: mapping firefox
 
 help:
 	@echo "Available targets:"
 	@echo "  all              - Setup Qutebrowser and Firefox"
-	@echo "  mapping          - Link Qutebrowser configs"
+	@echo "  mapping          - Link dotfiles configs"
 	@echo "  firefox          - Setup Firefox (config + extensions)"
 	@echo "  firefox-config   - Link Firefox configuration files"
 	@echo "  firefox-extensions - Install Firefox extensions"
 	@echo "  firefox-backup   - Backup Firefox data"
 	@echo "  help             - Show this help message"
-
-mapping:
-	@while IFS=':' read -r src dest; do \
-		src_path="$$HOME/musea/$$src"; \
-		dest_path=$$(eval echo $$dest); \
-		sudo ln -sf "$$src_path" "$$dest_path"; \
-		echo "Linked $$src -> $$dest"; \
-	done < $(MAP_FILE)
 
 firefox: firefox-config firefox-extensions
 
@@ -162,14 +154,20 @@ pacman:
 
 # Softlink dotfiles
 mapping:
-	@mkdir -p "$$HOME/.aliases" && mkdir -p "$$HOME/.secrets" && \
-	while IFS=':' read -r src dest; do \
+	@echo "Setting up dotfiles symlinks..."
+	@mkdir -p "$$HOME/.aliases" "$$HOME/.secrets" \
+		"$$HOME/.config/espanso/config" "$$HOME/.config/espanso/match" \
+		"$$HOME/.config/fcitx5/conf" "$$HOME/.config/nvim"
+	@while IFS=':' read -r src dest; do \
+		[ -z "$$src" ] && continue; \
 		src_path="$$HOME/dotfiles/$$src"; \
 		dest_path=$$(eval echo $$dest); \
-		sudo ln -sf "$$src_path" "$$dest_path"; \
+		dest_dir=$$(dirname "$$dest_path"); \
+		mkdir -p "$$dest_dir" 2>/dev/null || sudo mkdir -p "$$dest_dir"; \
+		ln -sf "$$src_path" "$$dest_path" 2>/dev/null || sudo ln -sf "$$src_path" "$$dest_path"; \
 		echo "Linked $$src -> $$dest"; \
 	done < $(MAP_FILE)
-	@source "$$HOME/.zshrc"
+	@echo "Dotfiles symlinks complete!"
 
 secrets:
 	cd "$$HOME/dotfiles"
