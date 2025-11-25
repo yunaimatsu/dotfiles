@@ -1,4 +1,8 @@
 # FIXME: EConnect to network here
+# --- Auto-launch Hyprland on TTY1 ---
+if [ "$(tty)" = "/dev/tty1" ]; then
+  exec Hyprland
+fi
 
 export EDITOR_GH=nvim
 export DIR_LOG="$HOME/.log"

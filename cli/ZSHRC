@@ -46,12 +46,6 @@ for file in "$HOME/.aliases"/* "$HOME/.secrets"/*; do
 done
 
 #########################################################
-# --- Auto-launch Hyprland on TTY1 ---
-if [ "$(tty)" = "/dev/tty1" ]; then
-  exec Hyprland
-fi
-
-#########################################################
 # --- History Settings ---
 HISTSIZE=10000
 SAVEHIST=10000
