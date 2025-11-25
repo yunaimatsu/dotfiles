@@ -21,6 +21,7 @@ gui/common/FCITX5_CONF_PINYIN.conf:$HOME/.config/fcitx5/conf/pinyin.conf
 gui/common/FCITX5_CONF_PUNCTUATION.conf:$HOME/.config/fcitx5/conf/punctuation.conf
 gui/common/FOOT_FOOT.ini:$HOME/.config/foot/foot.ini
 gui/common/GLOW_GLOW.yml:$HOME/.config/glow/glow.yml
+gui/common/HTOP_HTOPRC:$HOME/.config/htop/htoprc
 gui/common/HYPR_HYPRLAND.conf:$HOME/.config/hypr/hyprland.conf
 gui/common/WAYBAR_CONFIG:$HOME/.config/waybar/config
 gui/common/WAYBAR_STYLE.css:$HOME/.config/waybar/style.css
