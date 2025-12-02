@@ -89,3 +89,4 @@ export VISUAL="nvim"
 # To customize prompt, run `p10k configure` or edit ~/dotfiles/POWERLEVEL_10K.zsh.
 [[ ! -f ~/dotfiles/POWERLEVEL_10K.zsh ]] || source ~/dotfiles/POWERLEVEL_10K.zsh
 
+mkdir -p $HOME/dev && cd $HOME/dev
