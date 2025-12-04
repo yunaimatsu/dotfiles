@@ -5,8 +5,8 @@ MAP_FILE := mapping
 FIREFOX_PROFILE := $(HOME)/.mozilla/firefox/a2v38d27.default-release
 FIREFOX_CHROME := $(FIREFOX_PROFILE)/chrome
 FIREFOX_POLICIES_DIR := /etc/firefox/policies
-DOTFILES := $(HOME)/dotfiles
-PKG_DIR := $(DOTFILES)/packages
+DOTFILES_DIR ?= $(HOME)/dotfiles
+PKG_DIR := $(DOTFILES_DIR)/packages
 MAP_FILE := mapping
 
 # Targets
@@ -160,7 +160,7 @@ mapping:
 		"$$HOME/.config/fcitx5/conf" "$$HOME/.config/nvim"
 	@while IFS=':' read -r src dest; do \
 		[ -z "$$src" ] && continue; \
-		src_path="$$HOME/dotfiles/$$src"; \
+		src_path="$$DOTFILES_DIR/$$src"; \
 		dest_path=$$(eval echo $$dest); \
 		dest_dir=$$(dirname "$$dest_path"); \
 		mkdir -p "$$dest_dir" 2>/dev/null || sudo mkdir -p "$$dest_dir"; \
@@ -170,5 +170,5 @@ mapping:
 	@echo "Dotfiles symlinks complete!"
 
 secrets:
-	cd "$$HOME/dotfiles"
+	cd "$$DOTFILES_DIR"
 	cp SECRETS_EXAMPLE SECRETS

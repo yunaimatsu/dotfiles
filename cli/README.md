@@ -35,6 +35,7 @@ sudo pacman -S git
 ```sh
 git clone https://github.com/yunaimatsu/dotfiles ~/dotfiles
 cd ~/dotfiles
+export DOTFILES_DIR="$HOME/dotfiles"
 ```
 ## Terminal
 Uses zsh

@@ -1,3 +1,6 @@
+# Dotfiles directory
+export DOTFILES_DIR="${DOTFILES_DIR:-$HOME/dotfiles}"
+
 DIR_HIST="$HOME/.history"
 
 a(){ alias "$1"="$2" }

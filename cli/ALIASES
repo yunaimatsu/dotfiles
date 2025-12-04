@@ -130,15 +130,15 @@ a rh "hyprctl reload"
 # Terminal
 a nf "nvim $HOME/.config/foot/foot.ini"
 a nk "nvim $HOME/.p10k.zsh"
-a np "nvim $HOME/dotfiles/PKG_PACMAN.txt"
+a np "nvim $DOTFILES_DIR/PKG_PACMAN.txt"
 a nq "nvim $HOME/.config/qutebrowser/config.py"
-a nr "nvim $HOME/dotfiles/PKG_GH.txt"
+a nr "nvim $DOTFILES_DIR/PKG_GH.txt"
 a ns "nvim $HOME"
 a nt "nvim $HOME/.tmux.conf"
 a nu "nvim $HOME"
 a nx "nvim $HOME/.config/espanso/match/base.yml"
 a rx "espanso restart"
-a ny "nvim $HOME/dotfiles/PKG_AUR.txt"
+a ny "nvim $DOTFILES_DIR/PKG_AUR.txt"
 
 # Neovim(Editor)
 a nn "nvim $HOME/.config/nvim/init.lua"
@@ -151,7 +151,7 @@ a ra "source $HOME/.zshrc"
 
 # Read the execution log
 a rc "source $HOME/.zshrc"
-a re "source $HOME/dotfiles/ZSH_ENV"
+a re "source $DOTFILES_DIR/ZSH_ENV"
 a rgr "command rg" 
 a rh "hyprctl reload"
 a nlr='command nl'
