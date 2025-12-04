@@ -160,7 +160,7 @@ mapping:
 		"$$HOME/.config/fcitx5/conf" "$$HOME/.config/nvim"
 	@while IFS=':' read -r src dest; do \
 		[ -z "$$src" ] && continue; \
-		src_path="$$DOTFILES_DIR/$$src"; \
+		src_path="$(DOTFILES_DIR)/$$src"; \
 		dest_path=$$(eval echo $$dest); \
 		dest_dir=$$(dirname "$$dest_path"); \
 		mkdir -p "$$dest_dir" 2>/dev/null || sudo mkdir -p "$$dest_dir"; \
@@ -170,5 +170,5 @@ mapping:
 	@echo "Dotfiles symlinks complete!"
 
 secrets:
-	cd "$$DOTFILES_DIR"
+	cd "$(DOTFILES_DIR)"
 	cp SECRETS_EXAMPLE SECRETS
