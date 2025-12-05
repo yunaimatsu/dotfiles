@@ -85,13 +85,16 @@ nodejs:
 	gemini -v
 	# FIXME: Hide side effects like `==========================`
 
-gitconfig:
-	@git config --global user.name "$(GIT_USER_NAME)"
-	@git config --global user.email "$(GIT_USER_EMAIL)"
-	@git config --global core.editor "$(GIT_CORE_EDITOR)"
-	@git config --global core.pager "$(GIT_CORE_PAGER)"
-	git config --list
-
+git-config:
+	git config --global user.name "$(GIT_USER_NAME)"
+	git config --global user.email "$(GIT_USER_EMAIL)"
+	git config --global core.editor "$(GIT_CORE_EDITOR)"
+	git config --global core.pager "$(GIT_CORE_PAGER)"
+	git config --global filter.lfs.smudge "git-lfs smudge -- %f"
+	git config --global filter.lfs.process "git-lfs filter-process"
+	git config --global filter.lfs.required true
+	git config --global filter.lfs.clean "git-lfs clean -- %f"
+	git config --global status.renames true
 python:  
 	sudo pacman -S python
 	sudo pacman -S pyenv
