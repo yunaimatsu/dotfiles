@@ -10,7 +10,7 @@ PKG_DIR := $(DOTFILES_DIR)/packages
 MAP_FILE := mapping
 
 # Targets
-.PHONY: all mapping firefox firefox-config firefox-extensions firefox-backup help ghx yay nodejs gitconfig python go rust pacman secrets
+.PHONY: all mapping firefox firefox-config firefox-extensions firefox-backup help ghx yay nodejs gitconfig python go rust pacman secrets fcitx5-protect fcitx5-unprotect
 
 all: mapping firefox
 
@@ -22,6 +22,8 @@ help:
 	@echo "  firefox-config   - Link Firefox configuration files"
 	@echo "  firefox-extensions - Install Firefox extensions"
 	@echo "  firefox-backup   - Backup Firefox data"
+	@echo "  fcitx5-protect   - Make fcitx5 configs read-only"
+	@echo "  fcitx5-unprotect - Make fcitx5 configs writable"
 	@echo "  help             - Show this help message"
 
 firefox: firefox-config firefox-extensions
@@ -171,6 +173,23 @@ mapping:
 		echo "Linked $$src -> $$dest"; \
 	done < $(MAP_FILE)
 	@echo "Dotfiles symlinks complete!"
+	@$(MAKE) fcitx5-protect
+
+# Protect fcitx5 config files from modification by fcitx5-configtool
+fcitx5-protect:
+	@echo "Protecting fcitx5 configuration files..."
+	@chmod 444 $(DOTFILES_DIR)/gui/common/FCITX5_PROFILE
+	@chmod 444 $(DOTFILES_DIR)/gui/common/FCITX5_CONFIG
+	@chmod 444 $(DOTFILES_DIR)/gui/common/FCITX5_CONF_*.conf
+	@echo "fcitx5 configs are now read-only (fcitx5-configtool cannot modify them)"
+
+# Unprotect fcitx5 config files for manual editing
+fcitx5-unprotect:
+	@echo "Unprotecting fcitx5 configuration files..."
+	@chmod 644 $(DOTFILES_DIR)/gui/common/FCITX5_PROFILE
+	@chmod 644 $(DOTFILES_DIR)/gui/common/FCITX5_CONFIG
+	@chmod 644 $(DOTFILES_DIR)/gui/common/FCITX5_CONF_*.conf
+	@echo "fcitx5 configs are now writable"
 
 secrets:
 	cd "$(DOTFILES_DIR)"
