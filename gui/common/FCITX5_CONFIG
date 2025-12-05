@@ -1,25 +1,24 @@
 [Hotkey]
+# Trigger Input Method
+TriggerKeys=
 # Enumerate when press trigger key repeatedly
 EnumerateWithTriggerKeys=True
-# Enumerate Input Method Forward
-EnumerateForwardKeys=Super+space
-# Enumerate Input Method Backward
-EnumerateBackwardKeys=Super+Shift+space
 # Skip first input method while enumerating
 EnumerateSkipFirst=False
+# Enumerate Input Method Group Forward
+EnumerateGroupForwardKeys=
+# Enumerate Input Method Group Backward
+EnumerateGroupBackwardKeys=
 # Time limit in milliseconds for triggering modifier key shortcuts
 ModifierOnlyKeyTimeout=250
-
-[Hotkey/TriggerKeys]
-0=Super+space
 
 [Hotkey/AltTriggerKeys]
 0=Shift_L
 
-[Hotkey/EnumerateGroupForwardKeys]
+[Hotkey/EnumerateForwardKeys]
 0=Super+space
 
-[Hotkey/EnumerateGroupBackwardKeys]
+[Hotkey/EnumerateBackwardKeys]
 0=Shift+Super+space
 
 [Hotkey/ActivateKeys]
