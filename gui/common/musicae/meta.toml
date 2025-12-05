@@ -1,0 +1,12 @@
+# MUSICAE - Meta configuration for dynamic playlists
+# Each [[playlist]] entry defines a YouTube source with optional filtering
+
+# Example: Miko's playlist with instrumental filtering
+[[miko]]
+url = "https://www.youtube.com/playlist?list=PLuDHdmLD3965u3kbwyRrXRlWBVdq4NUFA"
+ignore = ["*[Ii]nstrumental*", "*カラオケ*", "*Off Vocal*"]
+
+# Add more playlists as needed:
+# [[other_playlist]]
+# url = "https://www.youtube.com/..."
+# ignore = ["*pattern1*", "*pattern2*"]
