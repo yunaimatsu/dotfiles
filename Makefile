@@ -120,8 +120,8 @@ voiduser:  voidroot
 
 
 clock:
-	ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
-	hwclock --systohc
+	sudo ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
+	sudo hwclock --systohc
 
 nvim:
 	mkdir -p ~/.config/nvim \
