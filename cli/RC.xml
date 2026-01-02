@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openbox_config>
+  <resistance>
+    <strength>10</strength>
+  </resistance>
+  <focus>
+    <focusNew>yes</focusNew>
+  </focus>
+  <desktop>
+    <number>4</number>
+    <firstdesk>1</firstdesk>
+  </desktop>
+</openbox_config>

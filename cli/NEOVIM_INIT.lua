@@ -1,5 +1,6 @@
-local bg_color = '#444444'
--- local font_color = vim.fn.expand('#333333')
+-- Use environment variables for theme colors
+local bg_color = os.getenv('COLOR_BG_LIGHTER') or '#444444'
+local font_color = os.getenv('COLOR_GRAY') or '#333333'
 
 local ensure_packer = function()
   local fn = vim.fn
