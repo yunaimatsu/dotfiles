@@ -98,3 +98,22 @@
         }
     }
 }
+Display network condition                                                                                           
+Wifi? Ethernet?                                                                                                     
+Strength of network?                                                                                                
+The name of network?                                                                                                
+Display bluetooth devices' battery                                                                                  
+View icon in Waybar                                                                                                 
+時間                                                                                                                
+Battery                                                                                                             
+• 残量                                                                                                              
+• プラグに繋がっているか否か                                                                                        
+### 容量                                                                                                            
+• メモリ                                                                                                            
+• ストレージ                                                                                                        
+スクリーンショット                                                                                                  
+スクリーンレコード                                                                                                  
+### システム                                                                                                        
+ネットワーク                                                                                                        
+• wifi                                                                                                              
+• Bluetooth                                                                                                         
