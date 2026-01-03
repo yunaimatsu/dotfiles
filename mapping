@@ -1,10 +1,5 @@
-cli/ALIASES:$HOME/.aliases/aliases_dotfiles
 cli/NEOVIM_INIT.lua:$HOME/.config/nvim/init.lua
-cli/P10K.zsh:$HOME/.p10k.zsh
-cli/SECRETS:$HOME/.secrets/secrets_dotfiles
 cli/TMUX_CONF:$HOME/.tmux.conf
-cli/ZPROFILE:$HOME/.zprofile
-cli/ZSHENV:$HOME/.zshenv
 cli/ZSHRC:$HOME/.zshrc
 gui/arch/ESPANSO_CONFIG_DEFAULT.yml:$HOME/.config/espanso/config/default.yml
 gui/arch/ESPANSO_MATCH_BASE.yml:$HOME/.config/espanso/match/base.yml
@@ -22,7 +17,6 @@ gui/common/FCITX5_CONF_NOTIFICATION.conf:$HOME/.config/fcitx5/conf/notification.
 gui/common/FCITX5_CONF_PINYIN.conf:$HOME/.config/fcitx5/conf/pinyin.conf
 gui/common/FCITX5_CONF_PUNCTUATION.conf:$HOME/.config/fcitx5/conf/punctuation.conf
 gui/common/FOOT_FOOT.ini:$HOME/.config/foot/foot.ini
-gui/common/GLOW_GLOW.yml:$HOME/.config/glow/glow.yml
 gui/common/HTOP_HTOPRC:$HOME/.config/htop/htoprc
 gui/common/HYPR_HYPRLAND.conf:$HOME/.config/hypr/hyprland.conf
 gui/common/MAKO_CONFIG:$HOME/.config/mako/config

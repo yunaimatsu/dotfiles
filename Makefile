@@ -5,14 +5,15 @@ MAP_FILE := mapping
 FIREFOX_PROFILE := $(HOME)/.mozilla/firefox/a2v38d27.default-release
 FIREFOX_CHROME := $(FIREFOX_PROFILE)/chrome
 FIREFOX_POLICIES_DIR := /etc/firefox/policies
-DOTFILES_DIR ?= $(HOME)/dotfiles
+# DOTFILES_DIR := $(HOME)/$(WORKING_DIR)/dotfiles
+DOTFILES_DIR := $(HOME)/working/dotfiles
 PKG_DIR := $(DOTFILES_DIR)/packages
 MAP_FILE := mapping
 
 # Targets
 .PHONY: all mapping firefox firefox-config firefox-extensions firefox-backup help ghx yay nodejs gitconfig python go rust pacman secrets fcitx5-protect fcitx5-unprotect
 
-all: mapping firefox
+all: mapping
 
 help:
 	@echo "Available targets:"
@@ -25,40 +26,6 @@ help:
 	@echo "  fcitx5-protect   - Make fcitx5 configs read-only"
 	@echo "  fcitx5-unprotect - Make fcitx5 configs writable"
 	@echo "  help             - Show this help message"
-
-firefox: firefox-config firefox-extensions
-
-firefox-config:
-	@echo "Setting up Firefox configuration..."
-	@mkdir -p $(FIREFOX_CHROME)
-	@mkdir -p $(HOME)/.mozilla/firefox/policies
-	@ln -sf $(PWD)/FIREFOX_USER_JS $(FIREFOX_PROFILE)/user.js
-	@echo "Linked user.js"
-	@ln -sf $(PWD)/FIREFOX_CHROME_CSS $(FIREFOX_CHROME)/userChrome.css
-	@echo "Linked userChrome.css"
-	@ln -sf $(PWD)/FIREFOX_CONTAINERS_JSON $(FIREFOX_PROFILE)/containers.json
-	@echo "Linked containers.json"
-	@ln -sf $(PWD)/FIREFOX_HANDLERS_JSON $(FIREFOX_PROFILE)/handlers.json
-	@echo "Linked handlers.json"
-	@if [ -w $(FIREFOX_POLICIES_DIR) ] || sudo -n true 2>/dev/null; then \
-		sudo mkdir -p $(FIREFOX_POLICIES_DIR); \
-		sudo ln -sf $(PWD)/FIREFOX_POLICIES_JSON $(FIREFOX_POLICIES_DIR)/policies.json; \
-		echo "Linked policies.json (system-wide)"; \
-	else \
-		ln -sf $(PWD)/FIREFOX_POLICIES_JSON $(HOME)/.mozilla/firefox/policies/policies.json; \
-		echo "Linked policies.json (user-level, no sudo)"; \
-	fi
-	@echo "Firefox configuration complete!"
-	@echo "Restart Firefox to apply changes."
-
-firefox-extensions:
-	@echo "Installing Firefox extensions..."
-	@./scripts/install-firefox-extensions.sh
-
-firefox-backup:
-	@echo "Backing up Firefox data..."
-	@./scripts/backup-firefox-data.sh
-
 
 ghx:
 	@cat $(PKG_DIR)/GH_EXTENSIONS | while read plugin; do \
@@ -97,6 +64,7 @@ git-config:
 	git config --global filter.lfs.required true
 	git config --global filter.lfs.clean "git-lfs clean -- %f"
 	git config --global status.renames true
+
 python:  
 	sudo pacman -S python
 	sudo pacman -S pyenv
@@ -108,16 +76,6 @@ go:
 
 rust:
 	sudo pacman -S rust
-
-# Void Linux
-voidroot: 
-	echo "Void root setup coming soon!"
-
-voiduser:  voidroot
-	echo "Void user setup coming soon!"
-
-# FIXME: Install C/C++ in distro without systemd
-
 
 clock:
 	sudo ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
@@ -169,6 +127,9 @@ mapping:
 		dest_path=$$(eval echo $$dest); \
 		dest_dir=$$(dirname "$$dest_path"); \
 		mkdir -p "$$dest_dir" 2>/dev/null || sudo mkdir -p "$$dest_dir"; \
+		if [ -L "$$dest_path" ]; then \
+			rm -f "$$dest_path" 2>/dev/null || sudo rm -f "$$dest_path"; \
+		fi; \
 		ln -sf "$$src_path" "$$dest_path" 2>/dev/null || sudo ln -sf "$$src_path" "$$dest_path"; \
 		echo "Linked $$src -> $$dest"; \
 	done < $(MAP_FILE)
@@ -190,7 +151,3 @@ fcitx5-unprotect:
 	@chmod 644 $(DOTFILES_DIR)/gui/common/FCITX5_CONFIG
 	@chmod 644 $(DOTFILES_DIR)/gui/common/FCITX5_CONF_*.conf
 	@echo "fcitx5 configs are now writable"
-
-secrets:
-	cd "$(DOTFILES_DIR)"
-	cp SECRETS_EXAMPLE SECRETS

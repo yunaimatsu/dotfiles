@@ -1,25 +1,49 @@
-# --- Functions ---
-a()       { alias "$1"="$2"; }
-_ualias() { unalias "$1" 2>/dev/null; }
-f() {
-  _ualias "$1"
-  eval "$1() { $2; }"
-}
+# Functions
+a() { alias "$1"="$2"; }
+e() { export "$1"="$2"; }
+s() { printf '%*s\n' "$(tput cols)" '' | tr ' ' '-' }
 
-a cp 'cp -i'
-a mv 'mv -i'
-a l 'ls -alhi --color=always'
-a rr 'source ~/.zshrc'
-a rrr 'rr & mkdir -p $HOME/$WORKING_DIR && cd $HOME/$WORKING_DIR'
-a nr 'nvim ~/.zshrc'
-a u 'nvim'
-a r 'nvim -R'
-export GTK_IM_MODULE=fcitx
-export QT_IM_MODULE=fcitx
-export XMODIFIERS=@im=fcitx
-export SDL_IM_MODULE=fcitx
-export INPUT_METHOD=fcitx
-export IMSETTINGS_MODULE=fcitx
+# Basic command
+a n "nvim"
+a r "nvim -R"
+a cp "cp -i"
+a mv "mv -i"
+a l "ls -alhi --color=always"
+a rr "source ~/.zshrc"
+a rrr "rr & mkdir -p $HOME/$WORKING_DIR && cd $HOME/$WORKING_DIR"
+
+# CLI configuration
+a nr "nvim ~/.zshrc" # Zsh
+a nn "nvim ~/.config/nvim/init.lua" # Neovim
+
+# GUI configuration
+a nh "nvim ~/.config/hypr/hyprland.conf" # Hyprland
+a nb "nvim ~/.config/waybar/config" # Waybar
+a nbs "nvim ~/.config/waybar/style.css" # Waybar
+a nm "nvim ~/.config/mako/config" # Mako
+a nf "nvim ~/.config/foot/foot.ini" # Foot
+
+# GitHub Issue
+a gic "gh issue create"
+a gir "gh issue view --comments"
+a gil "gh issue list --limit 1000"
+a giu "gh issue edit"
+a gid "gh issue close; gh issue lock"
+
+# GitHub PR
+a gpc "gh pr create"
+a gpr "s; gh pr view; s; gh pr checks; s; gh pr diff; s;"
+a gpl "gh pr list"
+a gpu "gh pr checkout; s; gh pr edit"
+a gpd "gh pr close; gh issue lock"
+
+# Input method
+e GTK_IM_MODULE fcitx # GNOME/GTK apps<D-'>
+e QT_IM_MODULE fcitx # KDE/Qt apps
+e XMODIFIERS @im=fcitx # X11 apps
+e SDL_IM_MODULE fcitx # SDL apps (mainly game apps)
+e IMSETTINGS_MODULE fcitx # Fedora Linux
+e INPUT_METHOD fcitx # OS default IM
 
 # --- History Settings ---
 HISTSIZE=10000
@@ -32,21 +56,20 @@ setopt correct
 setopt hist_ignore_dups
 setopt hist_append
 setopt PROMPT_SUBST
-
 git_prompt() {
-  local branch=$(git branch --show-current 2>/dev/null)
-  if [[ -n $branch ]]; then
-    echo "%{\033[32m%}git:$branch%{\033[0m%}"
-  fi
+  branch=$(git symbolic-ref --short HEAD 2>/dev/null) || return
+  printf 'git:%s' "$branch"
 }
+
 PS1='%~ $(git_prompt) '
+
 CASE_SENSITIVE="true"
 HYPHEN_INSENSITIVE="true"
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
+e BUN_INSTALL "$HOME/.bun"
+e PATH "$BUN_INSTALL/bin:$PATH"
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
-export EDITOR="nvim"
-export VISUAL="nvim"
+e EDITOR "nvim"
+e VISUAL "nvim"
 
-export WORKING_DIR="working"
+e WORKING_DIR "working"
