@@ -1,3 +1,8 @@
+# bindkey
+bindkey -e
+bindkey '^A' beginning-of-line
+bindkey '^E' end-of-line
+
 # Functions
 a() { alias "$1"="$2"; }
 e() { export "$1"="$2"; }
@@ -73,3 +78,8 @@ e EDITOR "nvim"
 e VISUAL "nvim"
 
 e WORKING_DIR "working"
+
+if ! pgrep -x "Hyprland" > /dev/null; then
+  start-hyprland
+fi
+eval "$(direnv hook zsh)"
