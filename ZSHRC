@@ -92,3 +92,6 @@ if ! pgrep -x "Hyprland" > /dev/null; then
   start-hyprland
 fi
 eval "$(direnv hook zsh)"
+
+# bun completions
+[ -s "/home/yunai/.bun/_bun" ] && source "/home/yunai/.bun/_bun"
