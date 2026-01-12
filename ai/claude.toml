@@ -1,0 +1,7 @@
+{
+  "theme": "dark",
+  "model": "sonnet",
+  "permissions": {
+    "defaultMode": "ask"
+  }
+}

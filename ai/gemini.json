@@ -1,0 +1,26 @@
+{
+  "general": {
+    "preferredEditor": "nvim",
+    "vimMode": true,
+    "sessionRetention": {
+      "enabled": true,
+      "maxAge": "30d",
+      "maxCount": 200
+    }
+  },
+  "ui": {
+    "theme": "GitHub",
+    "hideBanner": true,
+    "hideTips": false
+  },
+  "privacy": {
+    "usageStatisticsEnabled": false
+  },
+  "model": {
+    "name": "gemini-1.5-pro-latest",
+    "maxSessionTurns": 12
+  },
+  "context": {
+    "fileName": ["AGENTS.md", "GEMINI.md"]
+  }
+}
