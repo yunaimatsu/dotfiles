@@ -121,7 +121,10 @@ mapping:
 	@mkdir -p "$$HOME/.aliases" "$$HOME/.secrets" \
 		"$$HOME/.config/espanso/config" "$$HOME/.config/espanso/match" \
 		"$$HOME/.config/fcitx5/conf" "$$HOME/.config/nvim"
-	@while IFS=':' read -r src dest; do \
+	@while IFS= read -r line; do \
+		[ -z "$$line" ] && continue; \
+		echo "$$line" | grep -Eq '^[[:space:]]*#' && continue; \
+		IFS=':' read -r src dest <<< "$$line"; \
 		[ -z "$$src" ] && continue; \
 		src_path="$(DOTFILES_DIR)/$$src"; \
 		dest_path=$$(eval echo $$dest); \

@@ -1,25 +1,45 @@
-cli/NEOVIM_INIT.lua:$HOME/.config/nvim/init.lua
+# cli
+
+# cli/nvim
+cli/nvim/init.lua:$HOME/.config/nvim/init.lua
+# cli/nvim/plugin/XXX:$HOME/.config/nvim/plugin/XXX
 cli/TMUX_CONF:$HOME/.tmux.conf
 cli/ZSHRC:$HOME/.zshrc
+
+# CLI AI
+# Codex (OpenAI)
+# cli/codex/config.toml:$HOME/.codex/config.toml
+# Claude (Anthropic)
+# cli/claude/XXX:$HOME/.claude/XXX
+# Gemini (Google)
+# cli/gemini/XXX:$HOME/.gemini/XXX
+
+# gui
 gui/arch/ESPANSO_CONFIG_DEFAULT.yml:$HOME/.config/espanso/config/default.yml
 gui/arch/ESPANSO_MATCH_BASE.yml:$HOME/.config/espanso/match/base.yml
 gui/arch/ESPANSO_MATCH_IAC.yml:$HOME/.config/espanso/match/iac.yml
 gui/arch/ESPANSO_MATCH_MATCHES.yml:$HOME/.config/espanso/match/matches.yml
 gui/arch/KEYD_DEFAULT.conf:/etc/keyd/default.conf
-gui/arch/YAY_CONFIG.json:$HOME/.config/yay/config.json
-gui/common/FCITX5_PROFILE:$HOME/.config/fcitx5/profile
-gui/common/FCITX5_CONFIG:$HOME/.config/fcitx5/config
-gui/common/FCITX5_CONF_CHTTRANS.conf:$HOME/.config/fcitx5/conf/chttrans.conf
-gui/common/FCITX5_CONF_CLASSICUI.conf:$HOME/.config/fcitx5/conf/classicui.conf
-gui/common/FCITX5_CONF_CLIPBOARD.conf:$HOME/.config/fcitx5/conf/clipboard.conf
-gui/common/FCITX5_CONF_HANGUL.conf:$HOME/.config/fcitx5/conf/hangul.conf
-gui/common/FCITX5_CONF_NOTIFICATION.conf:$HOME/.config/fcitx5/conf/notification.conf
-gui/common/FCITX5_CONF_PINYIN.conf:$HOME/.config/fcitx5/conf/pinyin.conf
-gui/common/FCITX5_CONF_PUNCTUATION.conf:$HOME/.config/fcitx5/conf/punctuation.conf
-gui/common/FOOT_FOOT.ini:$HOME/.config/foot/foot.ini
+gui/arch/yay/config.json:$HOME/.config/yay/config.json
+
+gui/common/fcitx5/profile:$HOME/.config/fcitx5/profile
+gui/common/fcitx5/config:$HOME/.config/fcitx5/config
+gui/common/fcitx5/conf/CHTTRANS.conf:$HOME/.config/fcitx5/conf/chttrans.conf
+gui/common/fcitx5/conf/CLASSICUI.conf:$HOME/.config/fcitx5/conf/classicui.conf
+gui/common/fcitx5/conf/CLIPBOARD.conf:$HOME/.config/fcitx5/conf/clipboard.conf
+gui/common/fcitx5/conf/HANGUL.conf:$HOME/.config/fcitx5/conf/hangul.conf
+gui/common/fcitx5/conf/NOTIFICATION.conf:$HOME/.config/fcitx5/conf/notification.conf
+gui/common/fcitx5/conf/PINYIN.conf:$HOME/.config/fcitx5/conf/pinyin.conf
+gui/common/fcitx5/conf/PUNCTUATION.conf:$HOME/.config/fcitx5/conf/punctuation.conf
+
+gui/common/foot/foot.ini:$HOME/.config/foot/foot.ini
+
 gui/common/HTOP_HTOPRC:$HOME/.config/htop/htoprc
 gui/common/HYPR_HYPRLAND.conf:$HOME/.config/hypr/hyprland.conf
-gui/common/MAKO_CONFIG:$HOME/.config/mako/config
+# Mako
+gui/common/mako/config:$HOME/.config/mako/config
+# Neofetch
 gui/common/NEOFETCH_CONFIG.conf:$HOME/.config/neofetch/config
-gui/common/WAYBAR_CONFIG:$HOME/.config/waybar/config
-gui/common/WAYBAR_STYLE.css:$HOME/.config/waybar/style.css
+# Waybar
+gui/common/waybar/config:$HOME/.config/waybar/config
+gui/common/waybar/style.css:$HOME/.config/waybar/style.css

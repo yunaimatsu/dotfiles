@@ -1,7 +1,7 @@
 # bindkey
 bindkey -e
-bindkey '^A' beginning-of-line
-bindkey '^E' end-of-line
+# bindkey '^A' beginning-of-line
+# bindkey '^E' end-of-line
 
 # Functions
 a() { alias "$1"="$2"; }
@@ -14,19 +14,28 @@ a r "nvim -R"
 a cp "cp -i"
 a mv "mv -i"
 a l "ls -alhi --color=always"
-a rr "source ~/.zshrc"
 a rrr "rr & mkdir -p $HOME/$WORKING_DIR && cd $HOME/$WORKING_DIR"
 
 # CLI configuration
 a nr "nvim ~/.zshrc" # Zsh
+a rr "source ~/.zshrc"
 a nn "nvim ~/.config/nvim/init.lua" # Neovim
 
 # GUI configuration
 a nh "nvim ~/.config/hypr/hyprland.conf" # Hyprland
+a rh "hyprctl reload"
 a nb "nvim ~/.config/waybar/config" # Waybar
 a nbs "nvim ~/.config/waybar/style.css" # Waybar
+a rb "pkill waybar && waybar > /dev/null 2>&1 &"
 a nm "nvim ~/.config/mako/config" # Mako
 a nf "nvim ~/.config/foot/foot.ini" # Foot
+
+# Git
+a gsc "gh add"
+a gsr "gh status"
+a gsl "gh status"
+a gsu "gh status"
+a gsd "gh status"
 
 # GitHub Issue
 a gic "gh issue create"
