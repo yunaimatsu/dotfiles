@@ -5,7 +5,7 @@ DOTFILES_DIR := $(HOME)/working/dotfiles
 PKG_DIR := $(DOTFILES_DIR)/packages
 
 # Targets
-.PHONY: nvim zsh wayland
+.PHONY: nvim zsh wayland etc
 
 define RUN_MAPPING
 	@mkdir -p "$$HOME/.config/espanso/config"
@@ -136,9 +136,9 @@ ai: nodejs
 		"ai/codex.toml" \
 		"$$HOME/.codex/config.toml";
 
-pac:
-	@set -e; \
-	pac() { \
+etc:
+	@set -e;
+	@etc() { \
 		src="$$1"; dest="$$2"; \
 		src_path="$(DOTFILES_DIR)/$$src"; \
 		dest_path="$$dest"; \
@@ -146,11 +146,11 @@ pac:
 		mkdir -p "$$dest_dir" 2>/dev/null || sudo mkdir -p "$$dest_dir"; \
 		if [ -e "$$dest_path" ] || [ -L "$$dest_path" ]; then rm -f "$$dest_path" 2>/dev/null || sudo rm -f "$$dest_path"; fi; \
 		ln -sf "$$src_path" "$$dest_path" 2>/dev/null || sudo ln -sf "$$src_path" "$$dest_path"; \
-	}; \
-	pac "pacman/pacman.conf" "/etc/pacman.conf"; \
-	pac "paru/paru.conf" "/etc/paru.conf"; \
-	pac "paru/makepkg.conf" "/etc/makepkg.conf";
-	pac "etc/keyd.conf" "/etc/keyd/default.conf";
+	};\
+	etc "etc/pacman.conf" "/etc/pacman.conf";\
+	etc "etc/paru.conf" "/etc/paru.conf";\
+	etc "etc/makepkg.conf" "/etc/makepkg.conf";\
+	etc "etc/keyd.conf" "/etc/keyd/default.conf";
 
 wayland:
 	@set -e; \
