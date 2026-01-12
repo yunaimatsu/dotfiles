@@ -150,6 +150,7 @@ pac:
 	pac "pacman/pacman.conf" "/etc/pacman.conf"; \
 	pac "paru/paru.conf" "/etc/paru.conf"; \
 	pac "paru/makepkg.conf" "/etc/makepkg.conf";
+	pac "etc/keyd.conf" "/etc/keyd/default.conf";
 
 wayland:
 	@set -e; \
