@@ -5,7 +5,7 @@ DOTFILES_DIR := $(HOME)/working/dotfiles
 PKG_DIR := $(DOTFILES_DIR)/packages
 
 # Targets
-.PHONY: nvim zsh wayland etc
+.PHONY: nvim zsh wayland etc fcitx5
 
 define RUN_MAPPING
 	@mkdir -p "$$HOME/.config/espanso/config"
@@ -171,7 +171,34 @@ wayland:
 	link "wayland/mako" "$$HOME/.config/mako/config"; \
 	link "wayland/waybar/config" "$$HOME/.config/waybar/config"; \
 	link "wayland/waybar/style.css" "$$HOME/.config/waybar/style.css"; \
-	echo "Wayland symlinks complete!"
+
+fcitx5:
+	@set -e; \
+	fcitx5() { \
+		src="$$1"; dest="$$2"; \
+		src_path="$(DOTFILES_DIR)/$$src"; \
+		dest_path=$$(eval echo $$dest); \
+		dest_dir=$$(dirname "$$dest_path"); \
+		mkdir -p "$$dest_dir" 2>/dev/null || sudo mkdir -p "$$dest_dir"; \
+		if [ -L "$$dest_path" ] || [ -e "$$dest_path" ]; then \
+			rm -f "$$dest_path" 2>/dev/null || sudo rm -f "$$dest_path"; \
+		fi; \
+		ln -sf "$$src_path" "$$dest_path" 2>/dev/null || sudo ln -sf "$$src_path" "$$dest_path"; \
+		echo "Linked $$src -> $$dest"; \
+	}; \
+	fcitx5 "fcitx5/config" "$$HOME/.config/fcitx5/config"; \
+	fcitx5 "fcitx5/profile" "$$HOME/.config/fcitx5/profile"; \
+	fcitx5 "fcitx5/conf/spell.conf" "$$HOME/.config/fcitx5/conf/spell.conf"; \
+	fcitx5 "fcitx5/conf/unicode.conf" "$$HOME/.config/fcitx5/conf/unicode.conf"; \
+	fcitx5 "fcitx5/conf/chttrans.conf" "$$HOME/.config/fcitx5/conf/chttrans.conf"; \
+	fcitx5 "fcitx5/conf/classicui.conf" "$$HOME/.config/fcitx5/conf/classicui.conf"; \
+	fcitx5 "fcitx5/conf/clipboard.conf" "$$HOME/.config/fcitx5/conf/clipboard.conf"; \
+	fcitx5 "fcitx5/conf/punctuation.conf" "$$HOME/.config/fcitx5/conf/punctuation.conf"; \
+	fcitx5 "fcitx5/conf/waylandim.conf" "$$HOME/.config/fcitx5/conf/waylandim.conf"; \
+	fcitx5 "fcitx5/conf/hangul.conf" "$$HOME/.config/fcitx5/conf/hangul.conf"; \
+	fcitx5 "fcitx5/conf/pinyin.conf" "$$HOME/.config/fcitx5/conf/pinyin.conf"; \
+	fcitx5 "fcitx5/conf/cloudpinyin.conf" "$$HOME/.config/fcitx5/conf/cloudpinyin.conf"; \
+	fcitx5 "fcitx5/conf/notification.conf" "$$HOME/.config/fcitx5/conf/notification.conf";
 
 git-config:
 	git config --global user.name "$(GIT_USER_NAME)"
