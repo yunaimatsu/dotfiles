@@ -1,9 +1,6 @@
 ログを読む方法を確認する
-
-                                                                                                                      
   If you're using a modern Linux desktop (like GNOME or KDE), chances are it's already running Wayland by default —   
   unless you or your distro opted to stick with X11 for compatibility reasons.                                        
-                                                                                                                      
   Let me know if you want to compare how GNOME or KDE behave under Wayland vs X11!                                    
   meta, super?
   ## 🧠 Modifier Key Mapping on Linux
@@ -210,7 +207,7 @@ Open • yunaimatsu opened about 1 month ago • 0 comments
   bind = $mod SHIFT ALT, s, exec, systemctl suspend                                                                   
   bind = $mod SHIFT ALT, r, exec, systemctl reboot                                                                    
   bind = $mod SHIFT ALT, q, exec, systemctl poweroff                                                                  
-UPDATE: Avoid `META+_`KEY CTRL+META+_ yunaimatsu/officinae#16
+Avoid `META+_`KEY CTRL+META+_
   <D-[>                                                                                                               
   <D-]>                                                                                                               
   <D-;>                                                                                                               
