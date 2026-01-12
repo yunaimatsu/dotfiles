@@ -1,54 +1,11 @@
-SHELL := /bin/zsh
+SHELL := /bin/sh
 
 # DOTFILES_DIR := $(HOME)/$(WORKING_DIR)/dotfiles
 DOTFILES_DIR := $(HOME)/working/dotfiles
 PKG_DIR := $(DOTFILES_DIR)/packages
 
-define MAPPING_LIST
-# cli
-
-# cli/nvim
-cli/nvim/init.lua:$$XDG_CONFIG_HOME/nvim/init.lua
-# cli/nvim/plugin/XXX:$$XDG_CONFIG_HOME/nvim/plugin/XXX
-cli/TMUX_CONF:$$HOME/.tmux.conf
-cli/ZSHRC:$$HOME/.zshrc
-
-
-# gui
-gui/arch/ESPANSO_CONFIG_DEFAULT.yml:$$XDG_CONFIG_HOME/espanso/config/default.yml
-gui/arch/ESPANSO_MATCH_BASE.yml:$$XDG_CONFIG_HOME/espanso/match/base.yml
-gui/arch/ESPANSO_MATCH_IAC.yml:$$XDG_CONFIG_HOME/espanso/match/iac.yml
-gui/arch/ESPANSO_MATCH_MATCHES.yml:$$XDG_CONFIG_HOME/espanso/match/matches.yml
-gui/arch/KEYD_DEFAULT.conf:/etc/keyd/default.conf
-
-gui/common/fcitx5/profile:$$XDG_CONFIG_HOME/fcitx5/profile
-gui/common/fcitx5/config:$$XDG_CONFIG_HOME/fcitx5/config
-gui/common/fcitx5/conf/CHTTRANS.conf:$$XDG_CONFIG_HOME/fcitx5/conf/chttrans.conf
-gui/common/fcitx5/conf/CLASSICUI.conf:$$XDG_CONFIG_HOME/fcitx5/conf/classicui.conf
-gui/common/fcitx5/conf/CLIPBOARD.conf:$$XDG_CONFIG_HOME/fcitx5/conf/clipboard.conf
-gui/common/fcitx5/conf/HANGUL.conf:$$XDG_CONFIG_HOME/fcitx5/conf/hangul.conf
-gui/common/fcitx5/conf/NOTIFICATION.conf:$$XDG_CONFIG_HOME/fcitx5/conf/notification.conf
-gui/common/fcitx5/conf/PINYIN.conf:$$XDG_CONFIG_HOME/fcitx5/conf/pinyin.conf
-gui/common/fcitx5/conf/PUNCTUATION.conf:$$XDG_CONFIG_HOME/fcitx5/conf/punctuation.conf
-
-gui/common/foot/foot.ini:$$XDG_CONFIG_HOME/foot/foot.ini
-
-gui/common/HTOP_HTOPRC:$$XDG_CONFIG_HOME/htop/htoprc
-gui/common/HYPR_HYPRLAND.conf:$$XDG_CONFIG_HOME/hypr/hyprland.conf
-# Mako
-gui/common/mako/config:$$XDG_CONFIG_HOME/mako/config
-# Neofetch
-gui/common/NEOFETCH_CONFIG.conf:$$XDG_CONFIG_HOME/neofetch/config
-# Waybar
-gui/common/waybar/config:$$XDG_CONFIG_HOME/waybar/config
-gui/common/waybar/style.css:$$XDG_CONFIG_HOME/waybar/style.css
-endef
-export MAPPING_LIST
-
 # Targets
-.PHONY: all mapping firefox firefox-config firefox-extensions firefox-backup help ghx yay nodejs gitconfig python go rust pacman secrets fcitx5-protect fcitx5-unprotect ai
-
-all: mapping
+.PHONY: nvim zsh wayland
 
 define RUN_MAPPING
 	@mkdir -p "$$HOME/.config/espanso/config"
@@ -70,6 +27,46 @@ define RUN_MAPPING
 	@echo "Dotfiles symlinks complete!"
 	@$(MAKE) fcitx5-protect
 endef
+
+zsh:
+	@set -e; \
+	src_path="$(DOTFILES_DIR)/.zshrc"; \
+	dest_path="$$HOME/.zshrc"; \
+	ln -sf "$$src_path" "$$dest_path" 2>/dev/null || sudo ln -sf "$$src_path" "$$dest_path"; \
+	echo "Linked .zshrc -> $$dest_path";
+
+nvim:
+	@set -euo pipefail; \
+	NVIM_SRC="$(DOTFILES_DIR)/nvim"; \
+	NVIM_DST="$$HOME/.config/nvim"; \
+	PKGS="neovim git ripgrep fd unzip base-devel nodejs npm"; \
+	\
+	mkdir -p "$(HOME)/.config/nvim"; \
+	\
+	if [ ! -d "$$NVIM_SRC" ]; then \
+	  echo "ERROR: not found: $$NVIM_SRC"; \
+	  echo "Expected: $$DOTFILES_DIR/nvim"; \
+	  exit 1; \
+	fi; \
+	\
+	if [ -L "$$NVIM_DST" ] && [ "$$(readlink -f "$$NVIM_DST")" = "$$(readlink -f "$$NVIM_SRC")" ]; then \
+	  echo "[nvim] update (already linked)"; \
+	  sudo pacman -Syu --noconfirm; \
+	else \
+	  echo "[nvim] first-time setup (linking)"; \
+	  if [ -e "$$NVIM_DST" ] && [ ! -L "$$NVIM_DST" ]; then \
+	    bak="$$NVIM_DST.bak.$$(date +%Y%m%d%H%M%S)"; \
+	    echo "[nvim] backup $$NVIM_DST -> $$bak"; \
+	    mv "$$NVIM_DST" "$$bak"; \
+	  fi; \
+	  ln -sfn "$$NVIM_SRC" "$$NVIM_DST"; \
+	fi; \
+	\
+	echo "[nvim] ensure packages"; \
+	sudo pacman -S --needed $$PKGS; \
+	\
+	echo "[nvim] sync lazy/treesitter/mason"; \
+	nvim --headless "+Lazy! sync" "+TSUpdate" "+MasonUpdate" "+qa"
 
 help:
 	@echo "Available targets:"
@@ -153,6 +150,28 @@ pac:
 	pac "pacman/pacman.conf" "/etc/pacman.conf"; \
 	pac "paru/paru.conf" "/etc/paru.conf"; \
 	pac "paru/makepkg.conf" "/etc/makepkg.conf";
+
+wayland:
+	@set -e; \
+	link() { \
+		src="$$1"; dest="$$2"; \
+		src_path="$(DOTFILES_DIR)/$$src"; \
+		dest_path=$$(eval echo $$dest); \
+		dest_dir=$$(dirname "$$dest_path"); \
+		mkdir -p "$$dest_dir" 2>/dev/null || sudo mkdir -p "$$dest_dir"; \
+		if [ -L "$$dest_path" ] || [ -e "$$dest_path" ]; then \
+			rm -f "$$dest_path" 2>/dev/null || sudo rm -f "$$dest_path"; \
+		fi; \
+		ln -sf "$$src_path" "$$dest_path" 2>/dev/null || sudo ln -sf "$$src_path" "$$dest_path"; \
+		echo "Linked $$src -> $$dest"; \
+	}; \
+	link "wayland/foot.ini" "$$HOME/.config/foot/foot.ini"; \
+	link "wayland/hyprland.conf" "$$HOME/.config/hypr/hyprland.conf"; \
+	link "wayland/mako" "$$HOME/.config/mako/config"; \
+	link "wayland/waybar/config" "$$HOME/.config/waybar/config"; \
+	link "wayland/waybar/style.css" "$$HOME/.config/waybar/style.css"; \
+	echo "Wayland symlinks complete!"
+
 git-config:
 	git config --global user.name "$(GIT_USER_NAME)"
 	git config --global user.email "$(GIT_USER_EMAIL)"
@@ -180,19 +199,6 @@ clock:
 	sudo ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
 	sudo hwclock --systohc
 
-nvim:
-	mkdir -p ~/.config/nvim \
-	git clone https://github.com/folke/lazy.nvim.git ~/.config/nvim/lazy/lazy.nvim
-	CONFIG_DIR="$HOME/.config/nvim"
-	INIT_LUA="$CONFIG_DIR/init.lua"
-
-	if [ ! -d "$CONFIG_DIR" ]; then
-	  echo "Creating Neovim config directory at $CONFIG_DIR"
-	  mkdir -p "$CONFIG_DIR"
-	else
-	   echo "Neovim config directory already exists."
-	fi
-
 android: 
 	pkg install git
 	pkg install gh
@@ -202,11 +208,6 @@ android:
 	cd /storage/emulated/0/
 	pkg install sshd
 	passwd
-
-
-# Softlink dotfiles
-mapping:
-	$(call RUN_MAPPING)
 
 # Protect fcitx5 config files from modification by fcitx5-configtool
 fcitx5-protect:

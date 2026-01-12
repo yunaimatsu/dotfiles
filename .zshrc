@@ -16,19 +16,22 @@ a mv "mv -i"
 a l "ls -alhi --color=always"
 a rrr "rr & mkdir -p $HOME/$WORKING_DIR && cd $HOME/$WORKING_DIR"
 
-# CLI configuration
-a nr "nvim ~/.zshrc" # Zsh
+# Shell configuration
+a nr "nvim ~/.zshrc"
 a rr "source ~/.zshrc"
-a nn "nvim ~/.config/nvim/init.lua" # Neovim
+
+# Editor configuration
+a nn "nvim ~/.config/nvim/init.lua"
+a nnc "nvim ~/.config/nvim/lua/core.lua"
+a nnp "nvim ~/.config/nvim/lua/plugins.lua"
 
 # GUI configuration
 a nh "nvim ~/.config/hypr/hyprland.conf" # Hyprland
-a rh "hyprctl reload"
 a nb "nvim ~/.config/waybar/config" # Waybar
 a nbs "nvim ~/.config/waybar/style.css" # Waybar
-a rb "pkill waybar && waybar > /dev/null 2>&1 &"
 a nm "nvim ~/.config/mako/config" # Mako
 a nf "nvim ~/.config/foot/foot.ini" # Foot
+a rh "hyprctl reload; pkill waybar; nohup waybar > /dev/null 2>&1 & disown; makoctl reload"
 
 # Git
 a gsc "gh add"
