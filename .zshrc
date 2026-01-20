@@ -33,6 +33,19 @@ a nm "nvim ~/.config/mako/config" # Mako
 a nf "nvim ~/.config/foot/foot.ini" # Foot
 a rh "hyprctl reload; pkill waybar; nohup waybar > /dev/null 2>&1 & disown; makoctl reload"
 
+# Self-host with Docker
+penpot() {
+  local REPO="$HOME/penpot"
+  local COMPOSE="$REPO/docker/devenv/docker-compose.yaml"
+
+  if [[ ! -f "$COMPOSE" ]]; then
+    echo "compose file not found: $COMPOSE" >&2
+    return 1
+  fi
+
+  docker compose -f "$COMPOSE" up -d
+}
+
 # Git
 a gsc "gh add"
 a gsr "gh status"
@@ -90,6 +103,7 @@ e EDITOR "nvim"
 e VISUAL "nvim"
 
 e WORKING_DIR "working"
+e DOTFILES_DIR "$WORKING_DIR/dotfiles"
 
 if ! pgrep -x "Hyprland" > /dev/null; then
   start-hyprland
