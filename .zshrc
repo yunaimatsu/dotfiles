@@ -1,8 +1,3 @@
-# bindkey
-bindkey -e
-# bindkey '^A' beginning-of-line
-# bindkey '^E' end-of-line
-
 # Functions
 a() { alias "$1"="$2"; }
 e() { export "$1"="$2"; }
@@ -112,3 +107,8 @@ eval "$(direnv hook zsh)"
 
 # bun completions
 [ -s "/home/yunai/.bun/_bun" ] && source "/home/yunai/.bun/_bun"
+
+# AI
+a naic "nvim $HOME/.codex/config.toml"
+a naia "nvim $HOME/.claude/config.json"
+a naig "nvim $HOME/.gemini/settings.json"
