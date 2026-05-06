@@ -12,6 +12,7 @@
 - [ ] Try to use WezTerm
 - [ ] Add C-S-C/V bindkey to copy/paste in Qutebrowser
 - [ ] C-S-T to meta+tab
+- [ ] Map C-M-A/E to C-home/end
 
 ## shell scripts to organize the whole repository
 ### Symlink automizer
