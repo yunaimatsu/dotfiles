@@ -4,13 +4,14 @@
 - [ ] Enable brightness control of second monitor
 - [ ] Window move/focus across monitors
 - [ ] Enable zoom in/out in Terminal, Qutebrowser
-- [ ] Migrate all the Issues to TODO.mdadm
+- [ ] Migrate all the Issues to TODO.md
 - [ ] Re-enable grave key
 - [ ] Understand Neovim Lua
 - [ ] Remove tools which require GUI window i.e. blueman-manager, 
 - [ ] Enable meta+a/e in Terminal
 - [ ] Try to use WezTerm
 - [ ] Add C-S-C/V bindkey to copy/paste in Qutebrowser
+- [ ] C-S-T to meta+tab
 
 ## shell scripts to organize the whole repository
 ### Symlink automizer
