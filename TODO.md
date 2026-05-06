@@ -4,6 +4,8 @@
 - [ ] Enable brightness control of second monitor
 - [ ] Window move/focus across monitors
 - [ ] Enable zoom in/out in Terminal, Qutebrowser
+- [ ] Migrate all the Issues to TODO.mdadm
+- [ ] Re-enable grave key
 
 ## shell scripts to organize the whole repository
 ### Symlink automizer
