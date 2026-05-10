@@ -1,13 +1,19 @@
 # dotfiles
 
+## Env
+
+I use a minimalist, keyboard-driven, setup with tiling window management(Hyprland), optimized for performance and full control via the terminal emulator. Most of my work happens inside Neovim and Foot. Please tailor all code snippets, tool recommendations, and workflow suggestions to this Linux-native terminal-first environment.
+Avoid GUI-heavy or Windows/macOS-specific suggestions unless explicitly requested.
+
 - OS: Archlinux
   - Package management: `pacman`
   - AUR helper: `paru`
-- GUI: Hyprland
+- Display protocol: Wayland
+- Compositor: Hyprland
   - Input Method: fcitx5
   - Expansion Tool: espanso
-  - 
 - Shell: Zsh
+  - Plugin manager: `zinit`
 - Editor: Neovim
   - Plugin management: `lazy.nvim`
 - Version control: git and git-hosting services
@@ -61,3 +67,10 @@ Uses zsh
 
 ## Makefile
 Makefile docs coming soon!
+
+# Commenting rule
+- Do not use dedicated comment lines.
+- Write comments inline only, after code.
+- Format: <infinitive verb> <object> <adverb(optional)>
+  - `echo Hello # output message clearly`
+  - `cp file.txt backup.txt # create backup locally`
