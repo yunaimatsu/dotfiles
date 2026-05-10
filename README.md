@@ -4,10 +4,16 @@
   - Package management: `pacman`
   - AUR helper: `paru`
 - GUI: Hyprland
+  - Input Method: fcitx5
+  - Expansion Tool: espanso
+  - 
 - Shell: Zsh
 - Editor: Neovim
   - Plugin management: `lazy.nvim`
-
+- Version control: git and git-hosting services
+  - `gh`
+  - `gitea`
+  - `gl`
 
 # Setup
 ## 1. Setup Linux
