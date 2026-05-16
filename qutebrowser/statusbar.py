@@ -1,0 +1,11 @@
+def statusbar(c, config):
+    sb = c.colors.statusbar
+    sb.insert.bg          = '#FF5733'
+    sb.normal.bg          = '#00000000'
+    sb.command.bg         = '#000000'
+    sb.url.fg             = '#ff0000'
+    sb.url.success.http.fg  = '#ff0000'
+    sb.url.success.https.fg = '#ff0000'
+    sb.url.error.fg       = '#ff0000'
+    sb.url.warn.fg        = '#ff0000'
+    sb.url.hover.fg       = '#ff0000'

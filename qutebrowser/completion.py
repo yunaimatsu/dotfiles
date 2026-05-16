@@ -1,0 +1,12 @@
+def completion(c, config):
+    cc = c.colors.completion
+    cc.fg                      = "#cfcfcf"
+    cc.odd.bg                  = "#262626"
+    cc.even.bg                 = "#1a1a1a"
+    cc.category.bg             = "#333347"
+    cc.category.fg             = "#f5c542"
+    cc.match.fg                = "#42f58d"
+    cc.item.selected.bg        = "#3c4480"
+    cc.item.selected.fg        = "#ffffff"
+    cc.item.selected.border.top    = "#3c4480"
+    cc.item.selected.border.bottom = "#3c4480"
