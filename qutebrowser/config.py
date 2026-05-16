@@ -1,13 +1,44 @@
 config.load_autoconfig(False)
-from tab import tab
-from statusbar import statusbar
-from completion import completion
-tab(c, config)
-statusbar(c, config)
-completion(c, config)
+
+ct = c.colors.tabs
+ct.bar.bg = '#1e1e1e'
+ct.even.bg = '#222222'
+ct.odd.bg  = '#444444'
+ct.even.fg = '#aaaaaa'
+ct.odd.fg  = '#aaaaaa'
+ct.selected.even.bg = '#aaaaaa'
+ct.selected.odd.bg  = '#aaaaaa'
+ct.selected.even.fg = '#111111'
+ct.selected.odd.fg  = '#111111'
+c.tabs.padding = {'top': 6, 'bottom': 6, 'left': 4, 'right': 4}
+c.tabs.favicons.show = 'never'
+
+sb = c.colors.statusbar
+sb.insert.bg          = '#FF5733'
+sb.normal.bg          = '#00000000'
+sb.command.bg         = '#000000'
+sb.url.fg             = '#ff0000'
+sb.url.success.http.fg  = '#ff0000'
+sb.url.success.https.fg = '#ff0000'
+sb.url.error.fg       = '#ff0000'
+sb.url.warn.fg        = '#ff0000'
+sb.url.hover.fg       = '#ff0000'
+
+cc = c.colors.completion
+cc.fg                      = "#cfcfcf"
+cc.odd.bg                  = "#262626"
+cc.even.bg                 = "#1a1a1a"
+cc.category.bg             = "#333347"
+cc.category.fg             = "#f5c542"
+cc.match.fg                = "#42f58d"
+cc.item.selected.bg        = "#3c4480"
+cc.item.selected.fg        = "#ffffff"
+cc.item.selected.border.top    = "#3c4480"
+cc.item.selected.border.bottom = "#3c4480"
 
 c.content.webrtc_ip_handling_policy = "all-interfaces"
-c.colors.webpage.darkmode.enabled = False
+c.colors.webpage.darkmode.enabled = True
+c.colors.webpage.bg = '#000000'
 
 c.qt.args = [
     "--enable-webrtc",
@@ -96,5 +127,5 @@ map('j', 'scroll down')
 map('k', 'scroll up')
 map('h', 'scroll left')
 map('l', 'scroll right')
-config.bind('<Ctrl-j>', 'tab-next')
-config.bind('<Ctrl-k>', 'tab-prev')
+config.bind('<Meta-j>', 'tab-next')
+config.bind('<Meta-k>', 'tab-prev')
