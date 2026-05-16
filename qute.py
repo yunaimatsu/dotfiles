@@ -1,44 +1,59 @@
 config.load_autoconfig(False)
 
+# Tab
 ct = c.colors.tabs
-ct.bar.bg = '#1e1e1e'
-ct.even.bg = '#222222'
-ct.odd.bg  = '#444444'
-ct.even.fg = '#aaaaaa'
-ct.odd.fg  = '#aaaaaa'
-ct.selected.even.bg = '#aaaaaa'
-ct.selected.odd.bg  = '#aaaaaa'
-ct.selected.even.fg = '#111111'
-ct.selected.odd.fg  = '#111111'
-c.tabs.padding = {'top': 6, 'bottom': 6, 'left': 4, 'right': 4}
+ct.bar.bg = '#050505'
+
+ct.even.bg = '#0d0d0d'
+ct.odd.bg  = '#111111'
+ct.even.fg = '#404040'
+ct.odd.fg  = '#404040'
+ct.selected.even.bg = '#222222'
+ct.selected.odd.bg  = '#222222'
+ct.selected.even.fg = '#eeeeee'
+ct.selected.odd.fg  = '#eeeeee'
+c.tabs.padding = {'top': 10, 'bottom': 10, 'left': 5, 'right': 5}
+c.tabs.indicator.width = 1
 c.tabs.favicons.show = 'never'
+ti = c.colors.tabs.indicator
+ti.start = '#ffffff'
+ti.stop  = '#555555'
+ti.error = '#333333'
+c.tabs.position = 'bottom'
+c.fonts.default_size = '10pt'
+c.fonts.default_family = 'Times New Roman'
 
+# Statusbar
 sb = c.colors.statusbar
-sb.insert.bg          = '#FF5733'
-sb.normal.bg          = '#00000000'
-sb.command.bg         = '#000000'
-sb.url.fg             = '#ff0000'
-sb.url.success.http.fg  = '#ff0000'
-sb.url.success.https.fg = '#ff0000'
-sb.url.error.fg       = '#ff0000'
-sb.url.warn.fg        = '#ff0000'
-sb.url.hover.fg       = '#ff0000'
+sb.insert.bg          = '#050505'
+sb.insert.fg          = '#cccccc'
+sb.normal.bg          = '#050505'
+sb.normal.fg          = '#777777'
+sb.command.bg         = '#050505'
+sb.command.fg         = '#cccccc'
+sb.url.fg             = '#555555'
+sb.url.success.http.fg  = '#888888'
+sb.url.success.https.fg = '#aaaaaa'
+sb.url.error.fg       = '#333333'
+sb.url.warn.fg        = '#666666'
+sb.url.hover.fg       = '#dddddd'
 
+# Suggestion
 cc = c.colors.completion
-cc.fg                      = "#cfcfcf"
-cc.odd.bg                  = "#262626"
-cc.even.bg                 = "#1a1a1a"
-cc.category.bg             = "#333347"
-cc.category.fg             = "#f5c542"
-cc.match.fg                = "#42f58d"
-cc.item.selected.bg        = "#3c4480"
+cc.fg                      = "#cccccc"
+cc.odd.bg                  = "#111111"
+cc.even.bg                 = "#0d0d0d"
+cc.category.bg             = "#1a1a1a"
+cc.category.fg             = "#eeeeee"
+cc.match.fg                = "#ffffff"
+cc.item.selected.bg        = "#2e2e2e"
 cc.item.selected.fg        = "#ffffff"
-cc.item.selected.border.top    = "#3c4480"
-cc.item.selected.border.bottom = "#3c4480"
+cc.item.selected.border.top    = "#2e2e2e"
+cc.item.selected.border.bottom = "#2e2e2e"
 
 c.content.webrtc_ip_handling_policy = "all-interfaces"
 c.colors.webpage.darkmode.enabled = True
-c.colors.webpage.bg = '#000000'
+c.colors.webpage.bg = '#050505'
 
 c.qt.args = [
     "--enable-webrtc",
@@ -64,6 +79,7 @@ c.qt.args = [
 config.bind('<Ctrl-b>', 'config-cycle tabs.show always never')
 config.bind('<Ctrl-g>', 'mode-leave', mode='passthrough')
 
+# Media
 cm = c.content.media
 cm.audio_capture = True
 cm.video_capture = True
@@ -73,27 +89,19 @@ c.content.notifications.enabled = True
 c.content.autoplay = True
 c.content.javascript.enabled = True
 
-c.tabs.position = 'left'
-c.fonts.default_size = '8pt'
-c.fonts.default_family = 'JetBrains Mono'
-
+# Hints
 ch = c.colors.hints
-ch.fg = "#FFFFFF"
-ch.bg = "#1e1e2e"
-ch.match.fg = "#f7768e"
-c.fonts.hints = "bold 8pt JetBrains Mono, monospace"
-
+ch.fg = "#eeeeee"
+ch.bg = "#1a1a1a"
+ch.match.fg = "#888888"
+c.fonts.hints = "bold 10pt Times New Roman, serif"
 h = c.hints
 h.padding = {'top': 1, 'right': 4, 'bottom': 1, 'left': 4}
 h.radius = 3
-h.border = "1px solid #7dcfff"
+h.border = "1px solid #444444"
 h.uppercase = True
 
-ti = c.colors.tabs.indicator
-ti.start = '#2ECC40'
-ti.stop = '#FFDC00'
-ti.error = 'red'
-
+# Bindkey
 c.bindings.key_mappings = {"<Ctrl-G>": "<Escape>"}
 c.url.start_pages = 'https://perplexity.ai'
 c.url.default_page = 'https://perplexity.ai'
@@ -119,6 +127,7 @@ c.url.searchengines = {
     'esja':    'https://kotobank.jp/esjaword/{}',
 }
 
+# Binding key
 def map(key, command):
     config.unbind(key)
     config.bind(key, command)
