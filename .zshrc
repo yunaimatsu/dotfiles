@@ -1,7 +1,7 @@
 # Functions
 a() { alias "$1"="$2"; }
 e() { export "$1"="$2"; }
-s() { printf '%*s\n' "$(tput cols)" '' | tr ' ' '-' }
+s() { printf '%*s\n' "$(tput cols)" '' | tr ' ' '-'; }
 
 # Basic command
 a n "nvim"
@@ -10,6 +10,8 @@ a cp "cp -i"
 a mv "mv -i"
 a l "ls -alhi --color=always"
 a rrr "rr & mkdir -p $HOME/$WORKING_DIR && cd $HOME/$WORKING_DIR"
+
+a ss "sudo SYSTEMD_EDITOR=/usr/bin/nvim systemctl"
 
 # Shell configuration
 a nr "nvim ~/.zshrc"
@@ -21,7 +23,7 @@ a nnc "nvim ~/.config/nvim/lua/core.lua"
 a nnp "nvim ~/.config/nvim/lua/plugins.lua"
 
 # GUI configuration
-a nh "nvim ~/.config/hypr/hyprland.conf" # Hyprland
+a nh "nvim ~/.config/hypr/hyprland.lua" # Hyprland
 a nb "nvim ~/.config/waybar/config" # Waybar
 a nbs "nvim ~/.config/waybar/style.css" # Waybar
 a nm "nvim ~/.config/mako/config" # Mako
@@ -112,3 +114,4 @@ eval "$(direnv hook zsh)"
 a naic "nvim $HOME/.codex/config.toml"
 a naia "nvim $HOME/.claude/config.json"
 a naig "nvim $HOME/.gemini/settings.json"
+

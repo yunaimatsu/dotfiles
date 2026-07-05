@@ -40,12 +40,6 @@ hl.config({
     layout        = "dwindle",
     allow_tearing = false,
   },
-  dwindle = {
-    pseudotile          = true,
-    preserve_split      = true,
-    default_split_ratio = 1.0,
-    force_split         = 2,
-  },
   decoration = {
     rounding         = 5,
     active_opacity   = 1.0,
@@ -146,8 +140,3 @@ hl.bind(mod .. " + ALT + q", hl.dsp.window.close())
 -- Mouse: move / resize by dragging
 hl.bind(mod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true })
 hl.bind(mod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
-
--- Resize active window with mod + scroll
--- NOTE: verify the resize argument against your installed version (see message).
-hl.bind(mod .. " + mouse_down", hl.dsp.window.resize({ size = "10 10" }))
-hl.bind(mod .. " + mouse_up",   hl.dsp.window.resize({ size = "-10 -10" }))
