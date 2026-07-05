@@ -1,3 +1,7 @@
+a "ng" "git config --global --edit"
+git config user.name "yunaimatsu"
+git config user.email "yunaimatsu@users.noreply.github.com"
+
 # TODO
 ## Chores
 - [ ] Unify the unit of each directory
