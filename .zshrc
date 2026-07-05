@@ -12,6 +12,7 @@ a l "ls -alhi --color=always"
 a rrr "rr & mkdir -p $HOME/$WORKING_DIR && cd $HOME/$WORKING_DIR"
 
 a ss "sudo SYSTEMD_EDITOR=/usr/bin/nvim systemctl"
+a pm "sudo pacman"
 
 # Shell configuration
 a nr "nvim ~/.zshrc"
@@ -23,12 +24,33 @@ a nnc "nvim ~/.config/nvim/lua/core.lua"
 a nnp "nvim ~/.config/nvim/lua/plugins.lua"
 
 # GUI configuration
-a nh "nvim ~/.config/hypr/hyprland.lua" # Hyprland
-a nb "nvim ~/.config/waybar/config" # Waybar
-a nbs "nvim ~/.config/waybar/style.css" # Waybar
+a nh "nvim ~/.config/hypr/hyprland.lua"
+a nw "nvim ~/.config/waybar/config"
+a nws "nvim ~/.config/waybar/style.css"
 a nm "nvim ~/.config/mako/config" # Mako
 a nf "nvim ~/.config/foot/foot.ini" # Foot
+a nq "nvim ~/.config/qutebrowser/config.py" # Qutebrowser
 a rh "hyprctl reload; pkill waybar; nohup waybar > /dev/null 2>&1 & disown; makoctl reload"
+a rw "pkill waybar; nohup waybar > /dev/null 2>&1 & disown" # Waybar
+a rmk "makoctl reload" # Mako ("rm" would shadow the file-remove command)
+a rf "pkill -x foot; nohup foot --server > /dev/null 2>&1 & disown" # Foot: restarts the server, closes all footclient windows
+a rq "qutebrowser :config-source" # Qutebrowser: reload config in the running instance
+
+# Fcitx5 (repo copy is the source of truth)
+a nfi "nvim $HOME/dotfiles/fcitx5-profile"
+a rfi "fcitx5 -rd > /dev/null 2>&1" # Restart fcitx5 to pick up config
+ufi() { # Sync GUI-made profile changes back into the repo and restore the symlink
+  local live="$HOME/.config/fcitx5/profile"
+  local repo="$HOME/dotfiles/fcitx5-profile"
+  if [ -L "$live" ]; then
+    echo "profile still symlinked; nothing to sync"
+  else
+    cp "$live" "$repo" && ln -sfn "$repo" "$live" && echo "profile synced to repo; symlink restored"
+  fi
+}
+
+# Git configuration
+a ng "git config --global --edit"
 
 # Self-host with Docker
 penpot() {

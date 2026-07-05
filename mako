@@ -1,5 +1,5 @@
 # Font
-font=JetBrainsMono Nerd Font 10
+font=Noto Sans 10
 
 # Appearance
 background-color=#1e1e2ecc

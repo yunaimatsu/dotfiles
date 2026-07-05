@@ -31,15 +31,19 @@ return {
     build = "cd app && npm install",
   },
 
-  -- Treesitter
+  -- Treesitter (main branch: the old nvim-treesitter.configs API no longer exists)
   {
     "nvim-treesitter/nvim-treesitter",
+    branch = "main",
     build = ":TSUpdate",
     event = { "BufReadPost", "BufNewFile" },
     config = function()
-      require("nvim-treesitter.configs").setup({
-        ensure_installed = { "javascript", "typescript", "json" },
-        highlight = { enable = true, additional_vim_regex_highlighting = false },
+      require("nvim-treesitter").install({ "javascript", "typescript", "json" })
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = { "javascript", "typescript", "json" },
+        callback = function()
+          vim.treesitter.start()
+        end,
       })
     end,
   },
@@ -57,14 +61,9 @@ return {
     "williamboman/mason-lspconfig.nvim",
     dependencies = { "williamboman/mason.nvim", "neovim/nvim-lspconfig" },
     config = function()
+      -- v2 auto-enables installed servers via vim.lsp.enable();
+      -- per-server settings go through vim.lsp.config() if needed later
       require("mason-lspconfig").setup()
-
-      -- minimal example: you can extend servers later
-      local lspconfig = require("lspconfig")
-      -- Example: enable lua_ls if installed
-      if lspconfig.lua_ls then
-        lspconfig.lua_ls.setup({})
-      end
     end,
   },
 

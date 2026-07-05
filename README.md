@@ -24,7 +24,21 @@ Avoid GUI-heavy or Windows/macOS-specific suggestions unless explicitly requeste
 # Setup
 ## 1. Setup Linux
 ### Archlinux
-Never use Windows as it is. Always do a clean install of Arch Linux.
+- Buy USB drive at convenience store
+- Download Archlinux ISO from https://geo.mirror.pkgbuild.com/iso/latest.
+- Copy the ISO file to USB drive on Android `Etchroid`
+- Insert the USB drive to your computer
+- Boot the computer and press `F2` and enter boot-management mode
+  - Then you'll enter into live shell mode.
+
+```sh
+lsblk -f
+mount /dev/sdXn/XXX /mnt
+arch-chroot
+pacstrap -K 
+```
+
+TODO: complete `pacstrap` command; install git, basedevil, hyprland, foot, mako, waybar, fcitx5, unzip, nvim, qutebrowser
 
 ## 2. Setup package management tool
 ### Pacman(For Arch Linux)

@@ -2,35 +2,35 @@ config.load_autoconfig(False)
 
 # Tab
 ct = c.colors.tabs
-ct.bar.bg = '#050505'
+ct.bar.bg = '#000000'
 
-ct.even.bg = '#0d0d0d'
-ct.odd.bg  = '#111111'
-ct.even.fg = '#404040'
-ct.odd.fg  = '#404040'
-ct.selected.even.bg = '#222222'
-ct.selected.odd.bg  = '#222222'
+ct.even.bg = '#050505'
+ct.odd.bg  = '#080808'
+ct.even.fg = '#3a3a3a'
+ct.odd.fg  = '#3a3a3a'
+ct.selected.even.bg = '#161616'
+ct.selected.odd.bg  = '#161616'
 ct.selected.even.fg = '#eeeeee'
 ct.selected.odd.fg  = '#eeeeee'
 c.tabs.padding = {'top': 10, 'bottom': 10, 'left': 5, 'right': 5}
 c.tabs.indicator.width = 1
 c.tabs.favicons.show = 'never'
 ti = c.colors.tabs.indicator
-ti.start = '#ffffff'
-ti.stop  = '#555555'
-ti.error = '#333333'
+ti.start = '#999999'
+ti.stop  = '#333333'
+ti.error = '#222222'
 c.tabs.position = 'bottom'
 c.fonts.default_size = '10pt'
-c.fonts.default_family = 'Times New Roman'
+c.fonts.default_family = 'Noto Sans'
 
 # Statusbar
 sb = c.colors.statusbar
-sb.insert.bg          = '#050505'
-sb.insert.fg          = '#cccccc'
-sb.normal.bg          = '#050505'
-sb.normal.fg          = '#777777'
-sb.command.bg         = '#050505'
-sb.command.fg         = '#cccccc'
+sb.insert.bg          = '#000000'
+sb.insert.fg          = '#bbbbbb'
+sb.normal.bg          = '#000000'
+sb.normal.fg          = '#666666'
+sb.command.bg         = '#000000'
+sb.command.fg         = '#bbbbbb'
 sb.url.fg             = '#555555'
 sb.url.success.http.fg  = '#888888'
 sb.url.success.https.fg = '#aaaaaa'
@@ -40,20 +40,20 @@ sb.url.hover.fg       = '#dddddd'
 
 # Suggestion
 cc = c.colors.completion
-cc.fg                      = "#cccccc"
-cc.odd.bg                  = "#111111"
-cc.even.bg                 = "#0d0d0d"
-cc.category.bg             = "#1a1a1a"
-cc.category.fg             = "#eeeeee"
+cc.fg                      = "#bbbbbb"
+cc.odd.bg                  = "#080808"
+cc.even.bg                 = "#050505"
+cc.category.bg             = "#101010"
+cc.category.fg             = "#dddddd"
 cc.match.fg                = "#ffffff"
-cc.item.selected.bg        = "#2e2e2e"
+cc.item.selected.bg        = "#1e1e1e"
 cc.item.selected.fg        = "#ffffff"
-cc.item.selected.border.top    = "#2e2e2e"
-cc.item.selected.border.bottom = "#2e2e2e"
+cc.item.selected.border.top    = "#1e1e1e"
+cc.item.selected.border.bottom = "#1e1e1e"
 
 c.content.webrtc_ip_handling_policy = "all-interfaces"
 c.colors.webpage.darkmode.enabled = True
-c.colors.webpage.bg = '#050505'
+c.colors.webpage.bg = '#000000'
 
 c.qt.args = [
     "--enable-webrtc",
@@ -91,14 +91,14 @@ c.content.javascript.enabled = True
 
 # Hints
 ch = c.colors.hints
-ch.fg = "#eeeeee"
-ch.bg = "#1a1a1a"
-ch.match.fg = "#888888"
-c.fonts.hints = "bold 10pt Times New Roman, serif"
+ch.fg = "#dddddd"
+ch.bg = "#0d0d0d"
+ch.match.fg = "#777777"
+c.fonts.hints = "bold 10pt Noto Sans, sans-serif"
 h = c.hints
 h.padding = {'top': 1, 'right': 4, 'bottom': 1, 'left': 4}
 h.radius = 3
-h.border = "1px solid #444444"
+h.border = "1px solid #2a2a2a"
 h.uppercase = True
 
 # Bindkey
@@ -138,3 +138,48 @@ map('h', 'scroll left')
 map('l', 'scroll right')
 config.bind('<Meta-j>', 'tab-next')
 config.bind('<Meta-k>', 'tab-prev')
+
+def completion(c, config):
+    c.colors.completion.fg = "#cfcfcf"  # Text color
+    c.colors.completion.odd.bg = "#262626"  # Odd row background
+    c.colors.completion.even.bg = "#1a1a1a"  # Even row background
+    c.colors.completion.category.bg = "#333347"  # Category header background
+    c.colors.completion.category.fg = "#f5c542"  # Category header text
+    c.colors.completion.match.fg = "#42f58d"  # Highlight match color
+    c.colors.completion.item.selected.bg = "#3c4480"
+    c.colors.completion.item.selected.fg = "#ffffff"
+    c.colors.completion.item.selected.border.top = "#3c4480"
+    c.colors.completion.item.selected.border.bottom = "#3c4480"
+
+def statusbar(c, config):
+    c.colors.statusbar.insert.bg = '#FF5733'
+    c.colors.statusbar.url.fg = '#ff0000'
+    c.colors.statusbar.url.success.http.fg = '#ff0000'
+    c.colors.statusbar.url.success.https.fg = '#ff0000'
+    c.colors.statusbar.url.error.fg = '#ff0000'
+    c.colors.statusbar.url.warn.fg = '#ff0000'
+    c.colors.statusbar.url.hover.fg = '#ff0000'
+    c.colors.statusbar.command.bg = '#000000'
+    c.colors.statusbar.insert.bg = '#FF5733'
+    c.colors.statusbar.normal.bg = '#00000000'
+
+def tab(c, config):
+    # bg-color of the tab bar 
+    config.set('colors.tabs.bar.bg', '#1e1e1e')
+    config.set('colors.webpage.darkmode.enabled', True)
+
+    ## Non-selected
+    config.set('colors.tabs.even.bg', '#222222')
+    config.set('colors.tabs.odd.bg', '#444444')
+    config.set('colors.tabs.even.fg', '#aaaaaa')
+    config.set('colors.tabs.odd.fg', '#aaaaaa')
+
+    ## Selected
+    config.set('colors.tabs.selected.even.bg', '#aaaaaa')
+    config.set('colors.tabs.selected.odd.bg', '#aaaaaa')
+    config.set('colors.tabs.selected.even.fg', '#111111')
+    config.set('colors.tabs.selected.odd.fg', '#111111')
+
+    ## Tab box 
+    c.tabs.padding = {'top': 6, 'bottom': 6, 'left': 4, 'right': 4 }
+    c.tabs.favicons.show = 'never'
