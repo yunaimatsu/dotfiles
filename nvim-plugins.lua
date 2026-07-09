@@ -1,14 +1,5 @@
 -- ~/.config/nvim/lua/plugins.lua
 return {
-  -- Theme
-  {
-    "folke/tokyonight.nvim",
-    priority = 1000,
-    config = function()
-      vim.cmd([[colorscheme tokyonight]])
-    end,
-  },
-
   -- Git
   { "tpope/vim-fugitive" },
 

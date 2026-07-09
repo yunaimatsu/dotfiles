@@ -1,6 +1,3 @@
--- Use environment variables for theme colors
-local bg_color = os.getenv("COLOR_BG_LIGHTER") or "#444444"
-
 vim.cmd("syntax on")
 
 -- Options
@@ -13,7 +10,85 @@ vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 
-vim.api.nvim_set_hl(0, "Normal", { bg = bg_color })
+-- Colorscheme, from scratch: black background, gray UI,
+-- dark accents used only as foregrounds with semantic meaning
+vim.o.background = "dark"
+
+local p = {
+  black  = "#000000",
+  red    = "#8b1a1a",
+  green  = "#1a6b1a",
+  blue   = "#2a4a9b",
+  yellow = "#8b8b1a",
+  orange = "#a05a1a",
+  violet = "#6a1a8b",
+  fg     = "#bbbbbb",
+  gray   = "#888888",
+  dim    = "#4a4a4a",
+  faint  = "#333333",
+  bg1    = "#0d0d0d",
+  bg2    = "#1e1e1e",
+}
+
+local function hl(group, opts) vim.api.nvim_set_hl(0, group, opts) end
+
+-- UI
+hl("Normal",       { fg = p.fg, bg = p.black })
+hl("NormalFloat",  { fg = p.fg, bg = p.bg1 })
+hl("CursorLine",   { bg = p.bg1 })
+hl("CursorLineNr", { fg = p.gray })
+hl("LineNr",       { fg = p.faint })
+hl("SignColumn",   { bg = p.black })
+hl("WinSeparator", { fg = p.bg2, bg = p.black })
+hl("StatusLine",   { fg = p.fg, bg = p.bg1 })
+hl("StatusLineNC", { fg = p.dim, bg = p.bg1 })
+hl("Pmenu",        { fg = p.fg, bg = p.bg1 })
+hl("PmenuSel",     { fg = "#ffffff", bg = p.bg2 })
+hl("Visual",       { bg = p.bg2 })
+hl("Search",       { fg = "#ffffff", bg = p.faint })
+hl("IncSearch",    { fg = p.black, bg = p.gray })
+hl("MatchParen",   { bg = p.faint })
+hl("NonText",      { fg = "#222222" })
+hl("Whitespace",   { fg = "#222222" })
+hl("Folded",       { fg = p.dim, bg = p.bg1 })
+hl("Directory",    { fg = p.blue })
+hl("Title",        { fg = p.fg })
+hl("ErrorMsg",     { fg = p.red })
+hl("WarningMsg",   { fg = p.orange })
+hl("MoreMsg",      { fg = p.green })
+hl("Question",     { fg = p.green })
+
+-- Syntax
+hl("Comment",    { fg = p.dim })
+hl("String",     { fg = p.green })
+hl("Character",  { link = "String" })
+hl("Constant",   { fg = p.yellow })
+hl("Number",     { fg = p.yellow })
+hl("Boolean",    { fg = p.yellow })
+hl("Float",      { link = "Number" })
+hl("Identifier", { fg = p.gray })
+hl("Function",   { fg = p.blue })
+hl("Statement",  { fg = p.violet })
+hl("Keyword",    { fg = p.violet })
+hl("Operator",   { fg = p.gray })
+hl("Type",       { fg = p.orange })
+hl("PreProc",    { fg = p.violet })
+hl("Special",    { fg = p.gray })
+hl("Todo",       { fg = p.yellow, bg = p.black })
+hl("Error",      { fg = p.red, bg = p.black })
+hl("Underlined", { fg = p.blue, underline = true })
+
+-- Diagnostics
+hl("DiagnosticError", { fg = p.red })
+hl("DiagnosticWarn",  { fg = p.orange })
+hl("DiagnosticInfo",  { fg = p.blue })
+hl("DiagnosticHint",  { fg = p.dim })
+
+-- Diff
+hl("DiffAdd",    { fg = p.green, bg = p.black })
+hl("DiffDelete", { fg = p.red, bg = p.black })
+hl("DiffChange", { fg = p.yellow, bg = p.black })
+hl("DiffText",   { fg = p.yellow, bg = p.faint })
 
 -- Global variables
 vim.g.mkdp_auto_close = 1

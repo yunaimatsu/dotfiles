@@ -13,7 +13,6 @@ Avoid GUI-heavy or Windows/macOS-specific suggestions unless explicitly requeste
   - Input Method: fcitx5
   - Expansion Tool: espanso
 - Shell: Zsh
-  - Plugin manager: `zinit`
 - Editor: Neovim
   - Plugin management: `lazy.nvim`
 - Version control: git and git-hosting services
@@ -33,12 +32,29 @@ Avoid GUI-heavy or Windows/macOS-specific suggestions unless explicitly requeste
 
 ```sh
 lsblk -f
-mount /dev/sdXn/XXX /mnt
-arch-chroot
-pacstrap -K 
+mount /dev/sdXn /mnt
+pacstrap -K /mnt \
+  base linux linux-firmware base-devel sudo networkmanager iwd \
+  git unzip which zsh direnv \
+  hyprland xdg-desktop-portal-hyprland waybar mako foot \
+  pipewire pipewire-pulse pipewire-alsa wireplumber sof-firmware alsa-utils brightnessctl \
+  grim slurp wl-clipboard wf-recorder libnotify \
+  neovim tree-sitter-cli qutebrowser mpv \
+  fcitx5-im fcitx5-mozc fcitx5-hangul fcitx5-chinese-addons fcitx5-unikey \
+  cups nss-mdns intel-media-driver \
+  noto-fonts noto-fonts-cjk noto-fonts-emoji
+arch-chroot /mnt
 ```
 
-TODO: complete `pacstrap` command; install git, basedevil, hyprland, foot, mako, waybar, fcitx5, unzip, nvim, qutebrowser
+Inside the chroot:
+
+```sh
+useradd -m -G wheel -s /usr/bin/zsh yunai # create user with zsh as login shell
+passwd yunai # set user password
+chsh -s /usr/bin/zsh # set zsh for root too (optional)
+printf '[device]\nwifi.backend=iwd\n' > /etc/NetworkManager/conf.d/wifi-backend.conf # switch wifi backend to iwd permanently
+systemctl enable NetworkManager # start network management at boot
+```
 
 ## 2. Setup package management tool
 ### Pacman(For Arch Linux)
@@ -47,23 +63,16 @@ sudo pacman -Syu
 ```
 
 ## 3. Setup shell tools
-### 3.1. Zsh 
+### 3.1. Zsh
 
-> Install necessary tools
+On Arch this is already done: `pacstrap` installs zsh and `useradd -s /usr/bin/zsh` set it as the login shell during step 1.
 
-**Arch**
+On an existing system where that didn't happen:
+
 ```sh
 sudo pacman -S zsh which
+chsh -s $(which zsh) # write login shell to /etc/passwd; takes effect at next login
 ```
-
-> Set Zsh as default shell
-
-```sh
-chsh -s $(which zsh)
-```
-After that, to apply the shell change, please log out once and then log back in as the user.
-
-The `chsh` command modifies the user’s configuration file (for example, the login shell field in `/etc/passwd`), so there is no need to run it every time in files like `.zshrc`.
 
 ### 3.2. `dotfiles` repository 
 ```sh

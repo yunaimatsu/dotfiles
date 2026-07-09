@@ -30,11 +30,11 @@ a nws "nvim ~/.config/waybar/style.css"
 a nm "nvim ~/.config/mako/config" # Mako
 a nf "nvim ~/.config/foot/foot.ini" # Foot
 a nq "nvim ~/.config/qutebrowser/config.py" # Qutebrowser
-a rh "hyprctl reload; pkill waybar; nohup waybar > /dev/null 2>&1 & disown; makoctl reload"
-a rw "pkill waybar; nohup waybar > /dev/null 2>&1 & disown" # Waybar
-a rmk "makoctl reload" # Mako ("rm" would shadow the file-remove command)
-a rf "pkill -x foot; nohup foot --server > /dev/null 2>&1 & disown" # Foot: restarts the server, closes all footclient windows
-a rq "qutebrowser :config-source" # Qutebrowser: reload config in the running instance
+a rh "hyprctl reload > /dev/null; pkill waybar; (nohup waybar > /dev/null 2>&1 &); makoctl reload > /dev/null 2>&1"
+a rw "pkill waybar; (nohup waybar > /dev/null 2>&1 &)" # Waybar
+a rmk "makoctl reload > /dev/null 2>&1" # Mako ("rm" would shadow the file-remove command)
+a rf "pkill -x foot; (nohup foot --server > /dev/null 2>&1 &)" # Foot: restarts the server, closes all footclient windows
+a rq "(qutebrowser :config-source > /dev/null 2>&1 &)" # Qutebrowser: reload config in the running instance
 
 # Fcitx5 (repo copy is the source of truth)
 a nfi "nvim $HOME/dotfiles/fcitx5-profile"
@@ -136,4 +136,12 @@ eval "$(direnv hook zsh)"
 a naic "nvim $HOME/.codex/config.toml"
 a naia "nvim $HOME/.claude/config.json"
 a naig "nvim $HOME/.gemini/settings.json"
+
+# Claude Code -> local LLM (Ollama speaks the Anthropic API natively)
+e ANTHROPIC_BASE_URL "http://localhost:11434"
+e ANTHROPIC_AUTH_TOKEN "dummy" # skips the OAuth /login flow
+e ANTHROPIC_MODEL "qwen2.5-coder:7b"
+e ANTHROPIC_SMALL_FAST_MODEL "qwen2.5-coder:7b"
+e DISABLE_AUTOUPDATER 1 # no update checks
+e CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC 1 # belt-and-braces: disables error reporting etc.
 

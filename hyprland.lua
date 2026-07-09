@@ -54,6 +54,7 @@ hl.config({
 })
 
 hl.permission("/usr/(bin|local/bin)/grim", "screencopy", "allow")
+hl.permission("/usr/(bin|local/bin)/wf-recorder", "screencopy", "allow")
 hl.permission("/usr/(lib|libexec|lib64)/xdg-desktop-portal-hyprland", "screencopy", "allow")
 hl.permission("/usr/(bin|local/bin)/hyprpm", "plugin", "allow")
 
@@ -172,11 +173,14 @@ hl.bind(mainMod .. " + b", hl.dsp.exec_cmd("brightnessctl set 5%-"))
 hl.bind(mainMod .. " + n", hl.dsp.exec_cmd("wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 10%-"))
 hl.bind(mainMod .. " + p", hl.dsp.exec_cmd("wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 10%+"))
 
--- Screenshot, screen record
-hl.bind(mainMod .. " + 1", hl.dsp.exec_cmd([[grim -g "$(slurp)" - | tee ~/Pictures/screenshot-$(date +%Y%m%d-%H%M%S).png | wl-copy && notify-send "Screenshot" "Area captured and copied to clipboard"]]))
-hl.bind(mainMod .. " + 2", hl.dsp.exec_cmd([[grim - | tee ~/Pictures/screenshot-$(date +%Y%m%d-%H%M%S).png | wl-copy && notify-send "Screenshot" "Full screen captured and copied to clipboard"]]))
-hl.bind(mainMod .. " + 3", hl.dsp.exec_cmd([[wf-recorder -g "$(slurp)" -f ~/.archive/recording-$(date +'%Y-%m-%d-%H:%M:%S').mp4]]))
-hl.bind(mainMod .. " + 4", hl.dsp.exec_cmd([[wf-recorder -f ~/.archive/recording-$(date +'%Y-%m-%d-%H:%M:%S').mp4]]))
+-- Screenshot (1: area, 2: full), screen record (3: area, 4: full, 5: stop)
+local pictureDir = "~/storage/capture/picture"
+local recordDir  = "~/storage/capture/record"
+hl.bind(mainMod .. " + 1", hl.dsp.exec_cmd([[mkdir -p ]] .. pictureDir .. [[ && grim -g "$(slurp)" - | tee ]] .. pictureDir .. [[/screenshot-$(date +%Y%m%d-%H%M%S).png | wl-copy && notify-send "Screenshot" "Area captured and copied to clipboard"]]))
+hl.bind(mainMod .. " + 2", hl.dsp.exec_cmd([[mkdir -p ]] .. pictureDir .. [[ && grim - | tee ]] .. pictureDir .. [[/screenshot-$(date +%Y%m%d-%H%M%S).png | wl-copy && notify-send "Screenshot" "Full screen captured and copied to clipboard"]]))
+hl.bind(mainMod .. " + 3", hl.dsp.exec_cmd([[mkdir -p ]] .. recordDir .. [[ && notify-send "Recording" "Area recording started (SUPER+5 to stop)" && wf-recorder -g "$(slurp)" -f ]] .. recordDir .. [[/recording-$(date +'%Y-%m-%d-%H:%M:%S').mp4]]))
+hl.bind(mainMod .. " + 4", hl.dsp.exec_cmd([[mkdir -p ]] .. recordDir .. [[ && notify-send "Recording" "Full screen recording started (SUPER+5 to stop)" && wf-recorder -o "$(hyprctl monitors | awk '/^Monitor/ {m=$2} /focused: yes/ {print m; exit}')" -f ]] .. recordDir .. [[/recording-$(date +'%Y-%m-%d-%H:%M:%S').mp4]]))
+hl.bind(mainMod .. " + 5", hl.dsp.exec_cmd([[pkill --signal SIGINT wf-recorder && notify-send "Recording" "Stopped and saved to ]] .. recordDir .. [["]]))
 
 -- Window lifecycle
 -- CREATE: Launch apps

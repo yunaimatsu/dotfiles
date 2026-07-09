@@ -31,6 +31,8 @@ init:
 	for f in chttrans classicui clipboard hangul pinyin punctuation spell unicode waylandim; do \
 		ln -sfn "$(DOT)/fcitx5-$$f.conf" "$(CFG)/fcitx5/conf/$$f.conf"; \
 	done
+	# Audio (PipeWire user services; sockets start the daemons on demand)
+	systemctl --user enable --now pipewire.socket pipewire-pulse.socket wireplumber.service
 	# Node.js
 	curl -fsSL https://bun.sh/install | bash
 	bun add -g @google/gemini-cli

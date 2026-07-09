@@ -1,25 +1,34 @@
 config.load_autoconfig(False)
 
+# Palette: black backgrounds everywhere; accents only as dark foregrounds
+BLACK  = '#000000'
+RED    = '#8b1a1a' # dark red
+GREEN  = '#1a6b1a' # dark green
+BLUE   = '#2a4a9b' # dark blue
+YELLOW = '#8b8b1a' # dark yellow
+ORANGE = '#a05a1a' # dark orange
+VIOLET = '#6a1a8b' # dark violet
+
 # Tab
 ct = c.colors.tabs
 ct.bar.bg = '#000000'
 
-ct.even.bg = '#050505'
-ct.odd.bg  = '#080808'
-ct.even.fg = '#3a3a3a'
-ct.odd.fg  = '#3a3a3a'
-ct.selected.even.bg = '#161616'
-ct.selected.odd.bg  = '#161616'
+ct.even.bg = '#0b0b0b'
+ct.odd.bg  = '#101010'
+ct.even.fg = '#4a4a4a'
+ct.odd.fg  = '#4a4a4a'
+ct.selected.even.bg = '#1c1c1c'
+ct.selected.odd.bg  = '#1c1c1c'
 ct.selected.even.fg = '#eeeeee'
 ct.selected.odd.fg  = '#eeeeee'
-c.tabs.padding = {'top': 10, 'bottom': 10, 'left': 5, 'right': 5}
+c.tabs.padding = {'top': 4, 'bottom': 4, 'left': 12, 'right': 12}
 c.tabs.indicator.width = 1
 c.tabs.favicons.show = 'never'
 ti = c.colors.tabs.indicator
 ti.start = '#999999'
 ti.stop  = '#333333'
-ti.error = '#222222'
-c.tabs.position = 'bottom'
+ti.error = RED
+c.tabs.position = 'top'
 c.fonts.default_size = '10pt'
 c.fonts.default_family = 'Noto Sans'
 
@@ -32,11 +41,70 @@ sb.normal.fg          = '#666666'
 sb.command.bg         = '#000000'
 sb.command.fg         = '#bbbbbb'
 sb.url.fg             = '#555555'
-sb.url.success.http.fg  = '#888888'
-sb.url.success.https.fg = '#aaaaaa'
-sb.url.error.fg       = '#333333'
-sb.url.warn.fg        = '#666666'
+sb.url.success.http.fg  = ORANGE
+sb.url.success.https.fg = GREEN
+sb.url.error.fg       = RED
+sb.url.warn.fg        = YELLOW
 sb.url.hover.fg       = '#dddddd'
+
+# Statusbar modes (black bg, dark accent fg)
+sb.caret.bg           = BLACK
+sb.caret.fg           = VIOLET
+sb.caret.selection.bg = BLACK
+sb.caret.selection.fg = VIOLET
+sb.passthrough.bg     = BLACK
+sb.passthrough.fg     = BLUE
+sb.private.bg         = BLACK
+sb.private.fg         = '#888888'
+sb.command.private.bg = BLACK
+sb.command.private.fg = '#bbbbbb'
+sb.progress.bg        = '#444444'
+
+# Messages (defaults are bright red/orange bars)
+cme = c.colors.messages
+cme.error.bg     = BLACK
+cme.error.fg     = RED
+cme.error.border = RED
+cme.warning.bg     = BLACK
+cme.warning.fg     = ORANGE
+cme.warning.border = ORANGE
+cme.info.bg     = BLACK
+cme.info.fg     = '#888888'
+cme.info.border = '#333333'
+
+# Downloads (defaults are a blue->green gradient)
+cd = c.colors.downloads
+cd.bar.bg   = BLACK
+cd.start.bg = BLACK
+cd.start.fg = BLUE
+cd.stop.bg  = BLACK
+cd.stop.fg  = GREEN
+cd.error.bg = BLACK
+cd.error.fg = RED
+cd.system.bg = 'none' # no color interpolation between start and stop
+cd.system.fg = 'none'
+
+# Prompts (default is a blue box)
+cp = c.colors.prompts
+cp.bg = BLACK
+cp.fg = '#bbbbbb'
+cp.border = '1px solid #333333'
+cp.selected.bg = '#1e1e1e'
+cp.selected.fg = '#ffffff'
+
+# Keyhint popup
+ck = c.colors.keyhint
+ck.bg = BLACK
+ck.fg = '#bbbbbb'
+ck.suffix.fg = YELLOW
+
+# Context menu
+ccm = c.colors.contextmenu
+ccm.menu.bg = BLACK
+ccm.menu.fg = '#bbbbbb'
+ccm.selected.bg = '#1e1e1e'
+ccm.selected.fg = '#ffffff'
+ccm.disabled.fg = '#444444'
 
 # Suggestion
 cc = c.colors.completion
@@ -50,6 +118,14 @@ cc.item.selected.bg        = "#1e1e1e"
 cc.item.selected.fg        = "#ffffff"
 cc.item.selected.border.top    = "#1e1e1e"
 cc.item.selected.border.bottom = "#1e1e1e"
+
+# Downloads
+c.downloads.location.directory = '~/storage/download'
+c.downloads.location.prompt = False
+
+# Language: request US English pages regardless of system locale
+c.content.headers.accept_language = 'en-US,en;q=0.9'
+c.spellcheck.languages = ['en-US']
 
 c.content.webrtc_ip_handling_policy = "all-interfaces"
 c.colors.webpage.darkmode.enabled = True
@@ -101,6 +177,13 @@ h.radius = 3
 h.border = "1px solid #2a2a2a"
 h.uppercase = True
 
+# Web apps (Gmail, Google Sheets/Docs): insert mode by default, no hints needed
+# auto_load doesn't support URL patterns; global is fine since it only fires
+# when a page auto-focuses an editable element on load.
+c.input.insert_mode.auto_load = True
+for pattern in ['*://mail.google.com/*', '*://docs.google.com/*']:
+    config.set('input.insert_mode.leave_on_load', False, pattern)
+
 # Bindkey
 c.bindings.key_mappings = {"<Ctrl-G>": "<Escape>"}
 c.url.start_pages = 'https://perplexity.ai'
@@ -138,6 +221,10 @@ map('h', 'scroll left')
 map('l', 'scroll right')
 config.bind('<Meta-j>', 'tab-next')
 config.bind('<Meta-k>', 'tab-prev')
+
+for m in ['normal', 'insert', 'caret']:
+    config.bind('<Meta-c>', 'fake-key <Ctrl-c>', mode=m) # copy selection natively
+    config.bind('<Meta-v>', 'fake-key <Ctrl-v>', mode=m) # paste clipboard natively
 
 def completion(c, config):
     c.colors.completion.fg = "#cfcfcf"  # Text color

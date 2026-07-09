@@ -2,9 +2,9 @@
 font=Noto Sans 10
 
 # Appearance
-background-color=#1e1e2ecc
-text-color=#f8f8f2ff
-border-color=#89b4faff
+background-color=#000000ee
+text-color=#bbbbbbff
+border-color=#333333ff
 border-size=2
 border-radius=10
 padding=16
@@ -29,13 +29,13 @@ icon-path=/usr/share/icons
 
 # Critical urgency style
 [urgency=critical]
-border-color=#f38ba8ff
-background-color=#1e1e2eff
-text-color=#f8f8f2ff
+border-color=#8b1a1aff
+background-color=#000000ff
+text-color=#bbbbbbff
 default-timeout=0
 
 # Low urgency style (optional)
 [urgency=low]
-background-color=#1e1e2eaa
-text-color=#a6adc8ff
-border-color=#585b70ff
+background-color=#000000aa
+text-color=#666666ff
+border-color=#1a1a1aff
