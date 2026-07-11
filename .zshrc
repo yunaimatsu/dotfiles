@@ -9,7 +9,6 @@ a r "nvim -R"
 a cp "cp -i"
 a mv "mv -i"
 a l "ls -alhi --color=always"
-a rrr "rr & mkdir -p $HOME/$WORKING_DIR && cd $HOME/$WORKING_DIR"
 
 a ss "sudo SYSTEMD_EDITOR=/usr/bin/nvim systemctl"
 a pm "sudo pacman"
