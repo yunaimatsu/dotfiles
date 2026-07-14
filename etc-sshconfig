@@ -1,0 +1,210 @@
+#
+# ~/.ssh/config or /etc/ssh/ssh_config.d/custom.conf
+# SSH client configuration
+#
+# This file controls how SSH client connects to remote hosts.
+# System-wide defaults go in /etc/ssh/ssh_config or /etc/ssh/ssh_config.d/
+# User-specific settings go in ~/.ssh/config
+#
+# Apply after editing: No reload needed, changes take effect immediately
+#
+
+################################################################################
+# GLOBAL DEFAULTS
+################################################################################
+
+# Default port (if not specified in Host block)
+# Port 22
+
+# Default user (if not specified in Host block)
+# User your_username
+
+# Preferred authentication methods (first match wins)
+# PubkeyAuthentication yes
+# PasswordAuthentication no
+
+# Use SSH agent for key passphrases
+# IdentitiesOnly no
+
+# Connect timeout (seconds)
+# ConnectTimeout 10
+
+# Server alive interval (keep connection alive, seconds)
+# ServerAliveInterval 60
+# ServerAliveCountMax 3
+
+# Enable agent forwarding (be careful on untrusted systems)
+# ForwardAgent no
+
+# Enable X11 forwarding
+# ForwardX11 no
+
+# Compression
+# Compression yes
+
+# Enable strict host key checking
+# StrictHostKeyChecking accept-new
+
+# User known hosts file
+# UserKnownHostsFile ~/.ssh/known_hosts
+
+# Preferred cipher algorithms
+# Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com
+
+# Preferred key exchange algorithms
+# KexAlgorithms curve25519-sha256@libssh.org
+
+# Preferred MAC algorithms
+# MACs umac-128@openssh.com
+
+# Preferred host key algorithms
+# HostKeyAlgorithms ssh-ed25519,ssh-rsa
+
+# Enable use of ~/.ssh/config
+# IdentityFile ~/.ssh/id_ed25519
+# IdentityFile ~/.ssh/id_rsa
+
+################################################################################
+# HOST-SPECIFIC CONFIGURATION
+################################################################################
+
+# Example 1: Simple host entry
+Host example.com
+    User testuser
+    Port 2222
+    IdentityFile ~/.ssh/id_rsa
+
+# Example 2: Host with alias
+Host github
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/github_key
+
+# Example 3: Using ProxyJump for bastion host
+Host internal-server
+    HostName 192.168.1.10
+    User admin
+    ProxyJump bastion-host
+    IdentityFile ~/.ssh/internal_key
+
+Host bastion-host
+    HostName bastion.example.com
+    User jumpuser
+    IdentityFile ~/.ssh/bastion_key
+
+# Example 4: Local port forwarding
+Host remote-db
+    HostName db.example.com
+    User db_user
+    LocalForward 3306 localhost:3306
+    IdentityFile ~/.ssh/db_key
+
+# Example 5: Remote port forwarding
+Host monitoring-server
+    HostName monitor.example.com
+    User monitor
+    RemoteForward 9100 localhost:9100
+    IdentityFile ~/.ssh/monitor_key
+
+# Example 6: SOCKS proxy
+Host proxy-server
+    HostName proxy.example.com
+    User proxyuser
+    DynamicForward 1080
+    IdentityFile ~/.ssh/proxy_key
+
+# Example 7: Multiple identity files tried in order
+Host development
+    HostName dev.example.com
+    User devuser
+    IdentityFile ~/.ssh/dev_ed25519
+    IdentityFile ~/.ssh/dev_rsa
+    IdentityFile ~/.ssh/dev_legacy
+
+# Example 8: Wildcard matching
+Host *.example.com
+    User defaultuser
+    IdentityFile ~/.ssh/example_key
+    ServerAliveInterval 60
+
+# Example 9: Disable specific host key checking
+Host 192.168.1.*
+    StrictHostKeyChecking no
+    UserKnownHostsFile /dev/null
+
+# Example 10: Allow password authentication for specific host
+Host legacy-system
+    HostName legacy.example.com
+    User sysadmin
+    PubkeyAuthentication yes
+    PasswordAuthentication yes
+    IdentityFile ~/.ssh/legacy_key
+
+# Example 11: Control Master (connection pooling)
+Host controlmaster-example
+    HostName example.com
+    User testuser
+    ControlMaster auto
+    ControlPath ~/.ssh/control-%h-%p-%r
+    ControlPersist 600
+
+# Example 12: Development server with specific settings
+Host dev-aws
+    HostName ec2-user@dev.aws.example.com
+    User ec2-user
+    IdentityFile ~/.ssh/aws_dev_key
+    ServerAliveInterval 30
+    ServerAliveCountMax 5
+    ProxyUseFdpass no
+
+# Example 13: Staging environment
+Host staging-*
+    User deploy
+    IdentityFile ~/.ssh/staging_key
+    StrictHostKeyChecking accept-new
+    UserKnownHostsFile ~/.ssh/staging_known_hosts
+
+# Example 14: Production with restrictive settings
+Host prod-*
+    User deploy
+    IdentityFile ~/.ssh/production_key
+    ForwardAgent no
+    ForwardX11 no
+    PermitLocalCommand no
+    ProxyUseFdpass no
+    ServerAliveInterval 60
+
+# Example 15: Host with custom SSH options
+Host special-host
+    HostName special.example.com
+    User specialuser
+    Port 2222
+    IdentityFile ~/.ssh/special_key
+    IdentitiesOnly yes
+    PubkeyAuthentication yes
+    PasswordAuthentication no
+    KbdInteractiveAuthentication no
+    GSSAPIAuthentication no
+    UsePAM yes
+
+################################################################################
+# CATCH-ALL (Must be last)
+################################################################################
+
+# Default settings for any host not matched above
+Host *
+    # Exit if server not responding
+    ServerAliveInterval 60
+    ServerAliveCountMax 3
+    
+    # Preserve environment
+    SendEnv LANG LC_*
+    
+    # Use SSH agent
+    AddKeysToAgent yes
+    
+    # Default user
+    # User defaultuser
+    
+    # Default port
+    # Port 22

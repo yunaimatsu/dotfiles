@@ -1,0 +1,146 @@
+#
+# /etc/sudoers.d/custom-rules
+# Sudo access control configuration
+#
+# WARNING: Syntax errors in sudoers files can break sudo access!
+# ALWAYS use 'visudo' or 'visudo -f /etc/sudoers.d/filename' to edit.
+# NEVER use a regular editor - visudo validates syntax before saving.
+#
+# Check syntax after editing: sudo visudo -c -f /etc/sudoers.d/custom-rules
+#
+
+################################################################################
+# USER PRIVILEGE SPECIFICATIONS
+################################################################################
+
+# Format: user    host=commands
+# Examples:
+
+# User 'alice' can run ALL commands without password
+# alice ALL=(ALL) NOPASSWD:ALL
+
+# User 'bob' can run specific commands without password
+# bob ALL=(ALL) NOPASSWD:/usr/bin/systemctl,/usr/bin/journalctl
+
+# User 'charlie' can run commands as different user without password
+# charlie ALL=(www-data) NOPASSWD:/usr/bin/php
+
+# User 'dave' needs password to run commands
+# dave ALL=(ALL) ALL
+
+# User 'eve' can run commands ONLY on local host, requires password
+# eve localhost=/usr/bin/systemctl
+
+################################################################################
+# GROUP PRIVILEGE SPECIFICATIONS
+################################################################################
+
+# Format: %groupname    host=commands
+
+# Members of 'wheel' group can run all commands with password
+# %wheel ALL=(ALL) ALL
+
+# Members of 'wheel' group can run all commands WITHOUT password
+# %wheel ALL=(ALL) NOPASSWD:ALL
+
+# Members of 'sudo' group can run specific commands without password
+# %sudo ALL=(ALL) NOPASSWD:/usr/bin/systemctl,/usr/bin/reboot
+
+# Members of 'docker' group can run docker commands without password
+# %docker ALL=(ALL) NOPASSWD:/usr/bin/docker
+
+################################################################################
+# COMMAND ALIASES
+################################################################################
+
+# Define reusable command groups
+# Cmd_Alias POWER=/usr/sbin/reboot,/usr/sbin/poweroff,/usr/sbin/halt
+# Cmd_Alias SERVICES=/usr/bin/systemctl,/usr/bin/journalctl
+# Cmd_Alias PACKAGE=/usr/bin/pacman,/usr/bin/yay
+
+# User 'admin' can run power and service commands
+# admin ALL=(ALL) NOPASSWD:POWER,SERVICES
+
+################################################################################
+# USER ALIASES
+################################################################################
+
+# Define user groups
+# User_Alias SYSADMINS=alice,bob,charlie
+# User_Alias DEVELOPERS=dave,eve
+
+# All sysadmins can reboot without password
+# SYSADMINS ALL=(ALL) NOPASSWD:/usr/sbin/reboot
+
+################################################################################
+# HOST ALIASES
+################################################################################
+
+# Define host groups (useful for sudoers on multiple machines)
+# Host_Alias WEBSERVERS=web01,web02,web03
+# Host_Alias DBSERVERS=db01,db02
+
+# Users can run commands only on web servers
+# alice WEBSERVERS=(ALL) ALL
+
+################################################################################
+# RUNAS ALIASES
+################################################################################
+
+# Define which users commands can be run as
+# Runas_Alias ADMINS=root,admin
+# Runas_Alias WEBUSER=www-data,nginx
+
+# Run commands as web users
+# developers ALL=(WEBUSER) NOPASSWD:/usr/bin/php
+
+################################################################################
+# DEFAULTS
+################################################################################
+
+# Set default environment variables
+# Defaults env_keep+="PATH"
+# Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin"
+
+# Log sudo usage
+# Defaults logfile="/var/log/sudo.log"
+# Defaults log_output
+
+# Password timeout (minutes)
+# Defaults timestamp_timeout=15
+
+# Lecture on first use (always, once, never)
+# Defaults lecture="once"
+
+# Environment reset
+# Defaults always_set_home
+
+################################################################################
+# COMMON SCENARIOS
+################################################################################
+
+# Scenario 1: Allow user to restart services without password
+# user1 ALL=(ALL) NOPASSWD:/usr/bin/systemctl restart nginx
+
+# Scenario 2: Allow group to manage Docker without password
+# %docker ALL=(ALL) NOPASSWD:/usr/bin/docker
+
+# Scenario 3: Allow user to run script with specific arguments
+# user2 ALL=(ALL) NOPASSWD:/opt/scripts/backup.sh
+
+# Scenario 4: Allow ALL commands in /usr/bin with password
+# user3 ALL=(ALL) /usr/bin/*
+
+# Scenario 5: Wheel group with password protection
+# %wheel ALL=(ALL) ALL
+
+# Scenario 6: Allow pacman (AUR helper) without password
+# user4 ALL=(ALL) NOPASSWD:/usr/bin/pacman,/usr/bin/yay
+
+# Scenario 7: Set password timeout to 0 (always ask for password)
+# Defaults timestamp_timeout=0
+# user5 ALL=(ALL) ALL
+
+# Scenario 8: Disable password for specific user/command combination only
+# alice ALL=(ALL) NOPASSWD:/usr/bin/systemctl restart sshd
+# alice ALL=(ALL) ALL  # But requires password for everything else

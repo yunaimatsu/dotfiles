@@ -1,6 +1,4 @@
 vim.g.mapleader = " "
-
--- Core settings/keymaps/autocmds
 require("core")
 
 -- lazy.nvim bootstrap
@@ -16,8 +14,10 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 -- Plugins
-require("lazy").setup("plugins", {
-  lockfile = vim.fn.stdpath("config") .. "/lazy-lock.json",
-  checker = { enabled = true, notify = false },
-  change_detection = { notify = false },
+require("lazy").setup(
+  "plugins",
+  {
+    lockfile = vim.fn.stdpath("config") .. "/lazy-lock.json",
+    checker = { enabled = true, notify = false },
+    change_detection = { notify = false },
 })

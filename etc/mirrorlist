@@ -1,0 +1,9 @@
+################################################################################
+################# Arch Linux mirrorlist - Global mirrors only ##################
+################################################################################
+
+## Worldwide
+Server = https://mirror.rackspace.com/archlinux/$repo/os/$arch
+Server = https://mirrors.kernel.org/archlinux/$repo/os/$arch
+Server = https://mirrors.mit.edu/archlinux/$repo/os/$arch
+Server = https://mirror.cyberbits.eu/archlinux/$repo/os/$arch

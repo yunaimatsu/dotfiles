@@ -1,8 +1,35 @@
 DOT := $(HOME)/dotfiles
 CFG := $(or $(XDG_CONFIG_HOME),$(HOME)/.config)
+ETC := /etc
 
 .PHONY: init
 init:
+	# paru
+	echo "Cloning paru..." && \
+		cd &&\
+		rm -rf paru && \
+		mkdir -p "$(CFG)/paru" && \
+		git clone https://aur.archlinux.org/paru.git && \
+		cd paru && \
+		makepkg -si && \
+		rm -rf paru
+	# /etc
+	sudo mkdir -p "$(ETC)"
+	sudo ln -sfn "$(DOT)/etc-pacman.conf" "$(ETC)/pacman.conf"
+	sudo mkdir -p "$(ETC)/keyd"
+	sudo ln -sfn "$(DOT)/etc-keyd.conf" "$(ETC)/keyd/default.conf"
+	sudo ln -sfn "$(DOT)/etc-makepkg.conf" "$(ETC)/makepkg.conf"
+	sudo ln -sfn "$(DOT)/etc-paru.conf" "$(ETC)/paru.conf"
+	sudo ln -sfn "$(DOT)/etc-locale.conf" "$(ETC)/locale.conf"
+	sudo ln -sfn "$(DOT)/etc-mkinitcpio.conf" "$(ETC)/mkinitcpio.conf"
+	sudo ln -sfn "$(DOT)/etc-vconsole.conf" "$(ETC)/vconsole.conf"
+	sudo mkdir -p "$(ETC)/sysctl.d"
+	sudo ln -sfn "$(DOT)/etc-sysctld-lowswap.conf" "$(ETC)/sysctl.d/99-lowswap.conf"
+	sudo mkdir -p "$(ETC)/sudoers.d"
+	sudo ln -sfn "$(DOT)/etc-sudoersd-yunai" "$(ETC)/sudoers.d/99-yunai"
+	sudo chmod 0440 "$(ETC)/sudoers.d/99-yunai"
+	# Systemd
+	systemctl --user enable --now pipewire.socket pipewire-pulse.socket wireplumber.service
 	# Zsh
 	ln -sfn "$(DOT)/.zshrc" "$(HOME)/.zshrc"
 	# Neovim

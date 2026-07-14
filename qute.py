@@ -31,6 +31,7 @@ ti.error = RED
 c.tabs.position = 'top'
 c.fonts.default_size = '10pt'
 c.fonts.default_family = 'Noto Sans'
+c.messages.timeout = 50000
 
 # Statusbar
 sb = c.colors.statusbar
@@ -120,12 +121,25 @@ cc.item.selected.border.top    = "#1e1e1e"
 cc.item.selected.border.bottom = "#1e1e1e"
 
 # Downloads
+
 c.downloads.location.directory = '~/storage/download'
 c.downloads.location.prompt = False
+c.tabs.show = 'multiple'  # Prevent downloads bar from taking space
+
+def send_mako_notification(filename):
+    try:
+        filepath = os.path.expanduser(filename)
+        message = f"Downloaded: {os.path.basename(filepath)}"
+        subprocess.Popen(['makoctl', 'invoke'], 
+                         input=message.encode(), 
+                         stdout=subprocess.DEVNULL, 
+                         stderr=subprocess.DEVNULL)
+    except Exception as e:
+        print(f"Mako notification failed: {e}")
+config.bind('<alt-d>', 'download-clear')
 
 # Language: request US English pages regardless of system locale
 c.content.headers.accept_language = 'en-US,en;q=0.9'
-c.spellcheck.languages = ['en-US']
 
 c.content.webrtc_ip_handling_policy = "all-interfaces"
 c.colors.webpage.darkmode.enabled = True
