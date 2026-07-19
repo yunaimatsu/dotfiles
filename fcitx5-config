@@ -1,16 +1,13 @@
 [Hotkey]
-# Toggle Input Method
-TriggerKeys=Ctrl+Space
 # Enumerate when holding modifier of Toggle key
 EnumerateWithTriggerKeys=True
 # Skip first input method while enumerating
 EnumerateSkipFirst=False
-# Enumerate Input Method Group Forward
-EnumerateGroupForwardKeys=
-# Enumerate Input Method Group Backward
-EnumerateGroupBackwardKeys=
 # Time limit in milliseconds for triggering modifier key shortcuts
 ModifierOnlyKeyTimeout=250
+
+[Hotkey/TriggerKeys]
+0=Control+space
 
 [Hotkey/ActivateKeys]
 0=Hangul_Hanja
@@ -22,9 +19,15 @@ ModifierOnlyKeyTimeout=250
 0=Shift_L
 
 [Hotkey/EnumerateForwardKeys]
-0=Super+space
+0=Control+space
 
 [Hotkey/EnumerateBackwardKeys]
+0=Control+Shift+space
+
+[Hotkey/EnumerateGroupForwardKeys]
+0=Super+space
+
+[Hotkey/EnumerateGroupBackwardKeys]
 0=Shift+Super+space
 
 [Hotkey/PrevPage]
@@ -37,13 +40,13 @@ ModifierOnlyKeyTimeout=250
 0=Shift+Tab
 
 [Hotkey/NextCandidate]
-0=Tab
+0=Alt+A
 
 [Hotkey/TogglePreedit]
 0=Control+Alt+P
 
 [Behavior]
-# Active By Default
+# Activate input method by default
 ActiveByDefault=False
 # Reset state on Focus In
 resetStateWhenFocusIn=No
@@ -59,7 +62,7 @@ showInputMethodInformationWhenFocusIn=False
 CompactInputMethodInformation=True
 # Show first input method information
 ShowFirstInputMethodInformation=True
-# Default page size
+# Default Candidates per page
 DefaultPageSize=5
 # Override XKB Option
 OverrideXkbOption=False

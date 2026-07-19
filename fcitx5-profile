@@ -4,7 +4,7 @@ Name=Default
 # Layout
 Default Layout=us
 # Default Input Method
-DefaultIM=keyboard-ara
+DefaultIM=mozc
 
 [Groups/0/Items/0]
 # Name
@@ -14,13 +14,7 @@ Layout=
 
 [Groups/0/Items/1]
 # Name
-Name=keyboard-vn
-# Layout
-Layout=
-
-[Groups/0/Items/2]
-# Name
-Name=keyboard-ara
+Name=mozc
 # Layout
 Layout=
 
