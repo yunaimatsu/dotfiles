@@ -41,6 +41,16 @@ It features
 pacman <operation> [options] [targets]
 ```
 
+### `entities`
+- sync db
+  - core.db 
+  - extra.db 
+  - multilib.db 
+- db file
+  - core.files
+  - extra.files
+  - multilib.files
+
 ### `libalpm` (Arch Linux Package Management): Library executed under the hood
 - Since version 3.0.0, `pacman` has been the front-end to libalpm(3).
 - You can write alternative front-ends with this.
@@ -67,6 +77,7 @@ When  pacman  downloads  packages, it  saves them in a cache directory.
 - 配下に、次のようなDBがある。ここには、bsdtarで解答できるアーカイブファイルが置かれている。
 - これらは、 `bsdtar` したら、大量のパッケージ名のフォルダがおいてある。
 - `desc` ファイルがあり、以下のようなことが書かれている。
+
 ```
 %FILENAME%
 zzuf-0.15-3-x86_64.pkg.tar.zst
@@ -118,6 +129,14 @@ glibc
 ```
 
 ### `<operation>` and `[options]`
+リモートサーバは、ただ静的なDBファイルがあるだけで、パッケージについて検索したり走査したりするものは、全てHTTPで取ってきたsync DBをローカルで検索してるだけ。
+
+したがって;
+- ミラーが成立する (静的ファイルをコピーするだけでミラーになる)
+- pacman.conf の Server 行がただのURLで済む
+- オフラインでも -Ss/-Qu/-F が動く(結果は最後の -y 時点のスナップショット)
+- 逆に言うと -y を怠ると全操作が古い世界観で動く — "-Su の前に -y しろ" の理由もこれ
+
 #### [CREATE] Remote DB
 - `-S`: `-S`: Synchronize packages from the remote repositories, including all dependencies required to run the packages.
 - `-U`: 
@@ -133,6 +152,8 @@ glibc
 - A `target` is usually a package name, file name, URL, or a search string, which can be provided as command line arguments.
 Additionally, if stdin is not from a terminal and a single hyphen (-) is passed as an argument, targets will be read from stdin.
 
+### `pacman -S`
+- `-S`: `-S`: Synchronize packages from the remote repositories, including all dependencies required to run the packages.
 - You can specify:
   - the repository using a space- and/or comma-separated list of package numbers: pacman -S testing/qt.
   - version requirements with `"pkg-name>=X.X"`.
@@ -187,7 +208,7 @@ List all packages in the specified repositories. Multiple repositories can be sp
 
 -s, --search <regexp>
 This will search each package in the sync databases for names or descriptions that match  regexp.
-When  you  include  multiple search terms, only packages with descriptions matching ALL of those terms will be returned.
+When you include  multiple search terms, only packages with descriptions matching ALL of those terms will be returned.
 
 ### `-U`, `--upgrade`: Upgrade or add package(s) to the system and install the required dependencies from sync repositories.
 Either a URL or file path can  be specified. This is a “remove-then-add” process. See Upgrade Options below; also see Handling Config Files for an explanation on how pacman takes care of configuration files.
@@ -206,19 +227,19 @@ explicitly: fake their install reason to be explicitly installed.
 > useful if  you  want to mark a dependency as explicitly installed so it will not be removed by the --recursive remove operation.
 
 --ignore <package> / --ignoregroup <group>
-Directs  pacman  to ignore upgrades of package / all packages in group, even if there is one available even if there is one available. Multiple packages / groups can be specified by separating them with a comma.
+Directs pacman to ignore upgrades of package / all packages in group, even if there is one available even if there is one available. Multiple packages / groups can be specified by separating them with a comma.
 
 --needed
 Do not reinstall the targets that are already up-to-date.
 
 --overwrite <glob>
 Bypass file conflict checks and overwrite conflicting files. If the package that is about to be installed contains  files  that are  already installed and match glob, this option will cause all those files to be overwritten. Using --overwrite will not allow overwriting a directory with a file or installing packages with conflicting files and directories. Multiple patterns can be specified by separating them with a comma. May be specified multiple times. Patterns can be negated, such that  files  matching them  will  not  be  overwritten, by prefixing them with an exclamation mark. Subsequent matches will override previous ones. A leading literal exclamation mark or backslash needs to be escaped.
+
 ### `-D`: Operate on the package database. 
 Operates on the package database, modifies certain attributes of the installed packages in pacman’s database, and check the databases for internal consistency.
 
 --asdeps <package> / --asexplicit <package>
 Mark a package as non-explicitly / explicitly installed; in other words, set their install reason to be installed "as a dependency" / "explicitly installed".
-to be. 
 
 -k, --check (available in `-D` and `-Q`)
 Check that the local package database is internally consistent and that all files owned by the given package(s) are present on the system.
@@ -242,13 +263,9 @@ In the first case, if no package names are provided in the command line, all ins
 -c, --changelog
 View the ChangeLog of a package if it exists.
 
--d, --deps
- Restrict or filter output to packages installed as dependencies. This option can be combined with -t for listing real orphans -
- packages that were installed as dependencies but are no longer required by any installed package.
-
--e, --explicit
-Restrict or filter output to explicitly installed packages. This option can be combined with -t to  list  explicitly  installed
-packages that are not required by any other package.
+-d, --deps / -e, --explicit
+Restrict or filter output to packages installed as dependencies. This option can be combined with -t for listing real orphans packages that were installed as dependencies but are no longer required by any installed package.
+Restrict or filter output to explicitly installed packages. This option can be combined with -t to  list  explicitly  installed packages that are not required by any other package.
 
 -g, --groups
  Display all packages that are members of a named group. If a name is not specified, list all grouped packages.
@@ -328,23 +345,23 @@ specific dependency checks without affecting all dependency checks. To disable a
 --dbonly
 Adds/removes the database entry only, leaving all files in place.
 
---noprogressbar
-Do not show a progress bar when downloading files. This can be useful for scripts that call pacman and capture the output.
-
 --noscriptlet
 If an install scriptlet exists, do not execute it. Do not use this unless you know what you are doing.
 
 -p, --print
-Only  print the targets instead of performing the actual operation (sync, remove or upgrade). Use --print-format to specify how
+Only print the targets instead of performing the actual operation (sync, remove or upgrade). Use --print-format to specify how
 targets are displayed. The default format string is "%l", which displays URLs with -S, file names with -U,  and  pkgname-pkgver
 with -R.
 
 --print-format <format>
-Specify  a  printf-like format to control the output of the --print operation. The possible attributes are: "%a" for arch, "%b"
+Specify a printf-like format to control the output of the --print operation. The possible attributes are: "%a" for arch, "%b"
 for builddate, "%d" for description, "%e" for pkgbase, "%f" for filename, "%g" for  base64  encoded  PGP  signature,  "%h"  for
 sha256sum,  "%m" for md5sum, "%n" for pkgname, "%p" for packager, "%v" for pkgver, "%l" for location, "%r" for repository, "%s"
 for size, "%C" for checkdepends, "%D" for depends, "%G" for groups, "%H" for conflicts, "%L" for  licenses,  "%M"  for  makede‐
 pends, "%O" for optional depends, "%P" for provides and "%R" for replaces. Implies --print.
+
+--noprogressbar
+Do not show a progress bar when downloading files. This can be useful for scripts that call pacman and capture the output.
 
 ### Test 
 -T, --deptest
@@ -354,21 +371,19 @@ Check  dependencies;  this is useful in scripts such as makepkg to check install
 
 ### Search
 `-F`: Query the files database.
-This operation allows you to look for packages owning certain files or display files owned by certain packages. Only packages that are part of your sync databases are searched. See File Options below.
+This operation allows you to look for packages owning certain files or display files owned by certain packages. 
 
--y, --refresh
+-y
 Download fresh package file databases (repo.files) from the server. Use twice to force a refresh even if databases  are  up  to
 date.
 
--l, --list
+-l
 List the files owned by the queried package.
 
 -x, --regex
 Interpret each query as a regular expression.
 
 -q
-Show  less  information for certain file operations.
-This is useful when pacman’s output is processed in a script
 --machinereadable
 Print each match in a machine readable output format. The format is repository\0pkgname\0pkgver\0path\n with \0 being the NULL character and \n a linefeed.
 
