@@ -48,9 +48,78 @@ pacman <operation> [options] [targets]
 ### What happens when you invoke `pacman`
 Specifies an operation with any potential options and targets to operate on.
 
+### cache 
+
+**purpose**
+When  pacman  downloads  packages, it  saves them in a cache directory.
+- It allows downgrading a package without the need to retrieve the previous version through other means, such as the Arch Linux Archive.
+- A package that has been uninstalled can easily be reinstalled directly from the cache directory, without requiring a new download from the repository.
+```
+/var/cache/pacman/pkg 
+```
+
+### databases
+- are saved for every sync DB you download from 
+- are not deleted even if they are removed from the configuration file pacman.conf(5).
+```
+/var/lib/pacman/sync 
+```
+- 配下に、次のようなDBがある。ここには、bsdtarで解答できるアーカイブファイルが置かれている。
+- これらは、 `bsdtar` したら、大量のパッケージ名のフォルダがおいてある。
+- `desc` ファイルがあり、以下のようなことが書かれている。
+```
+%FILENAME%
+zzuf-0.15-3-x86_64.pkg.tar.zst
+
+%NAME%
+zzuf
+
+%BASE%
+zzuf
+
+%VERSION%
+0.15-3
+
+%DESC%
+Transparent application input fuzzer
+
+%CSIZE%
+65826
+
+%ISIZE%
+179092
+
+%MD5SUM%
+b6af31d617c76039d0802ad3150a0ebf
+
+%SHA256SUM%
+e07ab79aa37f4a0bf1881cd9f153749ede5cf28516359fb9bab8dec4f32e0e31
+
+%PGPSIG%
+iQIzBAABCAAdFiEEtZcfLFwQqaCMYAMPeGxj8zDXy5IFAl7L5X0ACgkQeGxj8zDXy5KTOhAAga0sDQYHLSbImzeQGhd2YNKeZJIrrbL+8VB2G72sXFqMRIBQ3PpoJdJaGfPNuugo1gfn7s2BlK3vLhyZNfHUav9Lz+tx26eDYeQDEtLZLzlG2EZCEo/daPjAiY+w61hxuVpewK7/9G6j9+aroLDLbWk0kgZWUJzSNQfyTmmsdA199Pnvowlz9pvL6JzAODkA9wQc3TmJYNqu0zcI+juXk8o7LThwQgsyDeHIxtvNPxE4+HifxAuritkTbIVQbFrXm1K0vx1pbwgElVpiQ3eTnsD7Xfh3OljHhjumAONOaHaJ8Punq7VZw4s9iFKuUw9j1dBBJc0Vv43RgQxCE2QBS5nXhgw0cX1F50YmndhwKDY1ZQ4f9sIATm22It5S8D9uoMLnyNIeVWoPuar7DvD1fI04POdiBtsq9lZAXBZvT/l20pCuVFhIH40NkoMwvwIV8RdQ5jhWIC4KJ3fZdM6YGgpq8DYX1k+w/j7PfqnAZnV6MaPtL7wMOqZxWLY9pYZvZyH+uM7Rb6bTqJNxN235TKQnmgwhgak2Y2Q7yUmgKcKVrbko6YHT+wSc6opflsoh/+KzuRN+I/y4qGEiP2gPLCHReEI5TAGxddsoVnIsOtPhJT8er90+JQzEk6mGGD9I2Ss9MYpv+SRLP2L50opEX5CEXc26NvoPuQFgTxkXLo4=
+
+%URL%
+https://github.com/samhocevar/zzuf
+
+%LICENSE%
+custom:WTF
+
+%ARCH%
+x86_64
+
+%BUILDDATE%
+1590420684
+
+%PACKAGER%
+Felix Yan <felixonmars@archlinux.org>
+
+%DEPENDS%
+glibc
+```
+
 ### `<operation>` and `[options]`
-#### [CREATE] Create/Update commands
-- `-S`: 
+#### [CREATE] Remote DB
+- `-S`: `-S`: Synchronize packages from the remote repositories, including all dependencies required to run the packages.
 - `-U`: 
 #### [READ] Local DB
 - `-Q`: Read information on pacman DB
@@ -64,62 +133,61 @@ Specifies an operation with any potential options and targets to operate on.
 - A `target` is usually a package name, file name, URL, or a search string, which can be provided as command line arguments.
 Additionally, if stdin is not from a terminal and a single hyphen (-) is passed as an argument, targets will be read from stdin.
 
-### `-S`: Synchronize packages.
-Packages are installed directly from the remote repositories, including all dependencies required to run the packages.
-If a package name exists in more than one repository, the repository can be explicitly specified to clarify the package to install: pacman -S testing/qt.
-You can also specify version requirements with `"pkg-name>=X.X"`.
-In addition to packages, groups can be specified as well.
-The package selection is specified using a space- and/or comma-separated list of package numbers. Sequential packages may be selected by specifying  the first and last package numbers separated by a hyphen (-). Excluding packages is achieved by prefixing a number or range of numbers with a caret (^).
+- You can specify:
+  - the repository using a space- and/or comma-separated list of package numbers: pacman -S testing/qt.
+  - version requirements with `"pkg-name>=X.X"`.
+  - groups can be specified as well.
+Sequential packages may be selected by specifying the first and last package numbers separated by a hyphen (-).
+Excluding packages is achieved by prefixing a number or range of numbers with a caret (^).
 
-Packages that provide other packages are also handled. For example, pacman -S foo will first look for a foo package. If foo is not found, packages that provide the same functionality as foo will be searched for. If any package is found, it  will  be installed. A selection prompt is provided if multiple packages providing foo are found.
+Packages that provide other packages are also handled.
+A selection prompt is provided if multiple packages providing foo are found.
+パッケージの新旧を比較するときは、以下の基準で比較する。
+```
+Alphanumeric:
+ 1.0a < 1.0b < 1.0beta < 1.0p < 1.0pre < 1.0rc < 1.0 < 1.0.a < 1.0.1
+Numeric:
+ 1 < 1.0 < 1.1 < 1.1.1 < 1.2 < 2.0 < 3.0.0
+```
+`-y`
+Download a fresh copy of the master package databases (repo.db) from the server.
+ダウンロード元のサーバのURLは、pacman.confで指定できる。
+This should typically be used each time you use --sysupgrade or -u.
+`-yy`
+全部最新に見えても、強制的にPKG DBの同期を矯正する
 
-upgrade all packages that are out-of-date. When upgrading, pacman performs version comparison to determine which packages need upgrading. This behavior operates as follows:
--u, --sysupgrade
-Upgrades  all  packages that are out-of-date. Each currently-installed package will be examined and upgraded if a newer package exists. A report of all packages to upgrade will be presented, and the operation will not proceed  without  user  confirmation.
-Dependencies are automatically resolved at this level and will be installed/upgraded if necessary.
+`-u`, --sysupgrade
+core.db extra.dbなどのローカルDBと、
 
-         Pass this option twice to enable package downgrades; in this case, pacman will select sync packages whose versions do not match
-         with the local versions. This can be useful when the user switches from a testing repository to a stable one.
+`-uu`
+downgradeも含んで、remoteに同期する。
 
-         Additional targets can also be specified manually, so that -Su foo will do a system upgrade and install/upgrade the "foo" pack‐
-         age in the same operation.
+Additionally, version strings can have an epoch value defined that will overrule any version comparison, unless the epoch values are equal.
+```
+epoch:version-rel format.
+i.e. 2:1.0-1 is always greater than 1:3.6-1.
+```
 
-   Alphanumeric:
-     1.0a < 1.0b < 1.0beta < 1.0p < 1.0pre < 1.0rc < 1.0 < 1.0.a < 1.0.1
-   Numeric:
-     1 < 1.0 < 1.1 < 1.1.1 < 1.2 < 2.0 < 3.0.0
+---
 
-Additionally, version strings can have an epoch value defined that will overrule any version comparison, unless the epoch values are equal. This is specified in an epoch:version-rel format. For example, 2:1.0-1 is always greater than 1:3.6-1.
+`-c`:  もう使われていないパッケージのキャッシュを削除する。
+`-cc`: 使われているものも含めて、すべてのパッケージのキャッシュを削除する。
 
-     -c, --clean
-         Remove packages that are no longer installed from the cache as well as currently unused sync databases to free up  disk  space.
-         When  pacman  downloads  packages,  it  saves them in a cache directory. In addition, databases are saved for every sync DB you
-         download from and are not deleted even if they are removed from the configuration file pacman.conf(5). Use one  --clean  switch
-         to  only remove packages that are no longer installed; use two to remove all files from the cache. In both cases, you will have
-         a yes or no option to remove packages and/or unused downloaded databases.
+-g, --groups
+Display all the members for each package group specified.
+If no group names are provided, all groups will be listed;  pass  the flag twice to view all groups and their members.
 
-         If you use a network shared cache, see the CleanMethod option in pacman.conf(5).
+-i: Display information on a given sync database package.
+-ii: will also display those packages in all repositories that depend on this package.
 
-     -g, --groups
-         Display all the members for each package group specified. If no group names are provided, all groups will be listed;  pass  the
-         flag twice to view all groups and their members.
+-l
+List all packages in the specified repositories. Multiple repositories can be specified on the command line.
 
-     -i, --info
-         Display  information  on  a given sync database package. Passing two --info or -i flags will also display those packages in all
-         repositories that depend on this package.
+-q, --quiet
 
-     -l, --list
-         List all packages in the specified repositories. Multiple repositories can be specified on the command line.
-
-     -q, --quiet
-
-     -s, --search <regexp>
-         This will search each package in the sync databases for names or descriptions that match  regexp.  When  you  include  multiple
-         search terms, only packages with descriptions matching ALL of those terms will be returned.
-     -y, --refresh
-         Download a fresh copy of the master package databases (repo.db) from the server(s) defined in pacman.conf(5). This should typi‐
-         cally be used each time you use --sysupgrade or -u. Passing two --refresh or -y flags will force a refresh of all package data‐
-         bases, even if they appear to be up-to-date.
+-s, --search <regexp>
+This will search each package in the sync databases for names or descriptions that match  regexp.
+When  you  include  multiple search terms, only packages with descriptions matching ALL of those terms will be returned.
 
 ### `-U`, `--upgrade`: Upgrade or add package(s) to the system and install the required dependencies from sync repositories.
 Either a URL or file path can  be specified. This is a “remove-then-add” process. See Upgrade Options below; also see Handling Config Files for an explanation on how pacman takes care of configuration files.
@@ -309,7 +377,6 @@ Print each match in a machine readable output format. The format is repository\0
 pacman -V
 ```
 
-
 ## `pacman` OPTIONS
 -h, --help
 ```sh 
@@ -394,7 +461,16 @@ experiencing Landlock related failures while downloading files when running a Li
 Disable the syscall filtering part of the sandbox applied to the process downloading files on Linux systems. Useful if  experi‐
 encing seccomp related failures while downloading files when running a Linux kernel that does not support this feature.
 
-HANDLING CONFIG FILES
+## paru
+
+## alpm-hooks
+## libalpm
+## pacman-contrib
+## makepkg
+## pacman.conf
+- cache
+If you use a network shared cache, see the CleanMethod option in pacman.conf(5).
+
 Pacman  uses  the same logic as rpm to determine action against files that are designated to be backed up. During an upgrade, three
 MD5 hashes are used for each backup file to determine the required action: one for the original file installed,  one  for  the  new
 file  that  is  about to be installed, and one for the actual file existing on the file system. After comparing these three hashes,
@@ -421,13 +497,3 @@ merge any necessary changes into the original file.
 original=NULL, current=Y, new=Z
 The package was not previously installed, and the file already exists on the file system. Install the new file with  a  .pacnew
 extension and warn the user. The user must then manually merge any necessary changes into the original file.
-
-CONFIGURATION
-     See pacman.conf(5) for more details on configuring pacman using the pacman.conf file.
-
-## paru
-
-## alpm-hooks
-## libalpm
-## makepkg
-## pacman.conf
