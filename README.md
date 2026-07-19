@@ -74,15 +74,16 @@ exit
 ```sh
 pacstrap -K /mnt \
   base linux linux-firmware base-devel sudo networkmanager iwd \
-  git unzip which zsh direnv \
+  git github-cli unzip which zsh direnv \
   hyprland xdg-desktop-portal-hyprland waybar mako foot \
   pipewire pipewire-pulse pipewire-alsa wireplumber sof-firmware alsa-utils brightnessctl \
   grim slurp wl-clipboard wf-recorder libnotify \
   neovim tree-sitter-cli qutebrowser mpv \
-  fcitx5-im fcitx5-mozc fcitx5-hangul fcitx5-chinese-addons fcitx5-unikey \
+  fcitx5-im fcitx5-mozc fcitx5-hangul fcitx5-chinese-addons fcitx5-unikey fcitx5-configtool\
   cups nss-mdns intel-media-driver \
   noto-fonts noto-fonts-cjk noto-fonts-emoji \
-  keyd
+  keyd \
+  bluez bluez-utils \
 arch-chroot /mnt
 ```
 
