@@ -140,3 +140,6 @@ a naia "nvim $HOME/.claude/config.json"
 a naig "nvim $HOME/.gemini/settings.json"
 
 . "$HOME/.local/bin/env"
+
+# SSH to android
+a and 'ssh -p 8022 u0_a339@$(ip route | grep default | grep -oP "via \K[\d.]+")'
