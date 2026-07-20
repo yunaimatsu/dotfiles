@@ -82,7 +82,7 @@ pacstrap -K /mnt \
   fcitx5-im fcitx5-mozc fcitx5-hangul fcitx5-chinese-addons fcitx5-unikey fcitx5-configtool\
   ffmpeg pandoc \
   cups nss-mdns intel-media-driver \
-  noto-fonts noto-fonts-cjk noto-fonts-emoji ttf-nerd-fonts-symbols-mono \
+  noto-fonts noto-fonts-cjk noto-fonts-emoji ttf-nerd-fonts-symbols-mono ttf-jetbrains-mono-nerd \
   keyd \
   bluez bluez-utils \
   nodejs npm bun \
