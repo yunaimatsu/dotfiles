@@ -2,23 +2,13 @@ DOT := $(HOME)/dotfiles
 CFG := $(or $(XDG_CONFIG_HOME),$(HOME)/.config)
 ETC := /etc
 
-.PHONY: init
+.PHONY: init node python
 init:
-	# paru
-	echo "Cloning paru..." && \
-		cd &&\
-		rm -rf paru && \
-		mkdir -p "$(CFG)/paru" && \
-		git clone https://aur.archlinux.org/paru.git && \
-		cd paru && \
-		makepkg -si && \
-		rm -rf paru
 	# /etc
 	sudo mkdir -p "$(ETC)"
 	sudo ln -sfn "$(DOT)/etc-pacman.conf" "$(ETC)/pacman.conf"
 	sudo mkdir -p "$(ETC)/keyd"
 	sudo ln -sfn "$(DOT)/etc-keyd.conf" "$(ETC)/keyd/default.conf"
-	sudo ln -sfn "$(DOT)/etc-makepkg.conf" "$(ETC)/makepkg.conf"
 	sudo ln -sfn "$(DOT)/etc-paru.conf" "$(ETC)/paru.conf"
 	sudo ln -sfn "$(DOT)/etc-locale.conf" "$(ETC)/locale.conf"
 	sudo ln -sfn "$(DOT)/etc-mkinitcpio.conf" "$(ETC)/mkinitcpio.conf"
@@ -28,8 +18,12 @@ init:
 	sudo mkdir -p "$(ETC)/sudoers.d"
 	sudo ln -sfn "$(DOT)/etc-sudoersd-yunai" "$(ETC)/sudoers.d/99-yunai"
 	sudo chmod 0440 "$(ETC)/sudoers.d/99-yunai"
+	sudo chown -h root:root "$(ETC)/sudoers.d/99-yunai"
 	# Systemd
-	systemctl --user enable --now pipewire.socket pipewire-pulse.socket wireplumber.service
+	# systemctl --user enable --now pipewire.socket pipewire-pulse.socket wireplumber.service
+	# paru
+	sudo mkdir -p "$(CFG)/pacman"
+	sudo ln -sfn "$(DOT)/etc-makepkg.conf" "$(CFG)/pacman/makepkg.conf"
 	# Zsh
 	ln -sfn "$(DOT)/.zshrc" "$(HOME)/.zshrc"
 	# Neovim
@@ -59,9 +53,18 @@ init:
 		ln -sfn "$(DOT)/fcitx5-$$f.conf" "$(CFG)/fcitx5/conf/$$f.conf"; \
 	done
 	# Audio (PipeWire user services; sockets start the daemons on demand)
-	systemctl --user enable --now pipewire.socket pipewire-pulse.socket wireplumber.service
-	# Node.js
-	curl -fsSL https://bun.sh/install | bash
+	# systemctl --user enable --now pipewire.socket pipewire-pulse.socket wireplumber.service
+	# paru
+	echo "Cloning paru..." && \
+		cd &&\
+		rm -rf paru && \
+		mkdir -p "$(CFG)/paru" && \
+		git clone https://aur.archlinux.org/paru.git && \
+		cd paru && \
+		makepkg -si && \
+		rm -rf paru
+
+node:
 	bun add -g @google/gemini-cli
 	bun add -g @openai/codex
 	bun add -g @anthropic-ai/claude-code

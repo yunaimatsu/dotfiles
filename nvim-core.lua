@@ -94,45 +94,16 @@ hl("DiffText",   { fg = p.yellow, bg = p.faint })
 vim.g.mkdp_auto_close = 1
 vim.g.mkdp_browser = "chromium"
 
--- Autocmds: NERDTree
+-- Autocmds: nvim-tree
 vim.api.nvim_create_autocmd("VimEnter", {
   callback = function()
-    vim.cmd("NERDTree")
+    require("nvim-tree.api").tree.open()
   end,
 })
-
 vim.api.nvim_create_autocmd("BufEnter", {
+  nested = true,
   callback = function()
-    local buffers = vim.fn.getbufinfo({ buflisted = 1 })
-    local tabs = vim.fn.tabpagenr("$")
-    if #buffers == 1 and vim.bo.filetype == "nerdtree" and tabs == 1 then
-      vim.cmd("quit")
-    end
-  end,
-})
-
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "nerdtree",
-  callback = function()
-    vim.defer_fn(function()
-      vim.cmd("wincmd l")
-    end, 10)
-  end,
-})
-
-vim.api.nvim_create_autocmd("BufDelete", {
-  callback = function()
-    local wins = vim.api.nvim_list_wins()
-    local nerdtree_only = true
-    for _, win in ipairs(wins) do
-      local buf = vim.api.nvim_win_get_buf(win)
-      local ft = vim.api.nvim_buf_get_option(buf, "filetype")
-      if ft ~= "nerdtree" then
-        nerdtree_only = false
-        break
-      end
-    end
-    if nerdtree_only then
+    if #vim.api.nvim_list_wins() == 1 and vim.bo.filetype == "NvimTree" then
       vim.cmd("quit")
     end
   end,

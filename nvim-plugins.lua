@@ -1,12 +1,6 @@
--- ~/.config/nvim/lua/plugins.lua
 return {
-  -- Git
   { "tpope/vim-fugitive" },
-
-  -- File tree (keep NERDTree as-is to match current behavior)
-  { "preservim/nerdtree" },
-
-  -- Telescope
+  { "nvim-tree/nvim-web-devicons" },
   { "nvim-lua/plenary.nvim" },
   {
     "nvim-telescope/telescope.nvim",
@@ -14,15 +8,11 @@ return {
     dependencies = { "nvim-lua/plenary.nvim" },
     cmd = "Telescope",
   },
-
-  -- Markdown preview (build step needed)
   {
     "iamcco/markdown-preview.nvim",
     ft = { "markdown" },
     build = "cd app && npm install",
   },
-
-  -- Treesitter (main branch: the old nvim-treesitter.configs API no longer exists)
   {
     "nvim-treesitter/nvim-treesitter",
     branch = "main",
@@ -38,8 +28,6 @@ return {
       })
     end,
   },
-
-  -- LSP stack
   { "neovim/nvim-lspconfig" },
   {
     "williamboman/mason.nvim",
@@ -52,13 +40,9 @@ return {
     "williamboman/mason-lspconfig.nvim",
     dependencies = { "williamboman/mason.nvim", "neovim/nvim-lspconfig" },
     config = function()
-      -- v2 auto-enables installed servers via vim.lsp.enable();
-      -- per-server settings go through vim.lsp.config() if needed later
       require("mason-lspconfig").setup()
     end,
   },
-
-  -- Completion (nvim-cmp + LuaSnip)
   {
     "hrsh7th/nvim-cmp",
     event = "InsertEnter",
@@ -73,7 +57,6 @@ return {
     config = function()
       local cmp = require("cmp")
       local luasnip = require("luasnip")
-
       cmp.setup({
         snippet = {
           expand = function(args)
@@ -109,12 +92,29 @@ return {
           { name = "buffer" },
         }),
       })
-
-      -- cmdline completion
       cmp.setup.cmdline(":", {
         mapping = cmp.mapping.preset.cmdline(),
         sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }),
       })
+    end,
+  },
+  {
+    "nvim-tree/nvim-tree.lua",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      require("nvim-tree").setup({})
+      vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>", { silent = true })
+    end,
+  },
+
+  -- VSCode風タブ
+  {
+    "akinsho/bufferline.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      require("bufferline").setup({})
+      vim.keymap.set("n", "<S-h>", ":BufferLineCyclePrev<CR>", { silent = true })
+      vim.keymap.set("n", "<S-l>", ":BufferLineCycleNext<CR>", { silent = true })
     end,
   },
 }

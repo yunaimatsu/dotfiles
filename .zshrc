@@ -27,7 +27,12 @@ a cp "cp -i"
 a mv "mv -i"
 a l  "ls -ahF --color=always"
 a ll "ls -alhiF --color=always"
+# systemctl helpers
 a ss "sudo SYSTEMD_EDITOR=/usr/bin/nvim systemctl"
+sl()  { systemctl list-units      --state="${1:-}" "${@:2}"; }
+sll() { systemctl list-unit-files --state="${1:-}" "${@:2}"; }
+
+# pacman
 a pm "sudo pacman"
 
 # GitHub Issue
@@ -133,3 +138,5 @@ setopt PROMPT_SUBST
 a naic "nvim $HOME/.codex/config.toml"
 a naia "nvim $HOME/.claude/config.json"
 a naig "nvim $HOME/.gemini/settings.json"
+
+. "$HOME/.local/bin/env"
