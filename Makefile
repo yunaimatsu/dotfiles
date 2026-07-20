@@ -19,6 +19,8 @@ init:
 	sudo ln -sfn "$(DOT)/etc-sudoersd-yunai" "$(ETC)/sudoers.d/99-yunai"
 	sudo chmod 0440 "$(ETC)/sudoers.d/99-yunai"
 	sudo chown -h root:root "$(ETC)/sudoers.d/99-yunai"
+	sudo timedatectl set-timezone Asia/Tokyo   
+	sudo timedatectl set-ntp true 
 	# Systemd
 	# systemctl --user enable --now pipewire.socket pipewire-pulse.socket wireplumber.service
 	# paru
