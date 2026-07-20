@@ -70,12 +70,12 @@ e EDITOR "nvim"
 e VISUAL "nvim"
 
 ## Claude
-e ANTHROPIC_BASE_URL "http://localhost:11434"
-e ANTHROPIC_AUTH_TOKEN "dummy" # skips the OAuth /login flow
-e ANTHROPIC_MODEL "qwen2.5-coder:7b"
-e ANTHROPIC_SMALL_FAST_MODEL "qwen2.5-coder:7b"
-e DISABLE_AUTOUPDATER 1 # no update checks
-e CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC 1 # belt-and-braces: disables error reporting etc.
+## e ANTHROPIC_BASE_URL "http://localhost:11434"
+## e ANTHROPIC_AUTH_TOKEN "dummy" # skips the OAuth /login flow
+## e ANTHROPIC_MODEL "qwen2.5-coder:7b"
+## e ANTHROPIC_SMALL_FAST_MODEL "qwen2.5-coder:7b"
+## e DISABLE_AUTOUPDATER 1 # no update checks
+## e CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC 1 # belt-and-braces: disables error reporting etc.
 
 # GUI configuration
 a nh "nvim ~/.config/hypr/hyprland.lua"
