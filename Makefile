@@ -63,6 +63,15 @@ init:
 		cd paru && \
 		makepkg -si && \
 		rm -rf paru
+and:
+	# Zsh
+	ln -sfn "$(DOT)/.zshrc" "$(HOME)/.zshrc"
+	# Neovim
+	mkdir -p "$(CFG)/nvim/lua"
+	ln -sfn "$(DOT)/nvim-init.lua" "$(CFG)/nvim/init.lua"
+	ln -sfn "$(DOT)/nvim-lazylock.json" "$(CFG)/nvim/lazy-lock.json"
+	ln -sfn "$(DOT)/nvim-core.lua" "$(CFG)/nvim/lua/core.lua"
+	ln -sfn "$(DOT)/nvim-plugins.lua" "$(CFG)/nvim/lua/plugins.lua"
 
 node:
 	bun add -g @google/gemini-cli
